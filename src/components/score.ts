@@ -1,4 +1,4 @@
-import { Board } from "./scenes/board";
+import { BoardScene } from "../scenes/boardScene";
 
 export class Score {
   hits = 0;
@@ -11,7 +11,7 @@ export class Score {
   text?: Phaser.GameObjects.Text;
   startTime: number = Date.now();
 
-  constructor(private readonly board: Board) {
+  constructor(private readonly board: BoardScene) {
   }
 
   create() {

@@ -1,6 +1,6 @@
 const today = `000${new Date().getDate()}`.slice(-3);
 
-export class Menu extends Phaser.Scene {
+export class MenuScene extends Phaser.Scene {
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: 'Menu', ...(config ?? {}) });
   }
@@ -84,9 +84,5 @@ export class Menu extends Phaser.Scene {
       self.input.setDefaultCursor('default');
       scene.start('Board');
     }, this);
-  }
-
-  update() {
-
   }
 }

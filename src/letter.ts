@@ -1,4 +1,4 @@
-import { Board } from './scenes/board';
+import { BoardScene } from './scenes/boardScene';
 import { LetterStatus } from './types';
 import { Word } from './word';
 
@@ -7,7 +7,7 @@ export class Letter {
   status: LetterStatus;
 
   constructor(
-    private readonly board: Board,
+    private readonly board: BoardScene,
     private readonly letter: string,
     private readonly index: number,
     private readonly x: number,

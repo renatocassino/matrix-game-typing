@@ -1,6 +1,6 @@
 import { Game } from './game';
-import { Board } from './scenes/board';
-import { Menu } from './scenes/menu';
+import { BoardScene } from './scenes/boardScene';
+import { MenuScene } from './scenes/menuScene';
 import './style.css';
 
 window.addEventListener('load', () => {
@@ -10,7 +10,7 @@ window.addEventListener('load', () => {
     type: Phaser.AUTO,
     parent: 'game',
     backgroundColor: '#000000',
-    scene: [Menu, Board],
+    scene: [MenuScene, BoardScene],
 
   };
 

@@ -1,6 +1,6 @@
+import { Score } from "../components/score";
 import { VolumeButton } from "../components/volumeButton";
 import { getRandomWord } from "../randomWord";
-import { Score } from "../score";
 import { Config } from "../types";
 import { Word } from "../word";
 
@@ -13,12 +13,13 @@ import { Word } from "../word";
 // Add a scene with status
 // make a light following the words
 
-export class Board extends Phaser.Scene {
+export class BoardScene extends Phaser.Scene {
   words: Word[] = [];
   worldConfig: Config;
   lastUpdate = Date.now();
   currentWord?: Word;
   score: Score;
+  cursor!: Phaser.GameObjects.Rectangle;
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: 'Board', ...(config ?? {}) });
@@ -38,11 +39,13 @@ export class Board extends Phaser.Scene {
     this.load.audio('explosion-small', 'fx/explosion-small.wav');
     this.load.audio('board-music', 'fx/board-music.mp3');
 
-    this.load.image('volume-on', 'icons/volume-on.png');
-    this.load.image('volume-off', 'icons/volume-off.png');
+    this.load.svg('volume-on', 'icons/volume-on.svg');
+    this.load.svg('volume-off', 'icons/volume-off.svg');
 
     this.load.svg('n0', '0.svg');
     this.load.svg('n1', '1.svg');
+
+    this.load.atlas('flares', 'sprites/flares.png', 'sprites/flares.json');
   }
 
   create() {
@@ -65,6 +68,30 @@ export class Board extends Phaser.Scene {
     this.score.create();
 
     new VolumeButton(this, 400, 300);
+    console.log(this.worldConfig.letterSize)
+
+    // const emitter = this.add.particles(0, 0, 'flares', {
+    //   frame: { frames: ['white'], },
+    //   blendMode: 'ADD',
+    //   lifespan: 500,
+    //   quantity: 3,
+    //   alpha: 0.4,
+    //   scale: { start: 0.15, end: 0.01 }
+    // });
+
+    // this.cursor = this.add.rectangle(0, 0, this.worldConfig.letterSize / 2, this.worldConfig.letterSize, 0xffffff, 1).setAlpha(0.5);
+
+    // emitter.startFollow(this.cursor);
+
+    // this.tweens.add({
+    //   targets: this.cursor,
+    //   alpha: 0.1,
+    //   duration: 1000,
+    //   ease: 'Sine.easeInOut',
+    //   yoyo: true,
+    //   repeat: -1,
+    // });
+
   }
 
   createNewWord() {
