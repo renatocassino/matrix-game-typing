@@ -18,7 +18,7 @@ export class BoardScene extends Phaser.Scene {
   worldConfig: Config;
   lastUpdate = Date.now();
   currentWord?: Word;
-  score: Score;
+  score!: Score;
   cursor!: Phaser.GameObjects.Rectangle;
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
@@ -27,8 +27,6 @@ export class BoardScene extends Phaser.Scene {
     this.worldConfig = {
       letterSize: 20,
     }
-
-    this.score = new Score(this);
   }
 
   preload() {
@@ -46,6 +44,11 @@ export class BoardScene extends Phaser.Scene {
     this.load.svg('n1', '1.svg');
 
     this.load.atlas('flares', 'sprites/flares.png', 'sprites/flares.json');
+
+    setTimeout(() => {
+      this.sound.stopAll();
+      this.scene.start('Score', { score: this.score.status });
+    }, 30000)
   }
 
   create() {
@@ -65,10 +68,12 @@ export class BoardScene extends Phaser.Scene {
     })
 
     this.input.keyboard?.on('keydown', this.keyPress.bind(this));
-    this.score.create();
 
     new VolumeButton(this, 400, 300);
-    console.log(this.worldConfig.letterSize)
+    console.log(this.worldConfig.letterSize);
+
+    this.score = new Score(this);
+    this.score.create();
 
     // const emitter = this.add.particles(0, 0, 'flares', {
     //   frame: { frames: ['white'], },
