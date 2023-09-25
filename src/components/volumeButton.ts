@@ -11,11 +11,18 @@ export class VolumeButton extends Phaser.GameObjects.Container {
     scene.add.existing(this);
 
     // Crie o botão de volume inicialmente com o ícone "volume-on"
-    this.volumeButton = scene.add.image(boardWidth / 2 - 25, boardHeight / 2 * -1 + 25, 'volume-on').setScale(0.4).setInteractive();
+    this.volumeButton = scene.add.image(boardWidth / 2 - 25, boardHeight / 2 * -1 + 25, 'volume-on').setInteractive();
     this.add(this.volumeButton);
 
     // Adicione um evento de clique ao botão
     this.volumeButton.on('pointerdown', this.toggleVolume, this);
+
+    this.volumeButton.on('pointerover', function () {
+      scene.input.setDefaultCursor('pointer');
+    });
+    this.volumeButton.on('pointerout', function () {
+      scene.input.setDefaultCursor('default');
+    });
   }
 
   private toggleVolume() {

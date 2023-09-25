@@ -13,6 +13,7 @@ export class MenuScene extends Phaser.Scene {
     this.cameras.main.fadeIn(300);
     this.addBackground();
     this.addFadeAnimation();
+    this.addLogo();
     this.addPlayButton();
   }
 
@@ -46,13 +47,33 @@ export class MenuScene extends Phaser.Scene {
     });
   }
 
+  addLogo() {
+    // The logo is just a text
+    const boardWidth = this.sys.game.canvas.width;
+    const boardHeight = this.sys.game.canvas.height;
+    this.add.text(boardWidth / 2, 60, 'Type Matrix\nWar', {
+      fontFamily: 'Arial',
+      fontSize: '80px',
+      color: '#ffffff',
+      align: 'center',
+      shadow: {
+        offsetX: 0,
+        offsetY: 0,
+        color: '#0f0',
+        blur: 20,
+        stroke: true,
+        fill: true,
+      },
+    }).setOrigin(0.5, 0).setAlpha(1);
+  }
+
   addPlayButton() {
     const self = this;
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
     const scene = this.scene;
-    const button = this.add.text(boardWidth / 2, boardHeight / 2, 'New Game', {
+    const button = this.add.text(boardWidth / 2, boardHeight / 2 + 80, 'New Game', {
       fontFamily: 'Arial',
       fontSize: '22px',
       color: '#ffffff',

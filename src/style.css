@@ -28,6 +28,19 @@ body {
   text-align: center;
 }
 
+#game {
+  min-height: 600px;
+}
+
+.buy-me-a-coffee {
+  margin-top: 1rem;
+  display: block;
+}
+
+.buy-me-a-coffee .bmc-btn-text {
+  flex-shrink: inherit !important;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
