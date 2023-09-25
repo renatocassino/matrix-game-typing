@@ -51,6 +51,7 @@ export class Word {
   }
 
   keyNextLetter() {
+    this.board.sound.play('keypress');
     if (this.indexTyped === -1) {
       this.indexTyped = 0;
     }
@@ -76,6 +77,7 @@ export class Word {
       );
     });
     if (this.indexTyped === this.word.length) {
+      this.board.sound.play('explosion-small');
       this.status = 'completed';
       return;
     }

@@ -4,15 +4,11 @@ import { Config } from "./types";
 import { Word } from "./word";
 
 // TODO
-// Add a better animation to background
 // Organize the score layout
 // Add waves
 // Create a new scene with score and save in localstorage
-// Add a better background
 // Try to save the WPM in each second to generate a graph
-// Add an initial menu
 // Fix delta
-// sounds
 // Add a scene with status
 // make a light following the words
 
@@ -24,7 +20,7 @@ export class Board extends Phaser.Scene {
   score: Score;
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
-    super(config);
+    super({ key: 'Board', ...(config ?? {}) });
 
     this.worldConfig = {
       letterSize: 20,
@@ -34,7 +30,13 @@ export class Board extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('background', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/79896fac-6256-4fb9-a9de-bc6b364f6621/d4aftpb-9fbdee50-be0d-4d45-b23d-eae4fb8524ec.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzc5ODk2ZmFjLTYyNTYtNGZiOS1hOWRlLWJjNmIzNjRmNjYyMVwvZDRhZnRwYi05ZmJkZWU1MC1iZTBkLTRkNDUtYjIzZC1lYWU0ZmI4NTI0ZWMuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.FEFDqThHO0K-EuHuxvAVPZrVPVQXr6kJ6sQECp6VenE');
+    this.load.image('backgroundGame', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/79896fac-6256-4fb9-a9de-bc6b364f6621/d4aftpb-9fbdee50-be0d-4d45-b23d-eae4fb8524ec.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzc5ODk2ZmFjLTYyNTYtNGZiOS1hOWRlLWJjNmIzNjRmNjYyMVwvZDRhZnRwYi05ZmJkZWU1MC1iZTBkLTRkNDUtYjIzZC1lYWU0ZmI4NTI0ZWMuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.FEFDqThHO0K-EuHuxvAVPZrVPVQXr6kJ6sQECp6VenE');
+
+    this.load.audio('keypress', 'fx/keypress.wav');
+    this.load.audio('keywrong', 'fx/keywrong.mp3');
+    this.load.audio('explosion-small', 'fx/explosion-small.wav');
+    this.load.audio('board-music', 'fx/board-music.mp3');
+
 
     this.load.image('n0', '0.svg');
     this.load.image('n1', '1.svg');
@@ -43,9 +45,11 @@ export class Board extends Phaser.Scene {
   }
 
   create() {
-    const background = this.add.image(0, 0, 'background');
+    const background = this.add.image(0, 0, 'backgroundGame');
     background.setOrigin(0, 0);
     background.setAlpha(0.1);
+
+    this.sound.play('board-music');
 
     this.tweens.add({
       targets: background,
@@ -54,7 +58,6 @@ export class Board extends Phaser.Scene {
       ease: 'Sine.easeInOut',
       yoyo: true,
       repeat: -1,
-      // angle: 90
     })
 
     this.input.keyboard?.on('keydown', this.keyPress.bind(this));
@@ -91,6 +94,10 @@ export class Board extends Phaser.Scene {
   keyPress(event: KeyboardEvent) {
     const keyCode = event.key;
 
+    if (!keyCode.match(/^[a-z0-9]$/i)) {
+      return
+    }
+
     if (!this.currentWord) {
       this.currentWord = this.words.find(word => word.word[0] === keyCode);
       if (this.currentWord) {
@@ -100,6 +107,7 @@ export class Board extends Phaser.Scene {
         return;
       }
 
+      this.sound.play('keywrong');
       this.score.miss();
 
       return;
@@ -111,6 +119,7 @@ export class Board extends Phaser.Scene {
       return;
     }
 
+    this.sound.play('keywrong');
     this.score.miss();
   }
 

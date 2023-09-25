@@ -1,5 +1,6 @@
 import { Board } from './board';
 import { Game } from './game';
+import { Menu } from './menu';
 import './style.css';
 
 window.addEventListener('load', () => {
@@ -9,7 +10,8 @@ window.addEventListener('load', () => {
     type: Phaser.AUTO,
     parent: 'game',
     backgroundColor: '#000000',
-    scene: [Board]
+    scene: [Menu, Board],
+
   };
 
   new Game(config);
