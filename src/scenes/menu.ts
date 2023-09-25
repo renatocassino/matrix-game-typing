@@ -81,6 +81,7 @@ export class Menu extends Phaser.Scene {
     });
 
     button.on('pointerdown', function () {
+      self.input.setDefaultCursor('default');
       scene.start('Board');
     }, this);
   }

@@ -1,5 +1,5 @@
-import { Board } from "./board";
 import { Letter } from "./letter";
+import { Board } from "./scenes/board";
 import { LetterStatus, WordStatus } from "./types";
 
 export class Word {

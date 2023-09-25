@@ -1,4 +1,4 @@
-import { Board } from "./board";
+import { Board } from "./scenes/board";
 
 export class Score {
   hits = 0;

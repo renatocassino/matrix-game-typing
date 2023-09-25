@@ -1,4 +1,4 @@
-import { Board } from './board';
+import { Board } from './scenes/board';
 import { LetterStatus } from './types';
 import { Word } from './word';
 

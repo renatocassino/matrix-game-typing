@@ -1,7 +1,8 @@
-import { getRandomWord } from "./randomWord";
-import { Score } from "./score";
-import { Config } from "./types";
-import { Word } from "./word";
+import { VolumeButton } from "../components/volumeButton";
+import { getRandomWord } from "../randomWord";
+import { Score } from "../score";
+import { Config } from "../types";
+import { Word } from "../word";
 
 // TODO
 // Organize the score layout
@@ -30,16 +31,23 @@ export class Board extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('backgroundGame', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/79896fac-6256-4fb9-a9de-bc6b364f6621/d4aftpb-9fbdee50-be0d-4d45-b23d-eae4fb8524ec.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzc5ODk2ZmFjLTYyNTYtNGZiOS1hOWRlLWJjNmIzNjRmNjYyMVwvZDRhZnRwYi05ZmJkZWU1MC1iZTBkLTRkNDUtYjIzZC1lYWU0ZmI4NTI0ZWMuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.FEFDqThHO0K-EuHuxvAVPZrVPVQXr6kJ6sQECp6VenE');
+    this.load.image('backgroundGame', 'bgs/bg-game.jpg');
 
     this.load.audio('keypress', 'fx/keypress.wav');
     this.load.audio('keywrong', 'fx/keywrong.mp3');
     this.load.audio('explosion-small', 'fx/explosion-small.wav');
     this.load.audio('board-music', 'fx/board-music.mp3');
 
+    // Buttons
+    this.load.svg('volume-on', 'icons/volume-on.svg');
+    this.load.svg('volume-off', 'icons/volume-off.svg');
 
-    this.load.image('n0', '0.svg');
-    this.load.image('n1', '1.svg');
+    this.load.svg('n0', '0.svg');
+    this.load.svg('n1', '1.svg');
+
+    this.add.image(20, 20, 'volume-on').setOrigin(0, 0);
+
+    new VolumeButton(this, 400, 300);
   }
 
   create() {

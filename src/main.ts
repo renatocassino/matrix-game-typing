@@ -1,6 +1,6 @@
-import { Board } from './board';
 import { Game } from './game';
-import { Menu } from './menu';
+import { Board } from './scenes/board';
+import { Menu } from './scenes/menu';
 import './style.css';
 
 window.addEventListener('load', () => {
