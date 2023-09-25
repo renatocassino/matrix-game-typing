@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 import { Board } from './board';
 import { LetterStatus } from './types';
 import { Word } from './word';

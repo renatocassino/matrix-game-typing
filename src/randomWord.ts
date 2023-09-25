@@ -1,7 +1,7 @@
 import { listOfWords } from './listOfWords.ts';
 
 
-export const getRandomWord = (forbiddenLetters: string[]) => {
+export const getRandomWord = (forbiddenLetters: string[]): string | null => {
   const clone = [...listOfWords];
 
   while (clone.length > 1) {
@@ -12,11 +12,11 @@ export const getRandomWord = (forbiddenLetters: string[]) => {
       continue;
     }
 
-    if (forbiddenLetters.some(letter => word.startsWith(letter))) {
+    if (forbiddenLetters.some(letter => word.toString().startsWith(letter))) {
       continue;
     }
 
-    return word;
+    return word as string;
   }
 
   return null;

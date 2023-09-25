@@ -12,6 +12,6 @@ window.addEventListener('load', () => {
     scene: [Board]
   };
 
-  const game = new Game(config);
+  new Game(config);
 });
 

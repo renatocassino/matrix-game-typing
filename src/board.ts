@@ -1,4 +1,3 @@
-import Phaser from "phaser";
 import { getRandomWord } from "./randomWord";
 import { Score } from "./score";
 import { Config } from "./types";
