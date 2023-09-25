@@ -38,16 +38,11 @@ export class Board extends Phaser.Scene {
     this.load.audio('explosion-small', 'fx/explosion-small.wav');
     this.load.audio('board-music', 'fx/board-music.mp3');
 
-    // Buttons
-    this.load.svg('volume-on', 'icons/volume-on.svg');
-    this.load.svg('volume-off', 'icons/volume-off.svg');
+    this.load.image('volume-on', 'icons/volume-on.png');
+    this.load.image('volume-off', 'icons/volume-off.png');
 
     this.load.svg('n0', '0.svg');
     this.load.svg('n1', '1.svg');
-
-    this.add.image(20, 20, 'volume-on').setOrigin(0, 0);
-
-    new VolumeButton(this, 400, 300);
   }
 
   create() {
@@ -68,6 +63,8 @@ export class Board extends Phaser.Scene {
 
     this.input.keyboard?.on('keydown', this.keyPress.bind(this));
     this.score.create();
+
+    new VolumeButton(this, 400, 300);
   }
 
   createNewWord() {
