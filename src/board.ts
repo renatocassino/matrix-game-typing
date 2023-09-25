@@ -40,8 +40,6 @@ export class Board extends Phaser.Scene {
 
     this.load.image('n0', '0.svg');
     this.load.image('n1', '1.svg');
-    this.load.text('0', '0.txt');
-    this.load.text('1', '1.txt');
   }
 
   create() {

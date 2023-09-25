@@ -59,23 +59,32 @@ export class Word {
     this.indexTyped++;
 
     const size = this.board.worldConfig.letterSize;
-    ['n0', 'n1'].forEach((n) => {
-      this.board.add.particles(
-        this.x * size,
-        this.y + (this.indexTyped * this.board.worldConfig.letterSize),
-        n,
-        {
-          speed: 1000,
-          gravityY: 0,
-          quantity: 2,
-          scale: { start: 0.1, end: 0.2 },
-          duration: 400,
-          blendMode: 'ADD',
-          rotate: { start: 0, end: 360 },
-          alpha: { start: 0, end: 0.5 },
-        },
-      );
+    // ['n0', 'n1'].forEach((n) => {
+    //   this.board.add.particles(
+    //     this.x * size,
+    //     this.y + (this.indexTyped * this.board.worldConfig.letterSize),
+    //     n,
+    //     {
+    //       speed: 1000,
+    //       gravityY: 0,
+    //       quantity: 2,
+    //       scale: { start: 0.1, end: 0.2 },
+    //       duration: 400,
+    //       blendMode: 'ADD',
+    //       rotate: { start: 0, end: 360 },
+    //       alpha: { start: 0, end: 0.5 },
+    //     },
+    //   );
+    // });
+
+    this.board.add.particles(this.x * size, this.y + (this.indexTyped * this.board.worldConfig.letterSize), 'invalid', {
+      speed: 100,
+      scale: { start: 1, end: 0 },
+      duration: 200,
+      blendMode: 'ADD',
+      alpha: 0.2,
     });
+
     if (this.indexTyped === this.word.length) {
       this.board.sound.play('explosion-small');
       this.status = 'completed';
@@ -83,14 +92,6 @@ export class Word {
     }
 
     this.letters[this.indexTyped].status = LetterStatus.Current;
-
-    // this.board.add.particles(this.x * size, this.y + (this.indexTyped * this.board.worldConfig.letterSize), 'invalid', {
-    //   speed: 100,
-    //   scale: { start: 1, end: 0 },
-    //   duration: 200,
-    //   blendMode: 'ADD',
-    //   alpha: 0.2,
-    // });
   }
 
   shouldRemove() {
