@@ -1,3 +1,4 @@
+import { PauseToggleButton } from "../components/pauseToggleButton";
 import { Score } from "../components/score";
 import { VolumeButton } from "../components/volumeButton";
 import { getRandomWord } from "../randomWord";
@@ -7,7 +8,6 @@ import { Word } from "../word";
 // TODO
 // Add waves
 // Save last status in localstorage
-// Try to save the WPM in each second to generate a graph
 // make a light following the words (this is too dificult)
 // Pause button
 // Make an action to play again
@@ -16,6 +16,8 @@ import { Word } from "../word";
 // Add a timer to close the round
 // Words start fall faster and in final slow down
 // Dowload all assets in Menu Scene
+// Add special power
+// Show a graph with wpm history
 
 export class BoardScene extends Phaser.Scene {
   words: Word[] = [];
@@ -43,6 +45,8 @@ export class BoardScene extends Phaser.Scene {
 
     this.load.svg('volume-on', 'icons/volume-on.svg');
     this.load.svg('volume-off', 'icons/volume-off.svg');
+    this.load.svg('play', 'icons/play.svg');
+    this.load.svg('pause', 'icons/pause.svg');
 
     this.load.svg('n0', '0.svg');
     this.load.svg('n1', '1.svg');
@@ -70,7 +74,7 @@ export class BoardScene extends Phaser.Scene {
     this.input.keyboard?.on('keydown', this.keyPress.bind(this));
 
     new VolumeButton(this, 400, 300);
-    console.log(this.worldConfig.letterSize);
+    new PauseToggleButton(this, 400, 300);
 
     this.score = new Score(this);
     this.score.create();
