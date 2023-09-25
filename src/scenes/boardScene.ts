@@ -15,6 +15,7 @@ import { Word } from "../word";
 // Add a timer before start with time of music (na virada)
 // Add a timer to close the round
 // Words start fall faster and in final slow down
+// Dowload all assets in Menu Scene
 
 export class BoardScene extends Phaser.Scene {
   words: Word[] = [];
