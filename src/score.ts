@@ -43,8 +43,6 @@ export class Score {
     const elapsedTimeInSeconds = (now - this.startTime) / 1000;
     const wpm = (this.wordsTyped / elapsedTimeInSeconds) * 60;
 
-    console.log(wpm, this.wordsTyped, elapsedTimeInSeconds)
-
     const precision = 100 - (this.misses * 100 / this.keysPressed);
     const texts = [
       `Hits: ${this.hits}`,

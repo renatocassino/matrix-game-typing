@@ -12,6 +12,9 @@ import { Word } from "./word";
 // Try to save the WPM in each second to generate a graph
 // Add an initial menu
 // Fix delta
+// sounds
+// Add a scene with status
+// make a light following the words
 
 export class Board extends Phaser.Scene {
   words: Word[] = [];
@@ -32,6 +35,11 @@ export class Board extends Phaser.Scene {
 
   preload() {
     this.load.image('background', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/79896fac-6256-4fb9-a9de-bc6b364f6621/d4aftpb-9fbdee50-be0d-4d45-b23d-eae4fb8524ec.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzc5ODk2ZmFjLTYyNTYtNGZiOS1hOWRlLWJjNmIzNjRmNjYyMVwvZDRhZnRwYi05ZmJkZWU1MC1iZTBkLTRkNDUtYjIzZC1lYWU0ZmI4NTI0ZWMuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.FEFDqThHO0K-EuHuxvAVPZrVPVQXr6kJ6sQECp6VenE');
+
+    this.load.image('n0', '0.svg');
+    this.load.image('n1', '1.svg');
+    this.load.text('0', '0.txt');
+    this.load.text('1', '1.txt');
   }
 
   create() {

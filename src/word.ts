@@ -7,6 +7,7 @@ export class Word {
   status: WordStatus;
   y: number;
   indexTyped = -1;
+  particles: Phaser.GameObjects.Particles.ParticleEmitter[] = [];
 
   constructor(private readonly board: Board, readonly word: string, readonly x: number) {
     this.status = 'inactive';
@@ -14,6 +15,26 @@ export class Word {
     this.y = board.worldConfig.letterSize * word.length * -1;
 
     this.bootstrap();
+
+    const size = this.board.worldConfig.letterSize;
+    this.particles = ['n0', 'n1'].map(function (n: string) {
+      return board.add.particles(
+        x * size,
+        0,
+        n,
+        {
+          speed: 200,
+          gravityY: 200,
+          quantity: 2,
+          scale: { start: 0, end: 0.2 },
+          duration: 400,
+          blendMode: 'ADD',
+          rotate: { start: 0, end: 360 },
+          alpha: 0.4,
+          emitting: false,
+        },
+      );
+    });
   }
 
   bootstrap() {
@@ -36,6 +57,24 @@ export class Word {
     this.letters[this.indexTyped].status = LetterStatus.Typed;
     this.indexTyped++;
 
+    const size = this.board.worldConfig.letterSize;
+    ['n0', 'n1'].forEach((n) => {
+      this.board.add.particles(
+        this.x * size,
+        this.y + (this.indexTyped * this.board.worldConfig.letterSize),
+        n,
+        {
+          speed: 1000,
+          gravityY: 0,
+          quantity: 2,
+          scale: { start: 0.1, end: 0.2 },
+          duration: 400,
+          blendMode: 'ADD',
+          rotate: { start: 0, end: 360 },
+          alpha: { start: 0, end: 0.5 },
+        },
+      );
+    });
     if (this.indexTyped === this.word.length) {
       this.status = 'completed';
       return;
@@ -43,14 +82,13 @@ export class Word {
 
     this.letters[this.indexTyped].status = LetterStatus.Current;
 
-    const size = this.board.worldConfig.letterSize;
-    this.board.add.particles(this.x * size, this.y + (this.indexTyped * this.board.worldConfig.letterSize), 'red', {
-      speed: 100,
-      scale: { start: 1, end: 0 },
-      duration: 200,
-      blendMode: 'ADD',
-      alpha: 0.2,
-    });
+    // this.board.add.particles(this.x * size, this.y + (this.indexTyped * this.board.worldConfig.letterSize), 'invalid', {
+    //   speed: 100,
+    //   scale: { start: 1, end: 0 },
+    //   duration: 200,
+    //   blendMode: 'ADD',
+    //   alpha: 0.2,
+    // });
   }
 
   shouldRemove() {
