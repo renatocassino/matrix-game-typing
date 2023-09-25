@@ -7,19 +7,22 @@ export type ScoreStatus = {
   keysPressed: number;
   wpm: number;
   precision: string
+  wpmHistory: number[];
 };
-
 
 export class Score extends Phaser.GameObjects.Container {
   status: ScoreStatus;
 
   text?: Phaser.GameObjects.Text;
   startTime: number = Date.now();
+  lastSecond: number | null;
 
   roundTime: number = 30;
 
   constructor(readonly scene: Phaser.Scene) {
     super(scene);
+
+    this.lastSecond = null;
 
     this.status = {
       hits: 0,
@@ -30,13 +33,13 @@ export class Score extends Phaser.GameObjects.Container {
       keysPressed: 0,
       wpm: 0,
       precision: '0.00%',
+      wpmHistory: [],
     };
   }
 
   create() {
-    this.scene.add.rectangle(9, 9, 202, 122, 0x00ff00, 0.5).setOrigin(0, 0);
-    this.scene.add.rectangle(10, 10, 200, 120, 0x000000, 0.5).setOrigin(0, 0);
-    this.text = this.scene.add.text(10, 10, '', { color: '#0F0' });
+    this.scene.add.image(130, 70, 'card').setScale(0.37).setAlpha(0.6);
+    this.text = this.scene.add.text(20, 10, '', { color: '#0F0' });
   }
 
   hit() {
@@ -60,14 +63,21 @@ export class Score extends Phaser.GameObjects.Container {
   update() {
     const now = Date.now();
     const diffTime = now - this.startTime;
+    const elapsedTimeInSeconds = (now - this.startTime) / 1000;
 
-    if (this.roundTime - diffTime / 1000 <= 0) {
+    const secondsToRound = Math.floor(this.roundTime - diffTime / 1000);
+    const wpm = (this.status.wordsTyped / elapsedTimeInSeconds) * 60;
+
+    if (this.lastSecond !== secondsToRound) {
+      this.lastSecond = secondsToRound;
+      this.status.wpmHistory.push(wpm);
+    }
+
+    if (secondsToRound <= 0) {
       this.scene.sound.stopAll();
       this.scene.scene.start('Score', { score: this.status });
     }
 
-    const elapsedTimeInSeconds = (now - this.startTime) / 1000;
-    const wpm = (this.status.wordsTyped / elapsedTimeInSeconds) * 60;
 
     this.status.wpm = wpm;
 

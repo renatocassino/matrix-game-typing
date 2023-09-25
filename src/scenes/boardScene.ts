@@ -14,6 +14,7 @@ import { Word } from "../word";
 // Make a menu when pause with option to stop sounds, restart, etc
 // Add a timer before start with time of music (na virada)
 // Add a timer to close the round
+// Words start fall faster and in final slow down
 
 export class BoardScene extends Phaser.Scene {
   words: Word[] = [];
@@ -46,6 +47,7 @@ export class BoardScene extends Phaser.Scene {
     this.load.svg('n1', '1.svg');
 
     this.load.atlas('flares', 'sprites/flares.png', 'sprites/flares.json');
+    this.load.image('card', 'card.png');
   }
 
   create() {
