@@ -16,6 +16,8 @@ export class Score extends Phaser.GameObjects.Container {
   text?: Phaser.GameObjects.Text;
   startTime: number = Date.now();
 
+  roundTime: number = 30;
+
   constructor(readonly scene: Phaser.Scene) {
     super(scene);
 
@@ -32,8 +34,8 @@ export class Score extends Phaser.GameObjects.Container {
   }
 
   create() {
-    this.scene.add.rectangle(9, 9, 302, 102, 0x00ff00, 0.5).setOrigin(0, 0);
-    this.scene.add.rectangle(10, 10, 300, 100, 0x000000, 0.5).setOrigin(0, 0);
+    this.scene.add.rectangle(9, 9, 202, 122, 0x00ff00, 0.5).setOrigin(0, 0);
+    this.scene.add.rectangle(10, 10, 200, 120, 0x000000, 0.5).setOrigin(0, 0);
     this.text = this.scene.add.text(10, 10, '', { color: '#0F0' });
   }
 
@@ -57,6 +59,13 @@ export class Score extends Phaser.GameObjects.Container {
 
   update() {
     const now = Date.now();
+    const diffTime = now - this.startTime;
+
+    if (this.roundTime - diffTime / 1000 <= 0) {
+      this.scene.sound.stopAll();
+      this.scene.scene.start('Score', { score: this.status });
+    }
+
     const elapsedTimeInSeconds = (now - this.startTime) / 1000;
     const wpm = (this.status.wordsTyped / elapsedTimeInSeconds) * 60;
 
@@ -70,7 +79,9 @@ export class Score extends Phaser.GameObjects.Container {
       `Score: ${this.status.score}`,
       `WPM: ${wpm.toFixed(2)}`,
       `Longest streak: ${this.status.longestStreak}`,
-      `Precision: ${this.precision}%`,
+      `Precision: ${this.status.precision}%`,
+      `Words typed: ${this.status.wordsTyped}`,
+      `Time: ${Math.floor(this.roundTime - diffTime / 1000)}`,
     ]
 
     this.text?.setText(texts.join('\n'));

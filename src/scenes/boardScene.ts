@@ -5,13 +5,15 @@ import { Config } from "../types";
 import { Word } from "../word";
 
 // TODO
-// Organize the score layout
 // Add waves
-// Create a new scene with score and save in localstorage
+// Save last status in localstorage
 // Try to save the WPM in each second to generate a graph
-// Fix delta
-// Add a scene with status
-// make a light following the words
+// make a light following the words (this is too dificult)
+// Pause button
+// Make an action to play again
+// Make a menu when pause with option to stop sounds, restart, etc
+// Add a timer before start with time of music (na virada)
+// Add a timer to close the round
 
 export class BoardScene extends Phaser.Scene {
   words: Word[] = [];
@@ -44,11 +46,6 @@ export class BoardScene extends Phaser.Scene {
     this.load.svg('n1', '1.svg');
 
     this.load.atlas('flares', 'sprites/flares.png', 'sprites/flares.json');
-
-    setTimeout(() => {
-      this.sound.stopAll();
-      this.scene.start('Score', { score: this.score.status });
-    }, 30000)
   }
 
   create() {
