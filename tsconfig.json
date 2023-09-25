@@ -4,8 +4,7 @@
     "useDefineForClassFields": true,
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable", "scripthost"],
-    "typeRoots": ["./node_modules/phaser/types"],
-    "types": ["Phaser"],  
+    "typeRoots": ["./node_modules/@types"],
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -21,5 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "files": ["node_modules/phaser/types/phaser.d.ts"]
 }
