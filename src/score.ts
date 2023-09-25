@@ -6,9 +6,11 @@ export class Score {
   misses = 0;
   longestStreak = 0;
   score = 0;
+  wordsTyped = 0;
   keysPressed = 0;
 
   text?: Phaser.GameObjects.Text;
+  startTime: number = Date.now();
 
   constructor(private readonly board: Board) {
   }
@@ -33,13 +35,16 @@ export class Score {
     this.keysPressed++;
   }
 
+  increateWord() {
+    this.wordsTyped += 1;
+  }
+
   update() {
     const now = Date.now();
-    const delta = (now - this.board.lastUpdate) / 1000;
+    const elapsedTimeInSeconds = (now - this.startTime) / 1000;
+    const wpm = (this.wordsTyped / elapsedTimeInSeconds) * 60;
 
-    const wpm = this.hits / 5 / (delta / 60);
-
-    this.board.lastUpdate = now;
+    console.log(wpm, this.wordsTyped, elapsedTimeInSeconds)
 
     const precision = 100 - (this.misses * 100 / this.keysPressed);
     const texts = [

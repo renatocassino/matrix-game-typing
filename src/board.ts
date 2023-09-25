@@ -112,13 +112,8 @@ export class Board extends Phaser.Scene {
     const now = Date.now();
     const delta = now - this.lastUpdate;
 
-    // console.log(delta, now, this.lastUpdate)
-
     if (delta > 1000 || this.words.length === 0) {
       this.lastUpdate = now;
-
-      console.log('Creating new word')
-
       this.createNewWord();
     }
 
@@ -131,6 +126,7 @@ export class Board extends Phaser.Scene {
           this.currentWord = undefined;
         }
         this.words = this.words.filter(w => w !== word);
+        this.score.increateWord();
       }
     });
 
