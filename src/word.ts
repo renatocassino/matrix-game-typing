@@ -8,7 +8,7 @@ export class Word {
   y: number;
   indexTyped = -1;
 
-  constructor(private readonly board: Board, private readonly word: string, private readonly x: number) {
+  constructor(private readonly board: Board, readonly word: string, readonly x: number) {
     this.status = 'inactive';
 
     this.y = board.worldConfig.letterSize * word.length * -1;
@@ -42,6 +42,15 @@ export class Word {
     }
 
     this.letters[this.indexTyped].status = LetterStatus.Current;
+
+    const size = this.board.worldConfig.letterSize;
+    this.board.add.particles(this.x * size, this.y + (this.indexTyped * this.board.worldConfig.letterSize), 'red', {
+      speed: 100,
+      scale: { start: 1, end: 0 },
+      duration: 200,
+      blendMode: 'ADD',
+      alpha: 0.2,
+    });
   }
 
   shouldRemove() {
@@ -57,5 +66,12 @@ export class Word {
 
   remove() {
     this.letters.forEach(letter => letter.text.destroy());
+    // const size = this.board.worldConfig.letterSize;
+    // this.board.add.particles(this.x * size, this.y + (this.letters.length * this.board.worldConfig.letterSize), 'red', {
+    //   speed: 100,
+    //   scale: { start: 1, end: 0 },
+    //   duration: 200,
+    //   blendMode: 'ADD',
+    // });
   }
 }
