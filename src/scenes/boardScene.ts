@@ -6,14 +6,12 @@ import { Config } from "../types";
 import { Word } from "../word";
 
 // TODO
-// Add waves
+// Add waves - Wave 1 easy, wave 2 medium, wave 3 hard
 // Save last status in localstorage
 // make a light following the words (this is too dificult)
-// Pause button
 // Make an action to play again
 // Make a menu when pause with option to stop sounds, restart, etc
 // Add a timer before start with time of music (na virada)
-// Add a timer to close the round
 // Words start fall faster and in final slow down
 // Dowload all assets in Menu Scene
 // Add special power
@@ -36,23 +34,7 @@ export class BoardScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('backgroundGame', 'bgs/bg-game.jpg');
 
-    this.load.audio('keypress', 'fx/keypress.wav');
-    this.load.audio('keywrong', 'fx/keywrong.mp3');
-    this.load.audio('explosion-small', 'fx/explosion-small.wav');
-    this.load.audio('board-music', 'fx/board-music.mp3');
-
-    this.load.svg('volume-on', 'icons/volume-on.svg');
-    this.load.svg('volume-off', 'icons/volume-off.svg');
-    this.load.svg('play', 'icons/play.svg');
-    this.load.svg('pause', 'icons/pause.svg');
-
-    this.load.svg('n0', '0.svg');
-    this.load.svg('n1', '1.svg');
-
-    this.load.atlas('flares', 'sprites/flares.png', 'sprites/flares.json');
-    this.load.image('card', 'card.png');
   }
 
   create() {
@@ -60,7 +42,7 @@ export class BoardScene extends Phaser.Scene {
     background.setOrigin(0, 0);
     background.setAlpha(0.1);
 
-    this.sound.play('board-music');
+    this.sound.play('board-music', { volume: 0.5 });
 
     this.tweens.add({
       targets: background,
@@ -181,7 +163,6 @@ export class BoardScene extends Phaser.Scene {
           this.currentWord = undefined;
         }
         this.words = this.words.filter(w => w !== word);
-        this.score.increateWord();
       }
     });
 

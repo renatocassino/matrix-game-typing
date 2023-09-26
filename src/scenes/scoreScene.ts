@@ -1,6 +1,5 @@
 import { ScoreStatus } from "../components/score";
 
-const today = `000${Math.floor((new Date().getDate() + 20) % 31) + 1}`.slice(-3);
 
 export class ScoreScene extends Phaser.Scene {
   scoreStatus?: ScoreStatus;
@@ -11,11 +10,6 @@ export class ScoreScene extends Phaser.Scene {
 
   init(data: { score: ScoreStatus }) {
     this.scoreStatus = data.score;
-  }
-
-  preload() {
-    this.load.image('background-score', `bgs/${today}.jpeg`);
-    this.load.image('card', 'card.png');
   }
 
   create() {

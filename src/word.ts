@@ -88,6 +88,8 @@ export class Word {
     if (this.indexTyped === this.word.length) {
       this.board.sound.play('explosion-small');
       this.status = 'completed';
+      this.board.score.increateWord();
+
       return;
     }
 

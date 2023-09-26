@@ -64,6 +64,29 @@ export class MenuScene extends Phaser.Scene {
       assetText.destroy();
     });
     this.load.image('background', `bgs/${today}.jpeg`);
+
+    this.load.image('backgroundGame', 'bgs/bg-game.jpg');
+
+    this.load.audio('keypress', 'fx/keypress.wav');
+    this.load.audio('keywrong', 'fx/keywrong.mp3');
+    this.load.audio('explosion-small', 'fx/explosion-small.wav');
+    this.load.audio('board-music', 'fx/board-music.mp3');
+
+    this.load.svg('volume-on', 'icons/volume-on.svg');
+    this.load.svg('volume-off', 'icons/volume-off.svg');
+    this.load.svg('play', 'icons/play.svg');
+    this.load.svg('pause', 'icons/pause.svg');
+
+    this.load.svg('n0', '0.svg');
+    this.load.svg('n1', '1.svg');
+
+    this.load.atlas('flares', 'sprites/flares.png', 'sprites/flares.json');
+    this.load.image('card', 'card.png');
+
+    const scoreId = `000${Math.floor((new Date().getDate() + 20) % 31) + 1}`.slice(-3);
+
+    this.load.image('background-score', `bgs/${scoreId}.jpeg`);
+    this.load.image('card', 'card.png');
   }
 
   create() {
