@@ -8,7 +8,7 @@ export class MenuScene extends Phaser.Scene {
   preload() {
     var progressBar = this.add.graphics();
     var progressBox = this.add.graphics();
-    progressBox.fillStyle(0x222222, 0.8);
+    progressBox.fillStyle(0x008800, 0.8);
     progressBox.fillRect(240, 270, 320, 50);
 
     var width = this.cameras.main.width;
