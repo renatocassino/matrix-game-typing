@@ -1,2 +1,2 @@
-[*.ts]
+[*.ts,*.vue]
 indent_size = 2

@@ -1,3 +1,4 @@
+import { CustomWindow } from "../commonTypes";
 import { ScoreStatus } from "../components/score";
 import { assets } from "../constants/assets";
 
@@ -49,6 +50,18 @@ export class ScoreScene extends Phaser.Scene {
 
     texts.forEach((text, index) => {
       this.add.text(xText, yText + (index * 25), text, style);
+    });
+
+    const title = this.add.text(xText, 440, 'See graph', { color: '#FFF', font: '20px Arial' }).setOrigin(0);
+    title.setInteractive();
+    title.on('pointerdown', () => {
+      (window as CustomWindow).openScoreModal();
+
+      setTimeout(() => {
+        if (this.scoreStatus) {
+          (window as CustomWindow).updateChart(this.scoreStatus.wpmHistory);
+        }
+      }, 500);
     });
   }
 
