@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import buyMeACoffee from './assets/buy-me-a-coffee.png';
+import ChartModal from './components/ChartModal.vue';
 </script>
 
 <template>
@@ -11,6 +12,8 @@ import buyMeACoffee from './assets/buy-me-a-coffee.png';
         <img :src="buyMeACoffee" alt="Buy me a coffee" />
       </a>
     </div>
+
+    <chart-modal />
   </div>
 </template>
 
