@@ -4,6 +4,11 @@ import { MenuScene } from './scenes/menuScene';
 import { ScoreScene } from './scenes/scoreScene';
 import './style.css';
 
+import { createApp } from 'vue';
+import App from './App.vue';
+
+createApp(App).mount('#app')
+
 window.addEventListener('load', () => {
   const config: Phaser.Types.Core.GameConfig = {
     width: 800,
