@@ -15,6 +15,8 @@ import { Word } from "../word";
 // Words start fall faster and in final slow down
 // Dowload all assets in Menu Scene
 // Add special power
+// Add multiple languages
+// Create a keyboard when is mobile
 
 export class BoardScene extends Phaser.Scene {
   words: Word[] = [];
