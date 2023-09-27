@@ -52,9 +52,9 @@ export class ScoreScene extends Phaser.Scene {
       this.add.text(xText, yText + (index * 25), text, style);
     });
 
-    const title = this.add.text(xText, 440, 'See graph', { color: '#FFF', font: '20px Arial' }).setOrigin(0);
-    title.setInteractive();
-    title.on('pointerdown', () => {
+    const scoreGraph = this.add.text(this.cameras.main.width / 2, 440, 'See graph', { color: '#FFF', font: '20px Arial' }).setOrigin(0.5);
+    scoreGraph.setInteractive();
+    scoreGraph.on('pointerdown', () => {
       (window as CustomWindow).openScoreModal();
 
       setTimeout(() => {
@@ -62,6 +62,12 @@ export class ScoreScene extends Phaser.Scene {
           (window as CustomWindow).updateChart(this.scoreStatus.wpmHistory);
         }
       }, 500);
+    });
+
+    const backToMenuText = this.add.text(this.cameras.main.width / 2, 500, 'Back to menu', { color: '#FFF', font: '20px Arial' }).setOrigin(0.5);
+    backToMenuText.setInteractive();
+    backToMenuText.on('pointerdown', () => {
+      this.scene.start('Menu');
     });
   }
 

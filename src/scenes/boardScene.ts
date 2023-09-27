@@ -8,7 +8,6 @@ import { Word } from "../word";
 
 // TODO
 // Add waves - Wave 1 easy, wave 2 medium, wave 3 hard
-// Save last status in localstorage
 // make a light following the words (this is too dificult)
 // Make an action to play again
 // Make a menu when pause with option to stop sounds, restart, etc
@@ -16,7 +15,6 @@ import { Word } from "../word";
 // Words start fall faster and in final slow down
 // Dowload all assets in Menu Scene
 // Add special power
-// Show a graph with wpm history (add only a button when click open in modal in html)
 
 export class BoardScene extends Phaser.Scene {
   words: Word[] = [];
