@@ -1,3 +1,4 @@
+import { assets } from "./constants/assets";
 import { Letter } from "./letter";
 import { BoardScene } from "./scenes/boardScene";
 import { LetterStatus, WordStatus } from "./types";
@@ -51,10 +52,11 @@ export class Word {
   }
 
   keyNextLetter() {
-    this.board.sound.play('keypress');
+    this.board.sound.play(assets.audio.KEYPRESS);
     if (this.indexTyped === -1) {
       this.indexTyped = 0;
     }
+
     this.letters[this.indexTyped].status = LetterStatus.Typed;
     this.indexTyped++;
 
@@ -86,7 +88,7 @@ export class Word {
     // });
 
     if (this.indexTyped === this.word.length) {
-      this.board.sound.play('explosion-small');
+      this.board.sound.play(assets.audio.EXPLOSION_SMALL);
       this.status = 'completed';
       this.board.score.increateWord();
 

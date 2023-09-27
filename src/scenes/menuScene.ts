@@ -1,3 +1,5 @@
+import { assets } from "../constants/assets";
+
 const today = `000${new Date().getDate()}`.slice(-3);
 
 export class MenuScene extends Phaser.Scene {
@@ -5,15 +7,15 @@ export class MenuScene extends Phaser.Scene {
     super({ key: 'Menu', ...(config ?? {}) });
   }
 
-  preload() {
-    var progressBar = this.add.graphics();
-    var progressBox = this.add.graphics();
+  addPreloader() {
+    const progressBar = this.add.graphics();
+    const progressBox = this.add.graphics();
     progressBox.fillStyle(0x008800, 0.8);
     progressBox.fillRect(240, 270, 320, 50);
 
-    var width = this.cameras.main.width;
-    var height = this.cameras.main.height;
-    var loadingText = this.make.text({
+    const width = this.cameras.main.width;
+    const height = this.cameras.main.height;
+    const loadingText = this.make.text({
       x: width / 2,
       y: height / 2 - 50,
       text: 'Loading...',
@@ -24,7 +26,7 @@ export class MenuScene extends Phaser.Scene {
     });
     loadingText.setOrigin(0.5, 0.5);
 
-    var percentText = this.make.text({
+    const percentText = this.make.text({
       x: width / 2,
       y: height / 2 - 5,
       text: '0%',
@@ -35,7 +37,7 @@ export class MenuScene extends Phaser.Scene {
     });
     percentText.setOrigin(0.5, 0.5);
 
-    var assetText = this.make.text({
+    const assetText = this.make.text({
       x: width / 2,
       y: height / 2 + 50,
       text: '',
@@ -50,6 +52,7 @@ export class MenuScene extends Phaser.Scene {
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
       progressBar.fillRect(250, 280, 300 * value, 30);
+      percentText.setText(Math.floor(value * 100) + '%');
     });
 
     this.load.on('fileprogress', (file: { key: string }) => {
@@ -63,30 +66,34 @@ export class MenuScene extends Phaser.Scene {
       percentText.destroy();
       assetText.destroy();
     });
-    this.load.image('background', `bgs/${today}.jpeg`);
+  }
 
-    this.load.image('backgroundGame', 'bgs/bg-game.jpg');
+  preload() {
+    this.addPreloader();
 
-    this.load.audio('keypress', 'fx/keypress.wav');
-    this.load.audio('keywrong', 'fx/keywrong.mp3');
-    this.load.audio('explosion-small', 'fx/explosion-small.wav');
-    this.load.audio('board-music', 'fx/board-music.mp3');
+    this.load.image(assets.bg.MENU_BACKGROUND, `bgs/${today}.jpeg`);
+    this.load.image(assets.bg.GAME_BACKGROUND, 'bgs/bg-game.jpg');
 
-    this.load.svg('volume-on', 'icons/volume-on.svg');
-    this.load.svg('volume-off', 'icons/volume-off.svg');
-    this.load.svg('play', 'icons/play.svg');
-    this.load.svg('pause', 'icons/pause.svg');
+    this.load.audio(assets.audio.KEYPRESS, 'fx/keypress.wav');
+    this.load.audio(assets.audio.KEYWRONG, 'fx/keywrong.mp3');
+    this.load.audio(assets.audio.EXPLOSION_SMALL, 'fx/explosion-small.wav');
+    this.load.audio(assets.audio.GAME_MUSIC, 'fx/board-music.mp3');
+
+    this.load.svg(assets.icon.VOLUME_ON, 'icons/volume-on.svg');
+    this.load.svg(assets.icon.VOLUME_OFF, 'icons/volume-off.svg');
+    this.load.svg(assets.icon.PLAY, 'icons/play.svg');
+    this.load.svg(assets.icon.PAUSE, 'icons/pause.svg');
 
     this.load.svg('n0', '0.svg');
     this.load.svg('n1', '1.svg');
 
-    this.load.atlas('flares', 'sprites/flares.png', 'sprites/flares.json');
-    this.load.image('card', 'card.png');
+    // this.load.atlas('flares', 'sprites/flares.png', 'sprites/flares.json');
+    this.load.image(assets.ui.CARD, 'card.png');
 
     const scoreId = `000${Math.floor((new Date().getDate() + 20) % 31) + 1}`.slice(-3);
 
     this.load.image('background-score', `bgs/${scoreId}.jpeg`);
-    this.load.image('card', 'card.png');
+    this.load.image(assets.ui.CARD, 'card.png');
   }
 
   create() {
@@ -98,7 +105,7 @@ export class MenuScene extends Phaser.Scene {
   }
 
   addBackground() {
-    const bg = this.textures.get('background').get(0);
+    const bg = this.textures.get(assets.bg.MENU_BACKGROUND).get(0);
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
@@ -107,7 +114,7 @@ export class MenuScene extends Phaser.Scene {
 
     const scaleFactor = Math.max(widthRatio, heightRatio);
 
-    const img = this.add.image(boardWidth / 2, boardHeight / 2, 'background');
+    const img = this.add.image(boardWidth / 2, boardHeight / 2, assets.bg.MENU_BACKGROUND);
     img.setScale(scaleFactor);
   }
 

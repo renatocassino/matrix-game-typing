@@ -1,6 +1,7 @@
 import { PauseToggleButton } from "../components/pauseToggleButton";
 import { Score } from "../components/score";
 import { VolumeButton } from "../components/volumeButton";
+import { assets } from "../constants/assets";
 import { getRandomWord } from "../randomWord";
 import { Config } from "../types";
 import { Word } from "../word";
@@ -33,16 +34,12 @@ export class BoardScene extends Phaser.Scene {
     }
   }
 
-  preload() {
-
-  }
-
   create() {
-    const background = this.add.image(0, 0, 'backgroundGame');
+    const background = this.add.image(0, 0, assets.bg.GAME_BACKGROUND);
     background.setOrigin(0, 0);
     background.setAlpha(0.1);
 
-    this.sound.play('board-music', { volume: 0.5 });
+    this.sound.play(assets.audio.GAME_MUSIC, { volume: 0.5 });
 
     this.tweens.add({
       targets: background,
@@ -128,7 +125,7 @@ export class BoardScene extends Phaser.Scene {
         return;
       }
 
-      this.sound.play('keywrong');
+      this.sound.play(assets.audio.KEYWRONG);
       this.score.miss();
 
       return;
@@ -140,7 +137,7 @@ export class BoardScene extends Phaser.Scene {
       return;
     }
 
-    this.sound.play('keywrong');
+    this.sound.play(assets.audio.KEYWRONG);
     this.score.miss();
   }
 

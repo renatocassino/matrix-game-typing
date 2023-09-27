@@ -1,3 +1,5 @@
+import { assets } from "../constants/assets";
+
 export type ScoreStatus = {
   hits: number;
   misses: number;
@@ -38,7 +40,7 @@ export class Score extends Phaser.GameObjects.Container {
   }
 
   create() {
-    this.scene.add.image(130, 70, 'card').setScale(0.37).setAlpha(0.6);
+    this.scene.add.image(130, 70, assets.ui.CARD).setScale(0.37).setAlpha(0.6);
     this.text = this.scene.add.text(20, 10, '', { color: '#0F0' });
   }
 

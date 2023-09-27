@@ -1,4 +1,5 @@
 import { ScoreStatus } from "../components/score";
+import { assets } from "../constants/assets";
 
 
 export class ScoreScene extends Phaser.Scene {
@@ -10,6 +11,13 @@ export class ScoreScene extends Phaser.Scene {
 
   init(data: { score: ScoreStatus }) {
     this.scoreStatus = data.score;
+    this.addScoreInLocalStorage();
+  }
+
+  addScoreInLocalStorage() {
+    const scores = JSON.parse(localStorage.getItem('scores') ?? '[]');
+    scores.push({ ...this.scoreStatus, date: new Date().toISOString() });
+    localStorage.setItem('scores', JSON.stringify(scores));
   }
 
   create() {
@@ -24,7 +32,7 @@ export class ScoreScene extends Phaser.Scene {
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
-    this.add.image(boardWidth / 2, boardHeight / 2, 'card').setScale(0.6).setAlpha(0.6);
+    this.add.image(boardWidth / 2, boardHeight / 2, assets.ui.CARD).setScale(0.6).setAlpha(0.6);
     const xText = 240;
     const style = { color: '#FFF', font: '16px Arial' };
     const yText = 215;
@@ -75,8 +83,5 @@ export class ScoreScene extends Phaser.Scene {
   }
 
   addPlayButton() {
-  }
-
-  update() {
   }
 }

@@ -1,3 +1,5 @@
+import { assets } from "../constants/assets";
+
 export class VolumeButton extends Phaser.GameObjects.Container {
   private volumeButton: Phaser.GameObjects.Image;
   private volumeOn: boolean = true;
@@ -11,7 +13,7 @@ export class VolumeButton extends Phaser.GameObjects.Container {
     scene.add.existing(this);
 
     // Crie o botão de volume inicialmente com o ícone "volume-on"
-    this.volumeButton = scene.add.image(boardWidth / 2 - 50, boardHeight / 2 * -1 + 25, 'volume-on').setInteractive();
+    this.volumeButton = scene.add.image(boardWidth / 2 - 50, boardHeight / 2 * -1 + 25, assets.icon.VOLUME_ON).setInteractive();
     this.add(this.volumeButton);
 
     // Adicione um evento de clique ao botão
@@ -27,10 +29,10 @@ export class VolumeButton extends Phaser.GameObjects.Container {
 
   private toggleVolume() {
     if (this.volumeOn) {
-      this.volumeButton.setTexture('volume-off');
+      this.volumeButton.setTexture(assets.icon.VOLUME_OFF);
       this.scene.sound.mute = true;
     } else {
-      this.volumeButton.setTexture('volume-on');
+      this.volumeButton.setTexture(assets.icon.VOLUME_ON);
       this.scene.sound.mute = false;
     }
 
