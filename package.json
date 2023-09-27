@@ -15,7 +15,10 @@
     "vue-tsc": "^1.8.15"
   },
   "dependencies": {
+    "chart.js": "^4.4.0",
     "phaser": "^3.60.0",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue-chartjs": "^5.2.0",
+    "vuetify": "^3.3.19"
   }
 }

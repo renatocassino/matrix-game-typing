@@ -1,28 +1,21 @@
 <script setup lang="ts">
+import buyMeACoffee from './assets/buy-me-a-coffee.png';
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      a
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      b
-    </a>
+  <div class="content">
+    <section id="game"></section>
+
+    <div class="buy-me-a-coffee">
+      <a href="https://www.buymeacoffee.com/cassinodev" target="_blank" rel="noopener noreferrer">
+        <img :src="buyMeACoffee" alt="Buy me a coffee" />
+      </a>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.buy-me-a-coffee img {
+  max-width: 150px;
 }
 </style>
