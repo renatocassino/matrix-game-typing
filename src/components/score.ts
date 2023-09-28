@@ -1,4 +1,6 @@
-import { assets } from "../constants/assets";
+import { assets } from "../game/constants/assets";
+import { gameEvents } from "../game/constants/events";
+import { BoardScene } from "../scenes/boardScene";
 
 export type ScoreStatus = {
   hits: number;
@@ -19,7 +21,7 @@ export class Score extends Phaser.GameObjects.Container {
   startTime: number = Date.now();
   lastSecond: number | null;
 
-  roundTime: number = 300;
+  roundTime: number = 30;
 
   constructor(readonly scene: Phaser.Scene) {
     super(scene);
@@ -37,6 +39,10 @@ export class Score extends Phaser.GameObjects.Container {
       precision: '0.00%',
       wpmHistory: [],
     };
+
+    const board = this.scene as BoardScene;
+    board.emitter.on(gameEvents.HIT, this.hit.bind(this));
+    board.emitter.on(gameEvents.PRESS_MISS, this.miss.bind(this));
   }
 
   create() {

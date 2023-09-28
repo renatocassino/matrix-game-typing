@@ -1,4 +1,4 @@
-import { assets } from "../constants/assets";
+import { assets } from "../game/constants/assets";
 
 export class VolumeButton extends Phaser.GameObjects.Container {
   private volumeButton: Phaser.GameObjects.Image;

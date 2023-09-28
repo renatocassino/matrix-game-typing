@@ -1,7 +1,8 @@
 import { PauseToggleButton } from "../components/pauseToggleButton";
 import { Score } from "../components/score";
 import { VolumeButton } from "../components/volumeButton";
-import { assets } from "../constants/assets";
+import { assets } from "../game/constants/assets";
+import { gameEvents } from "../game/constants/events";
 import { getRandomWord } from "../randomWord";
 import { Config } from "../types";
 import { Word } from "../word";
@@ -25,6 +26,7 @@ export class BoardScene extends Phaser.Scene {
   currentWord?: Word;
   score!: Score;
   cursor!: Phaser.GameObjects.Rectangle;
+  emitter: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: 'Board', ...(config ?? {}) });
@@ -48,7 +50,15 @@ export class BoardScene extends Phaser.Scene {
       ease: 'Sine.easeInOut',
       yoyo: true,
       repeat: -1,
-    })
+    });
+
+    this.emitter.on('bla', () => {
+      console.log('bla')
+    });
+
+    setInterval(() => {
+      this.emitter.emit('bla');
+    }, 2000)
 
     this.input.keyboard?.on('keydown', this.keyPress.bind(this));
 
@@ -80,6 +90,9 @@ export class BoardScene extends Phaser.Scene {
     //   repeat: -1,
     // });
 
+    this.emitter.on(gameEvents.PRESS_MISS, () => {
+      this.sound.play(assets.audio.KEYWRONG);
+    });
   }
 
   createNewWord() {
@@ -92,7 +105,6 @@ export class BoardScene extends Phaser.Scene {
     const word = getRandomWord(this.words.map(word => word.word[0]));
 
     const possiblePositions = allXs.filter(num => !usedX.has(num));
-
     if (possiblePositions.length === 0) {
       return;
     }
@@ -117,25 +129,20 @@ export class BoardScene extends Phaser.Scene {
       this.currentWord = this.words.find(word => word.word[0] === keyCode);
       if (this.currentWord) {
         this.currentWord.status = 'active';
-        this.currentWord.keyNextLetter();
-        this.score.hit();
+        this.emitter.emit(gameEvents.HIT);
         return;
       }
 
-      this.sound.play(assets.audio.KEYWRONG);
-      this.score.miss();
-
+      this.emitter.emit(gameEvents.PRESS_MISS);
       return;
     }
 
     if (this.currentWord.word[this.currentWord.indexTyped] === keyCode) {
-      this.currentWord.keyNextLetter();
-      this.score.hit();
+      this.emitter.emit(gameEvents.HIT);
       return;
     }
 
-    this.sound.play(assets.audio.KEYWRONG);
-    this.score.miss();
+    this.emitter.emit(gameEvents.PRESS_MISS);
   }
 
   update() {

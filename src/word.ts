@@ -1,4 +1,5 @@
-import { assets } from "./constants/assets";
+import { assets } from "./game/constants/assets";
+import { gameEvents } from "./game/constants/events";
 import { Letter } from "./letter";
 import { BoardScene } from "./scenes/boardScene";
 import { LetterStatus, WordStatus } from "./types";
@@ -64,6 +65,8 @@ export class Word {
       currentLetter.created();
       this.letters.push(currentLetter);
     });
+
+    this.board.emitter.on(gameEvents.HIT, this.keyNextLetter.bind(this));
   }
 
   update() {
@@ -83,6 +86,10 @@ export class Word {
   }
 
   keyNextLetter() {
+    if (this.status !== 'active') {
+      return;
+    }
+
     this.board.sound.play(assets.audio.KEYPRESS);
     if (this.indexTyped === -1) {
       this.indexTyped = 0;

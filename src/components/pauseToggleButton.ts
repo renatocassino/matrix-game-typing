@@ -1,4 +1,4 @@
-import { assets } from "../constants/assets";
+import { assets } from "../game/constants/assets";
 
 export class PauseToggleButton extends Phaser.GameObjects.Container {
   private pauseToggle: Phaser.GameObjects.Image;
