@@ -17,15 +17,14 @@ export class Word {
     currentTime: number;
     initialY: number;
   }
+  pressedWord: number = Date.now();
 
   constructor(private readonly board: BoardScene, readonly word: string, readonly x: number) {
     this.status = 'inactive';
 
     const boardHeight = this.board.sys.game.canvas.height;
     const size = this.board.worldConfig.letterSize;
-    const wordHeight = this.word.length * size;
-
-    const finalY = boardHeight + wordHeight;
+    const finalY = boardHeight;
 
     this.y = board.worldConfig.letterSize * word.length * -1;
     this.velocityConfig = {
@@ -67,17 +66,11 @@ export class Word {
 
   update() {
     const { finalY, duration, currentTime, initialY } = this.velocityConfig;
-    if (currentTime < duration) {
-      const progress = currentTime / duration;  // Valor entre 0 e 1 representando o progresso da animação
+    if (Date.now() > this.pressedWord) {
+      const progress = currentTime / duration;
       const diff = finalY - initialY;
-
-      // Calcula a posição y usando a função de ease-out
-      let elementY = initialY + diff * easeOutQuad(progress);
-
-      // Atualiza a posição do elemento
+      const elementY = initialY + diff * easeOutQuad(progress);
       this.y = elementY;
-
-      // Incrementa o contador de tempo/frames
       this.velocityConfig.currentTime++;
     }
 
@@ -129,6 +122,7 @@ export class Word {
       return;
     }
 
+    this.pressedWord = Date.now() + 30;
     this.letters[this.indexTyped].status = LetterStatus.Current;
   }
 
@@ -137,7 +131,10 @@ export class Word {
       return true;
     }
 
-    return (this.y > this.velocityConfig.finalY);
+    return (
+      this.y > this.velocityConfig.finalY ||
+      this.velocityConfig.currentTime > this.velocityConfig.duration
+    );
   }
 
   remove() {
