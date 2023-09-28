@@ -19,7 +19,7 @@ export class Score extends Phaser.GameObjects.Container {
   startTime: number = Date.now();
   lastSecond: number | null;
 
-  roundTime: number = 30;
+  roundTime: number = 300;
 
   constructor(readonly scene: Phaser.Scene) {
     super(scene);

@@ -2,6 +2,7 @@ import { assets } from "./constants/assets";
 import { Letter } from "./letter";
 import { BoardScene } from "./scenes/boardScene";
 import { LetterStatus, WordStatus } from "./types";
+import { easeOutQuad, generateRandomInteger } from "./utils/numbers";
 
 export class Word {
   letters: Letter[] = [];
@@ -9,15 +10,33 @@ export class Word {
   y: number;
   indexTyped = -1;
   particles: Phaser.GameObjects.Particles.ParticleEmitter[] = [];
+  lastUpdate = Date.now();
+  velocityConfig: {
+    finalY: number;
+    duration: number;
+    currentTime: number;
+    initialY: number;
+  }
 
   constructor(private readonly board: BoardScene, readonly word: string, readonly x: number) {
     this.status = 'inactive';
 
+    const boardHeight = this.board.sys.game.canvas.height;
+    const size = this.board.worldConfig.letterSize;
+    const wordHeight = this.word.length * size;
+
+    const finalY = boardHeight + wordHeight;
+
     this.y = board.worldConfig.letterSize * word.length * -1;
+    this.velocityConfig = {
+      finalY,
+      initialY: this.y,
+      duration: generateRandomInteger(700, 1200),
+      currentTime: 0,
+    };
 
     this.bootstrap();
 
-    const size = this.board.worldConfig.letterSize;
     this.particles = ['n0', 'n1'].map(function (n: string) {
       return board.add.particles(
         x * size,
@@ -47,8 +66,23 @@ export class Word {
   }
 
   update() {
-    this.y += 1;
+    const { finalY, duration, currentTime, initialY } = this.velocityConfig;
+    if (currentTime < duration) {
+      const progress = currentTime / duration;  // Valor entre 0 e 1 representando o progresso da animação
+      const diff = finalY - initialY;
+
+      // Calcula a posição y usando a função de ease-out
+      let elementY = initialY + diff * easeOutQuad(progress);
+
+      // Atualiza a posição do elemento
+      this.y = elementY;
+
+      // Incrementa o contador de tempo/frames
+      this.velocityConfig.currentTime++;
+    }
+
     this.letters.forEach(letter => letter.update(this.y));
+    this.lastUpdate = Date.now();
   }
 
   keyNextLetter() {
@@ -102,11 +136,8 @@ export class Word {
     if (this.status === 'completed') {
       return true;
     }
-    const boardHeight = this.board.sys.game.canvas.height;
-    const size = this.board.worldConfig.letterSize;
-    const wordHeight = this.word.length * size;
 
-    return (this.y > boardHeight + wordHeight);
+    return (this.y > this.velocityConfig.finalY);
   }
 
   remove() {
