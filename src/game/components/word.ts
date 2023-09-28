@@ -45,8 +45,6 @@ export class Word extends Phaser.GameObjects.Container {
 
     this.board.emitter.on(gameEvents.HIT, this.keyNextLetter.bind(this));
 
-    this.add(board.add.rectangle(0, 0, 20, 20, 0xffffff, 0.1).setOrigin(0, 0))
-
     board.add.existing(this);
   }
 
@@ -62,7 +60,7 @@ export class Word extends Phaser.GameObjects.Container {
       this.velocityConfig.currentTime++;
     }
 
-    this.letters.forEach(letter => letter.update(this.y));
+    this.letters.forEach(letter => letter.update());
     this.lastUpdate = Date.now();
   }
 
