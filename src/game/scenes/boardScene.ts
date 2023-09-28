@@ -1,9 +1,9 @@
 import { Config } from "../../types";
 import { getRandomWord } from "../../utils/randomWord";
-import { Word } from "../../word";
 import { PauseToggleButton } from "../components/pauseToggleButton";
 import { Score } from "../components/score";
 import { VolumeButton } from "../components/volumeButton";
+import { Word } from "../components/word";
 import { assets } from "../constants/assets";
 import { gameEvents } from "../constants/events";
 
@@ -41,6 +41,9 @@ export class BoardScene extends Phaser.Scene {
     background.setOrigin(0, 0);
     background.setAlpha(0.1);
 
+    this.words = [];
+    this.currentWord = undefined;
+
     this.sound.play(assets.audio.GAME_MUSIC, { volume: 0.5 });
 
     this.tweens.add({
@@ -54,11 +57,9 @@ export class BoardScene extends Phaser.Scene {
 
     this.input.keyboard?.on('keydown', this.keyPress.bind(this));
 
-    new VolumeButton(this, 400, 300);
-    new PauseToggleButton(this, 400, 300);
-
-    this.score = new Score(this);
-    this.score.create();
+    new VolumeButton(this, this.sys.game.canvas.width - 60, 20);
+    new PauseToggleButton(this, this.sys.game.canvas.width - 30, 20);
+    this.score = new Score(this, 10, 10);
 
     // const emitter = this.add.particles(0, 0, 'flares', {
     //   frame: { frames: ['white'], },
@@ -92,9 +93,7 @@ export class BoardScene extends Phaser.Scene {
     const min = 1;
     const max = Math.floor(boardSize / this.worldConfig.letterSize);
     const allXs = Array.from({ length: max - min }, (_, i) => i + min);
-    const usedX = new Set(this.words.map(word => word.x));
-
-    const word = getRandomWord(this.words.map(word => word.word[0]));
+    const usedX = new Set(this.words.map(word => word.indexXPosition));
 
     const possiblePositions = allXs.filter(num => !usedX.has(num));
     if (possiblePositions.length === 0) {
@@ -103,16 +102,16 @@ export class BoardScene extends Phaser.Scene {
 
     const x = possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
 
+    const word = getRandomWord(this.words.map(word => word.word[0]));
     if (!word) {
       console.log('Not found any word :/')
       return;
     }
-    this.words.push(new Word(this, word.toLowerCase(), x));
+    this.words.push(new Word(this, word.toLowerCase(), x * this.worldConfig.letterSize, 0, x));
   }
 
   keyPress(event: KeyboardEvent) {
     const keyCode = event.key;
-
     if (!keyCode.match(/^[a-z0-9]$/i)) {
       return
     }
@@ -158,6 +157,13 @@ export class BoardScene extends Phaser.Scene {
         this.words = this.words.filter(w => w !== word);
       }
     });
+  }
 
+  shutdown() {
+    this.words.forEach(word => word.remove());
+
+    this.score.destroy();
+    this.currentWord = undefined;
+    this.sound.stopAll();
   }
 }

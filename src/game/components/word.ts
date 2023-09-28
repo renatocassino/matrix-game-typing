@@ -1,11 +1,11 @@
-import { assets } from "./game/constants/assets";
-import { gameEvents } from "./game/constants/events";
-import { BoardScene } from "./game/scenes/boardScene";
-import { Letter } from "./letter";
-import { LetterStatus, WordStatus } from "./types";
-import { generateRandomInteger } from "./utils/numbers";
+import { Letter } from "../../letter";
+import { LetterStatus, WordStatus } from "../../types";
+import { generateRandomInteger } from "../../utils/numbers";
+import { assets } from "../constants/assets";
+import { gameEvents } from "../constants/events";
+import { BoardScene } from "../scenes/boardScene";
 
-export class Word {
+export class Word extends Phaser.GameObjects.Container {
   letters: Letter[] = [];
   status: WordStatus;
   y: number;
@@ -21,11 +21,11 @@ export class Word {
   }
   pressedWord: number = Date.now();
 
-  constructor(private readonly board: BoardScene, readonly word: string, readonly x: number) {
+  constructor(private readonly board: BoardScene, readonly word: string, readonly x: number, y: number, readonly indexXPosition: number) {
+    super(board, x, y)
     this.status = 'inactive';
 
     const boardHeight = this.board.sys.game.canvas.height;
-    const size = this.board.worldConfig.letterSize;
     const finalY = boardHeight;
     this.velocity = generateRandomInteger(0.5, 1.3);
 
@@ -37,36 +37,17 @@ export class Word {
       currentTime: 0,
     };
 
-    this.bootstrap();
-
-    this.particles = ['n0', 'n1'].map(function (n: string) {
-      return board.add.particles(
-        x * size,
-        0,
-        n,
-        {
-          speed: 200,
-          gravityY: 200,
-          quantity: 2,
-          scale: { start: 0, end: 0.2 },
-          duration: 400,
-          blendMode: 'ADD',
-          rotate: { start: 0, end: 360 },
-          alpha: 0.4,
-          emitting: false,
-        },
-      );
-    });
-  }
-
-  bootstrap() {
     this.word.split('').forEach((letter, index) => {
       const currentLetter = new Letter(this.board, letter, index, this.x, this);
-      currentLetter.created();
       this.letters.push(currentLetter);
+      this.add(currentLetter);
     });
 
     this.board.emitter.on(gameEvents.HIT, this.keyNextLetter.bind(this));
+
+    this.add(board.add.rectangle(this.x, this.y, 20, 20, 0xffffff, 0.1).setOrigin(0, 0))
+
+    board.add.existing(this);
   }
 
   update() {
@@ -98,10 +79,9 @@ export class Word {
     this.letters[this.indexTyped].status = LetterStatus.Typed;
     this.indexTyped++;
 
-    const size = this.board.worldConfig.letterSize;
     ['n0', 'n1'].forEach((n) => {
-      this.board.add.particles(
-        this.x * size,
+      this.add(this.board.add.particles(
+        this.x,
         this.y + (this.indexTyped * this.board.worldConfig.letterSize),
         n,
         {
@@ -114,7 +94,7 @@ export class Word {
           rotate: { start: 0, end: 360 },
           alpha: { start: 0, end: 0.5 },
         },
-      );
+      ));
     });
 
     // this.board.add.particles(this.x * size, this.y + (this.indexTyped * this.board.worldConfig.letterSize), 'invalid', {
@@ -150,6 +130,7 @@ export class Word {
 
   remove() {
     this.letters.forEach(letter => letter.text.destroy());
+    this.destroy();
     // const size = this.board.worldConfig.letterSize;
     // this.board.add.particles(this.x * size, this.y + (this.letters.length * this.board.worldConfig.letterSize), 'red', {
     //   speed: 100,

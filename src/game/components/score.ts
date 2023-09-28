@@ -21,10 +21,10 @@ export class Score extends Phaser.GameObjects.Container {
   startTime: number = Date.now();
   lastSecond: number | null;
 
-  roundTime: number = 30;
+  roundTime: number = 10;
 
-  constructor(readonly scene: Phaser.Scene) {
-    super(scene);
+  constructor(readonly scene: Phaser.Scene, readonly x: number, readonly y: number) {
+    super(scene, x, y);
 
     this.lastSecond = null;
 
@@ -43,11 +43,12 @@ export class Score extends Phaser.GameObjects.Container {
     const board = this.scene as BoardScene;
     board.emitter.on(gameEvents.HIT, this.hit.bind(this));
     board.emitter.on(gameEvents.PRESS_MISS, this.miss.bind(this));
-  }
 
-  create() {
-    this.scene.add.image(130, 70, assets.ui.CARD).setScale(0.37).setAlpha(0.6);
+    this.add(this.scene.add.image(0, 0, assets.ui.CARD).setOrigin(0, 0).setScale(0.37).setAlpha(0.6));
     this.text = this.scene.add.text(20, 10, '', { color: '#0F0' });
+    this.add(this.text);
+
+    this.scene.add.existing(this);
   }
 
   hit() {

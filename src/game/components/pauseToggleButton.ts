@@ -6,25 +6,19 @@ export class PauseToggleButton extends Phaser.GameObjects.Container {
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y);
-    const boardWidth = scene.sys.game.canvas.width;
-    const boardHeight = scene.sys.game.canvas.height;
 
-    // Adicione o container à cena
-    scene.add.existing(this);
-
-    // Crie o botão de volume inicialmente com o ícone "volume-on"
-    this.pauseToggle = scene.add.image(boardWidth / 2 - 25, boardHeight / 2 * -1 + 25, assets.icon.PAUSE).setInteractive();
+    this.pauseToggle = scene.add.image(0, 0, assets.icon.PAUSE).setInteractive();
     this.add(this.pauseToggle);
 
-    // Adicione um evento de clique ao botão
     this.pauseToggle.on('pointerdown', this.togglePause, this);
-
     this.pauseToggle.on('pointerover', function () {
       scene.input.setDefaultCursor('pointer');
     });
     this.pauseToggle.on('pointerout', function () {
       scene.input.setDefaultCursor('default');
     });
+
+    scene.add.existing(this);
   }
 
   private togglePause() {

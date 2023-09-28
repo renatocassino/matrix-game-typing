@@ -1,8 +1,8 @@
+import { Word } from './game/components/word';
 import { BoardScene } from './game/scenes/boardScene';
 import { LetterStatus } from './types';
-import { Word } from './word';
 
-export class Letter {
+export class Letter extends Phaser.GameObjects.Container {
   text: Phaser.GameObjects.Text;
   status: LetterStatus;
 
@@ -13,18 +13,19 @@ export class Letter {
     private readonly x: number,
     private readonly word: Word,
   ) {
+    super(board, x, 0);
     const size = this.board.worldConfig.letterSize;
     this.text = this.board.add.text(
-      this.x * size,
+      0,
       this.index * size,
       this.letter,
       { color: '#0F0', fontSize: `${size}px` },
-    );
+    ).setOrigin(0.5, 0);
 
     this.status = LetterStatus.Initial;
-  }
 
-  created() {
+    this.add(this.text);
+    board.add.existing(this);
   }
 
   update(y: number) {
