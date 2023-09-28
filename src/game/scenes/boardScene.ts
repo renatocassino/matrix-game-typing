@@ -9,14 +9,9 @@ import { gameEvents } from "../constants/events";
 
 // TODO
 // Add waves - Wave 1 easy, wave 2 medium, wave 3 hard
-// make a light following the words (this is too dificult)
-// Make an action to play again
 // Make a menu when pause with option to stop sounds, restart, etc
 // Add a timer before start with time of music (na virada)
-// Words start fall faster and in final slow down
-// Dowload all assets in Menu Scene
 // Add special power
-// Add multiple languages
 // Create a keyboard when is mobile
 
 export class BoardScene extends Phaser.Scene {
@@ -100,14 +95,11 @@ export class BoardScene extends Phaser.Scene {
       return;
     }
 
-    const x = possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
-
     const word = getRandomWord(this.words.map(word => word.word[0]));
-    if (!word) {
-      console.log('Not found any word :/')
-      return;
+    if (word) {
+      const x = possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
+      this.words.push(new Word(this, word.toLowerCase(), x * this.worldConfig.letterSize, 0, x));
     }
-    this.words.push(new Word(this, word.toLowerCase(), x * this.worldConfig.letterSize, 0, x));
   }
 
   keyPress(event: KeyboardEvent) {

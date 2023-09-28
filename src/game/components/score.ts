@@ -21,7 +21,7 @@ export class Score extends Phaser.GameObjects.Container {
   startTime: number = Date.now();
   lastSecond: number | null;
 
-  roundTime: number = 10;
+  roundTime: number = 40;
 
   constructor(readonly scene: Phaser.Scene, readonly x: number, readonly y: number) {
     super(scene, x, y);

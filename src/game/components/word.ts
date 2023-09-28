@@ -1,9 +1,9 @@
-import { Letter } from "../../letter";
 import { LetterStatus, WordStatus } from "../../types";
 import { generateRandomInteger } from "../../utils/numbers";
 import { assets } from "../constants/assets";
 import { gameEvents } from "../constants/events";
 import { BoardScene } from "../scenes/boardScene";
+import { Letter } from "./letter";
 
 export class Word extends Phaser.GameObjects.Container {
   letters: Letter[] = [];
@@ -38,14 +38,14 @@ export class Word extends Phaser.GameObjects.Container {
     };
 
     this.word.split('').forEach((letter, index) => {
-      const currentLetter = new Letter(this.board, letter, index, this.x, this);
+      const currentLetter = new Letter(this.board, letter, index, this);
       this.letters.push(currentLetter);
       this.add(currentLetter);
     });
 
     this.board.emitter.on(gameEvents.HIT, this.keyNextLetter.bind(this));
 
-    this.add(board.add.rectangle(this.x, this.y, 20, 20, 0xffffff, 0.1).setOrigin(0, 0))
+    this.add(board.add.rectangle(0, 0, 20, 20, 0xffffff, 0.1).setOrigin(0, 0))
 
     board.add.existing(this);
   }
@@ -81,8 +81,8 @@ export class Word extends Phaser.GameObjects.Container {
 
     ['n0', 'n1'].forEach((n) => {
       this.add(this.board.add.particles(
-        this.x,
-        this.y + (this.indexTyped * this.board.worldConfig.letterSize),
+        0,
+        (this.indexTyped * this.board.worldConfig.letterSize),
         n,
         {
           speed: 100,
@@ -128,6 +128,7 @@ export class Word extends Phaser.GameObjects.Container {
     );
   }
 
+  // @ts-ignore
   remove() {
     this.letters.forEach(letter => letter.text.destroy());
     this.destroy();

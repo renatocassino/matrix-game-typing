@@ -1,6 +1,6 @@
-import { Word } from './game/components/word';
-import { BoardScene } from './game/scenes/boardScene';
-import { LetterStatus } from './types';
+import { LetterStatus } from '../../types';
+import { BoardScene } from '../scenes/boardScene';
+import { Word } from './word';
 
 export class Letter extends Phaser.GameObjects.Container {
   text: Phaser.GameObjects.Text;
@@ -10,10 +10,9 @@ export class Letter extends Phaser.GameObjects.Container {
     private readonly board: BoardScene,
     private readonly letter: string,
     private readonly index: number,
-    private readonly x: number,
     private readonly word: Word,
   ) {
-    super(board, x, 0);
+    super(board, 0, 0);
     const size = this.board.worldConfig.letterSize;
     this.text = this.board.add.text(
       0,
@@ -28,7 +27,7 @@ export class Letter extends Phaser.GameObjects.Container {
     board.add.existing(this);
   }
 
-  update(y: number) {
+  update() {
     if (this.status === LetterStatus.Typed) {
       this.text.setColor('#00FF00');
       const alpha = Math.max(0.1, 1 - 0.25 * (this.word.indexTyped - this.index));
@@ -43,8 +42,5 @@ export class Letter extends Phaser.GameObjects.Container {
       this.text.setShadow(0, 0, '#fff', 0);
       this.text.setAlpha(0.9);
     }
-
-    const size = this.board.worldConfig.letterSize;
-    this.text.y = y + this.index * size;
   }
 }
