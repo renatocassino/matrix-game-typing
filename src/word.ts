@@ -2,7 +2,7 @@ import { assets } from "./constants/assets";
 import { Letter } from "./letter";
 import { BoardScene } from "./scenes/boardScene";
 import { LetterStatus, WordStatus } from "./types";
-import { easeOutQuad, generateRandomInteger } from "./utils/numbers";
+import { generateRandomInteger } from "./utils/numbers";
 
 export class Word {
   letters: Letter[] = [];
@@ -11,6 +11,7 @@ export class Word {
   indexTyped = -1;
   particles: Phaser.GameObjects.Particles.ParticleEmitter[] = [];
   lastUpdate = Date.now();
+  velocity: number = 0;
   velocityConfig: {
     finalY: number;
     duration: number;
@@ -25,6 +26,7 @@ export class Word {
     const boardHeight = this.board.sys.game.canvas.height;
     const size = this.board.worldConfig.letterSize;
     const finalY = boardHeight;
+    this.velocity = generateRandomInteger(0.5, 1.3);
 
     this.y = board.worldConfig.letterSize * word.length * -1;
     this.velocityConfig = {
@@ -65,12 +67,14 @@ export class Word {
   }
 
   update() {
-    const { finalY, duration, currentTime, initialY } = this.velocityConfig;
     if (Date.now() > this.pressedWord) {
-      const progress = currentTime / duration;
-      const diff = finalY - initialY;
-      const elementY = initialY + diff * easeOutQuad(progress);
-      this.y = elementY;
+      this.y += this.velocity;
+
+      // const { finalY, duration, currentTime, initialY } = this.velocityConfig;
+      // const progress = currentTime / duration;
+      // const diff = finalY - initialY;
+      // const elementY = initialY + diff * easeOutSmooth(progress);
+      // this.y = elementY;
       this.velocityConfig.currentTime++;
     }
 

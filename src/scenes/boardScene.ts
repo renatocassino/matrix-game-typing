@@ -84,24 +84,21 @@ export class BoardScene extends Phaser.Scene {
 
   createNewWord() {
     const boardSize = this.sys.game.canvas.width;
-    let x = Math.floor(Math.random() * boardSize / this.worldConfig.letterSize);
-
-    let shouldCreate = false;
-    for (let i = 0; i < 10; i++) {
-      const found = this.words.find(word => word.x === x);
-      if (!found) {
-        shouldCreate = true;
-        break;
-      }
-
-      if (!shouldCreate) {
-        console.log('Not found any position :/')
-        return;
-      }
-      x = Math.floor(Math.random() * boardSize / this.worldConfig.letterSize);
-    }
+    const min = 1;
+    const max = Math.floor(boardSize / this.worldConfig.letterSize);
+    const allXs = Array.from({ length: max - min }, (_, i) => i + min);
+    const usedX = new Set(this.words.map(word => word.x));
 
     const word = getRandomWord(this.words.map(word => word.word[0]));
+
+    const possiblePositions = allXs.filter(num => !usedX.has(num));
+
+    if (possiblePositions.length === 0) {
+      return;
+    }
+
+    const x = possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
+
     if (!word) {
       console.log('Not found any word :/')
       return;
