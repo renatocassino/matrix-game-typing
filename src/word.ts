@@ -1,7 +1,7 @@
 import { assets } from "./game/constants/assets";
 import { gameEvents } from "./game/constants/events";
+import { BoardScene } from "./game/scenes/boardScene";
 import { Letter } from "./letter";
-import { BoardScene } from "./scenes/boardScene";
 import { LetterStatus, WordStatus } from "./types";
 import { generateRandomInteger } from "./utils/numbers";
 

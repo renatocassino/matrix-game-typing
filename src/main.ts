@@ -3,11 +3,11 @@ import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import 'vuetify/styles';
-import { Game } from './game';
+import { Game } from './game/game';
+import { BoardScene } from './game/scenes/boardScene';
+import { MenuScene } from './game/scenes/menuScene';
+import { ScoreScene } from './game/scenes/scoreScene';
 import App from './page/App.vue';
-import { BoardScene } from './scenes/boardScene';
-import { MenuScene } from './scenes/menuScene';
-import { ScoreScene } from './scenes/scoreScene';
 import './style.css';
 
 createApp(App).use(

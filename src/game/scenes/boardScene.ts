@@ -1,11 +1,11 @@
+import { Config } from "../../types";
+import { getRandomWord } from "../../utils/randomWord";
+import { Word } from "../../word";
 import { PauseToggleButton } from "../components/pauseToggleButton";
 import { Score } from "../components/score";
 import { VolumeButton } from "../components/volumeButton";
-import { assets } from "../game/constants/assets";
-import { gameEvents } from "../game/constants/events";
-import { getRandomWord } from "../randomWord";
-import { Config } from "../types";
-import { Word } from "../word";
+import { assets } from "../constants/assets";
+import { gameEvents } from "../constants/events";
 
 // TODO
 // Add waves - Wave 1 easy, wave 2 medium, wave 3 hard
@@ -51,14 +51,6 @@ export class BoardScene extends Phaser.Scene {
       yoyo: true,
       repeat: -1,
     });
-
-    this.emitter.on('bla', () => {
-      console.log('bla')
-    });
-
-    setInterval(() => {
-      this.emitter.emit('bla');
-    }, 2000)
 
     this.input.keyboard?.on('keydown', this.keyPress.bind(this));
 

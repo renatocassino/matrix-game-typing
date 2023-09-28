@@ -1,4 +1,4 @@
-import { assets } from "../game/constants/assets";
+import { assets } from "../constants/assets";
 
 const today = `000${new Date().getDate()}`.slice(-3);
 

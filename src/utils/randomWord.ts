@@ -1,5 +1,4 @@
-import { listOfWords } from './listOfWords.ts';
-
+import { listOfWords } from '../listOfWords.js';
 
 export const getRandomWord = (forbiddenLetters: string[]): string | null => {
   const clone = [...listOfWords];

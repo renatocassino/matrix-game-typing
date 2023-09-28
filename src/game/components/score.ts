@@ -1,5 +1,5 @@
-import { assets } from "../game/constants/assets";
-import { gameEvents } from "../game/constants/events";
+import { assets } from "../constants/assets";
+import { gameEvents } from "../constants/events";
 import { BoardScene } from "../scenes/boardScene";
 
 export type ScoreStatus = {
