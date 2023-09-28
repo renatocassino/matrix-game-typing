@@ -72,7 +72,7 @@ export class MenuScene extends Phaser.Scene {
     this.addPreloader();
 
     this.load.image(assets.bg.MENU_BACKGROUND, `bgs/${today}.jpeg`);
-    this.load.image(assets.bg.GAME_BACKGROUND, 'bgs/bg-game.jpg');
+    this.load.image(assets.bg.GAME_BACKGROUND, 'bgs/bg-game-02.jpg');
 
     this.load.audio(assets.audio.KEYPRESS, 'fx/keypress.wav');
     this.load.audio(assets.audio.KEYWRONG, 'fx/keywrong.mp3');

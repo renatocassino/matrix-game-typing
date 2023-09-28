@@ -35,7 +35,7 @@ export class BoardScene extends Phaser.Scene {
   }
 
   create() {
-    const background = this.add.image(0, 0, assets.bg.GAME_BACKGROUND);
+    const background = this.add.image(0, -600, assets.bg.GAME_BACKGROUND);
     background.setOrigin(0, 0);
     background.setAlpha(0.1);
 
@@ -43,7 +43,7 @@ export class BoardScene extends Phaser.Scene {
 
     this.tweens.add({
       targets: background,
-      alpha: 0.5,
+      alpha: 0.3,
       duration: 1000,
       ease: 'Sine.easeInOut',
       yoyo: true,
