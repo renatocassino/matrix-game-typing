@@ -17,8 +17,11 @@ import { SettingsType } from "../settings";
 // Add special power
 // Create modules to round, example: Just letters, just words with ASD, just words with ASDFGLKJH
 // Remove all big words
+// Add ads :)
+// Decide a name to game
+// Words starting with same key
 
-export class BoardScene extends Phaser.Scene {
+export class RoundScene extends Phaser.Scene {
   static readonly key = 'BoardScene';
   words: WordComponent[] = [];
   worldConfig: Config;
@@ -29,7 +32,7 @@ export class BoardScene extends Phaser.Scene {
   emitter: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
-    super({ key: BoardScene.key, ...(config ?? {}) });
+    super({ key: RoundScene.key, ...(config ?? {}) });
 
     this.worldConfig = {
       letterSize: 20,

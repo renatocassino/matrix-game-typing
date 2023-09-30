@@ -1,6 +1,6 @@
 import { assets } from "../constants/assets";
 import { gameEvents } from "../constants/events";
-import { BoardScene } from "../scenes/boardScene";
+import { RoundScene } from "../scenes/roundScene";
 import { ScoreScene } from "../scenes/scoreScene";
 
 export type ScoreStatus = {
@@ -42,7 +42,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
       wpmHistory: [],
     };
 
-    const board = this.scene as BoardScene;
+    const board = this.scene as RoundScene;
     board.emitter.on(gameEvents.HIT, this.hit.bind(this));
     board.emitter.on(gameEvents.PRESS_MISS, this.miss.bind(this));
     board.emitter.on(gameEvents.WORD_COMPLETED, this.increaseWord.bind(this));

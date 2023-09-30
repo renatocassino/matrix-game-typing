@@ -1,5 +1,5 @@
 import { LetterStatus } from '../../types';
-import { BoardScene } from '../scenes/boardScene';
+import { RoundScene } from '../scenes/roundScene';
 import { WordComponent } from './wordComponent';
 
 export class LetterComponent extends Phaser.GameObjects.Container {
@@ -7,7 +7,7 @@ export class LetterComponent extends Phaser.GameObjects.Container {
   status: LetterStatus;
 
   constructor(
-    private readonly board: BoardScene,
+    private readonly board: RoundScene,
     private readonly letter: string,
     private readonly index: number,
     private readonly word: WordComponent,

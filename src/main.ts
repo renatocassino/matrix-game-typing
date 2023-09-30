@@ -4,9 +4,9 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import 'vuetify/styles';
 import { Game } from './game/game';
-import { BoardScene } from './game/scenes/boardScene';
 import { MenuScene } from './game/scenes/menuScene';
 import { PreloadScene } from './game/scenes/preloadScene';
+import { RoundScene } from './game/scenes/roundScene';
 import { ScoreScene } from './game/scenes/scoreScene';
 import App from './page/App.vue';
 import './style.css';
@@ -25,7 +25,7 @@ window.addEventListener('load', () => {
     type: Phaser.AUTO,
     parent: 'game',
     backgroundColor: '#000000',
-    scene: [PreloadScene, MenuScene, BoardScene, ScoreScene],
+    scene: [PreloadScene, MenuScene, RoundScene, ScoreScene],
   };
 
   new Game(config);

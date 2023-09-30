@@ -2,7 +2,7 @@ import { LetterStatus, WordStatus } from "../../types";
 import { generateRandomInteger } from "../../utils/numbers";
 import { assets } from "../constants/assets";
 import { gameEvents } from "../constants/events";
-import { BoardScene } from "../scenes/boardScene";
+import { RoundScene } from "../scenes/roundScene";
 import { Settings } from "../settings";
 import { LetterComponent } from "./letterComponent";
 
@@ -22,7 +22,7 @@ export class WordComponent extends Phaser.GameObjects.Container {
   }
   pressedWord: number = Date.now();
 
-  constructor(private readonly board: BoardScene, readonly word: string, readonly x: number, y: number, readonly indexXPosition: number) {
+  constructor(private readonly board: RoundScene, readonly word: string, readonly x: number, y: number, readonly indexXPosition: number) {
     super(board, x, y)
     this.status = 'inactive';
 

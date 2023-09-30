@@ -1,6 +1,6 @@
 import { SettingsModalComponent } from "../components/settingsModalComponent";
 import { assets } from "../constants/assets";
-import { BoardScene } from "./boardScene";
+import { RoundScene } from "./roundScene";
 
 export class MenuScene extends Phaser.Scene {
   static key = 'MenuScene';
@@ -103,7 +103,7 @@ export class MenuScene extends Phaser.Scene {
 
     button.on('pointerdown', function () {
       self.input.setDefaultCursor('default');
-      scene.start(BoardScene.key);
+      scene.start(RoundScene.key);
     }, this);
   }
 
