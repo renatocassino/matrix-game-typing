@@ -18,7 +18,7 @@ export class LetterComponent extends Phaser.GameObjects.Container {
       0,
       this.index * size,
       this.letter,
-      { color: '#0F0', fontSize: `${size}px` },
+      { color: '#0F0', fontSize: `${size}px`, fontFamily: 'Orbitron' },
     ).setOrigin(0.5, 0);
 
     this.status = LetterStatus.Initial;
