@@ -48,6 +48,7 @@ export class ScoreScene extends Phaser.Scene {
       `WPM: ${this.scoreStatus?.wpm.toFixed(2) ?? 0}`,
       `Words Typed: ${this.scoreStatus?.wordsTyped ?? 0}`,
       `Precision: ${this.scoreStatus?.precision ?? 0}`,
+      `Lost words: ${this.scoreStatus?.lostWords ?? 0}`,
     ];
 
     texts.forEach((text, index) => {

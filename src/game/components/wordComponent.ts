@@ -121,10 +121,16 @@ export class WordComponent extends Phaser.GameObjects.Container {
       return true;
     }
 
-    return (
+    const disappeared = (
       this.y > this.velocityConfig.finalY ||
       this.velocityConfig.currentTime > this.velocityConfig.duration
     );
+
+    if (disappeared) {
+      this.board.emitter.emit(gameEvents.LOST_WORD, this);
+    }
+
+    return disappeared;
   }
 
   // @ts-ignore

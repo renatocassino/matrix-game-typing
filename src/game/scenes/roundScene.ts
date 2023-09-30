@@ -18,6 +18,7 @@ import { SettingsType } from "../settings";
 // Create modules to round, example: Just letters, just words with ASD, just words with ASDFGLKJH
 // Add ads :)
 // Decide a name to game
+// Buy a domain
 
 export class RoundScene extends Phaser.Scene {
   static readonly key = 'BoardScene';
