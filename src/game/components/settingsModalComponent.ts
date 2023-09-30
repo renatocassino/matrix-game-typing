@@ -22,7 +22,7 @@ export class SettingsModalComponent extends Phaser.GameObjects.Container {
     // const areaHeight = bgSettings.width * bgSettings.scaleX;
     this.add(bgSettings);
 
-    const settingsText = scene.add.text(0, 0, 'Settings', { fontSize: '24px', color: '#fff' }).setOrigin(0.5, 0.5).setY(-220);
+    const settingsText = scene.add.text(0, 0, 'Settings', { font: '24px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-220);
     this.add(settingsText);
 
     scene.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
@@ -31,7 +31,7 @@ export class SettingsModalComponent extends Phaser.GameObjects.Container {
       }
     });
 
-    const text = scene.add.text(0, 0, 'Press ESC to close', { fontSize: '14px', color: '#fff' }).setOrigin(0.5, 0.5).setY(230);
+    const text = scene.add.text(0, 0, 'Press ESC to close', { font: '14px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(230);
     this.add(text);
 
     const closeButton = scene.add.image(0, 0, assets.icon.CLOSE).setOrigin(0.5, 0.5).setX(areaWidth / 2 - 30).setY(-245).setInteractive().on('pointerdown', () => {
@@ -44,10 +44,10 @@ export class SettingsModalComponent extends Phaser.GameObjects.Container {
       scene.input.setDefaultCursor('default');
     });
 
-    const musicText = scene.add.text(0, 0, 'Music Volume', { fontSize: '18px', color: '#fff' }).setOrigin(0.5, 0.5).setY(-150);
+    const musicText = scene.add.text(0, 0, 'Music Volume', { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-150);
     this.add(musicText);
 
-    const musicValue = scene.add.text(0, 0, asPercentage(settings.getConfig('musicVolume')), { fontSize: '18px', color: '#fff' }).setOrigin(0.5, 0.5).setY(-120);
+    const musicValue = scene.add.text(0, 0, asPercentage(settings.getConfig('musicVolume')), { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-120);
     this.add(musicValue);
 
     const increaseVolume = scene.add.image(0, 0, assets.icon.PLUS).setOrigin(0.5, 0.5).setX(50).setY(-120).setInteractive().on('pointerdown', () => {
@@ -78,7 +78,7 @@ export class SettingsModalComponent extends Phaser.GameObjects.Container {
     });
     this.add(decreaseVolume);
 
-    const fxText = scene.add.text(0, 0, 'FX Volume', { fontSize: '18px', color: '#fff' }).setOrigin(0.5, 0.5).setY(-60);
+    const fxText = scene.add.text(0, 0, 'FX Volume', { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-60);
     this.add(fxText);
 
     const fxValue = scene.add.text(0, 0, asPercentage(settings.getConfig('fxVolume')), { fontSize: '18px', color: '#fff' }).setOrigin(0.5, 0.5).setY(-30);
