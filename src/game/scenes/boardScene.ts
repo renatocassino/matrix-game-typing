@@ -1,7 +1,9 @@
 import { Config } from "../../types";
+import { isMobile } from "../../utils/isMobile";
 import { getRandomWord } from "../../utils/randomWord";
 import { PauseToggleButton } from "../components/pauseToggleButton";
 import { ScoreComponent } from "../components/scoreComponent";
+import { VirtualKeyboard } from "../components/virtualKeyboard";
 import { VolumeButton } from "../components/volumeButton";
 import { WordComponent } from "../components/wordComponent";
 import { assets } from "../constants/assets";
@@ -87,6 +89,10 @@ export class BoardScene extends Phaser.Scene {
     this.emitter.on(gameEvents.WORD_COMPLETED, () => {
       this.currentWord = undefined;
     });
+
+    if (isMobile()) {
+      new VirtualKeyboard(this, 0, this.sys.game.canvas.height - 130);
+    }
   }
 
   createNewWord() {
