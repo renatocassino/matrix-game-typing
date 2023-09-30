@@ -35,11 +35,12 @@ export class VirtualKeyboard extends Phaser.GameObjects.Container {
     };
 
     let xPosition = letterSize / 2;
+    const font = '22px Orbitron';
 
     for (let i = 0; i < firstLine.length; i++) {
       const area = this.scene.add.rectangle(xPosition, 30, letterSize, 40, 0x000000, 0.5).setOrigin(0.5, 0.5);
       const button = self.scene.add.text(xPosition, 30, firstLine[i], {
-        fontSize: `24px`, color: '#ffffff',
+        font, color: '#ffffff',
       }).setOrigin(0.5, 0.5);
       addKeyCommand(area, firstLine[i]);
       this.add(area);
@@ -51,7 +52,7 @@ export class VirtualKeyboard extends Phaser.GameObjects.Container {
     for (let i = 0; i < secondLine.length; i++) {
       const area = this.scene.add.rectangle(xPosition, 75, letterSize, 40, 0x000000, 0.5).setOrigin(0.5, 0.5);
       const button = self.scene.add.text(xPosition, 75, secondLine[i], {
-        fontSize: `24px`, color: '#ffffff',
+        font, color: '#ffffff',
       }).setOrigin(0.5, 0.5);
       addKeyCommand(area, secondLine[i]);
       this.add(area);
@@ -63,7 +64,7 @@ export class VirtualKeyboard extends Phaser.GameObjects.Container {
     for (let i = 0; i < thirdLine.length; i++) {
       const area = this.scene.add.rectangle(xPosition, 120, letterSize, 40, 0x000000, 0.5).setOrigin(0.5, 0.5);
       const button = self.scene.add.text(xPosition, 120, thirdLine[i], {
-        fontSize: `24px`, color: '#ffffff',
+        font, color: '#ffffff',
       }).setOrigin(0.5, 0.5);
       addKeyCommand(area, thirdLine[i]);
       this.add(area);

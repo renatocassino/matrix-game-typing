@@ -52,7 +52,7 @@ export class MenuScene extends Phaser.Scene {
     const boardWidth = this.sys.game.canvas.width;
     // const boardHeight = this.sys.game.canvas.height;
     this.add.text(boardWidth / 2, 40, 'Type Matrix\nWar', {
-      fontFamily: 'Arial',
+      fontFamily: 'Orbitron',
       fontSize: '80px',
       color: '#ffffff',
       align: 'center',
@@ -74,7 +74,7 @@ export class MenuScene extends Phaser.Scene {
 
     const scene = this.scene;
     const button = this.add.text(boardWidth / 2, boardHeight / 2 + 80, 'New Game', {
-      fontFamily: 'Arial',
+      fontFamily: 'Orbitron',
       fontSize: '22px',
       color: '#ffffff',
       shadow: {

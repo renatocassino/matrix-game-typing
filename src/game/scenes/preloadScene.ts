@@ -21,7 +21,7 @@ export class PreloadScene extends Phaser.Scene {
       y: height / 2 - 140,
       text: 'Loading...',
       style: {
-        font: '20px monospace',
+        font: '20px Orbitron',
         color: '#ffffff'
       }
     }).setOrigin(0.5, 0.5);
@@ -31,7 +31,7 @@ export class PreloadScene extends Phaser.Scene {
       y: height / 2 - 5,
       text: '0%',
       style: {
-        font: '18px monospace',
+        font: '18px Orbitron',
         color: '#ffffff'
       }
     }).setOrigin(0.5, 0.5);
@@ -41,7 +41,7 @@ export class PreloadScene extends Phaser.Scene {
       y: height / 2 + 50,
       text: '',
       style: {
-        font: '18px monospace',
+        font: '18px Orbitron',
         color: '#ffffff'
       }
     }).setOrigin(0.5, 0.5);

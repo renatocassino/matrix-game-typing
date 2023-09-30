@@ -26,6 +26,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
 
   constructor(readonly scene: Phaser.Scene, readonly x: number, readonly y: number) {
     super(scene, x, y);
+    this.visible = false;
 
     this.lastSecond = null;
 

@@ -35,10 +35,10 @@ export class ScoreScene extends Phaser.Scene {
     const boardHeight = this.sys.game.canvas.height;
 
     this.add.image(boardWidth / 2, boardHeight / 2, assets.ui.CARD).setScale(0.7).setAlpha(0.6).setRotation(Phaser.Math.DegToRad(90));
-    const style = { color: '#FFF', font: '16px Arial' };
+    const style = { color: '#FFF', font: '16px Orbitron' };
     const yText = 215;
 
-    this.add.text(boardWidth / 2, boardHeight / 2 - 200, 'Score', { font: '32px Arial', color: '#fff' }).setOrigin(0.5, 0.5);
+    this.add.text(boardWidth / 2, boardHeight / 2 - 200, 'Score', { font: '32px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5);
 
     const texts = [
       `Keys Pressed: ${this.scoreStatus?.keysPressed ?? 0}`,
@@ -54,7 +54,7 @@ export class ScoreScene extends Phaser.Scene {
       this.add.text(boardWidth / 2, yText + (index * 25), text, style).setOrigin(0.5, 0);
     });
 
-    const scoreGraph = this.add.text(this.cameras.main.width / 2, 440, 'See graph', { color: '#FFF', font: '20px Arial' }).setOrigin(0.5);
+    const scoreGraph = this.add.text(this.cameras.main.width / 2, 440, 'See graph', { color: '#FFF', font: '20px Orbitron' }).setOrigin(0.5);
     scoreGraph.setInteractive();
     scoreGraph.on('pointerdown', () => {
       (window as CustomWindow).openScoreModal();
@@ -72,7 +72,7 @@ export class ScoreScene extends Phaser.Scene {
       self.input.setDefaultCursor('default');
     });;
 
-    const backToMenuText = this.add.text(this.cameras.main.width / 2, 500, 'Back to menu', { color: '#FFF', font: '20px Arial' }).setOrigin(0.5);
+    const backToMenuText = this.add.text(this.cameras.main.width / 2, 500, 'Back to menu', { color: '#FFF', font: '20px Orbitron' }).setOrigin(0.5);
     backToMenuText.setInteractive();
     backToMenuText.on('pointerdown', () => {
       this.scene.start(MenuScene.key);
