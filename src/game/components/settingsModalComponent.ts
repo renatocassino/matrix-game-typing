@@ -3,7 +3,7 @@ import { asPercentage } from "../../utils/string";
 import { assets } from "../constants/assets";
 import { Settings } from "../settings";
 
-export class SettingsComponent extends Phaser.GameObjects.Container {
+export class SettingsModalComponent extends Phaser.GameObjects.Container {
   constructor(scene: Scene, x: number, y: number) {
     super(scene, x, y);
     this.visible = false;

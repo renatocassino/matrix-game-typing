@@ -3,6 +3,7 @@ import { generateRandomInteger } from "../../utils/numbers";
 import { assets } from "../constants/assets";
 import { gameEvents } from "../constants/events";
 import { BoardScene } from "../scenes/boardScene";
+import { SettingsType } from "../settings";
 import { Letter } from "./letter";
 
 export class Word extends Phaser.GameObjects.Container {
@@ -65,11 +66,13 @@ export class Word extends Phaser.GameObjects.Container {
   }
 
   keyNextLetter() {
+    const settings = this.scene.game.registry.get('_settingsValue') as SettingsType;
+
     if (this.status !== 'active') {
       return;
     }
 
-    this.board.sound.play(assets.audio.KEYPRESS);
+    this.board.sound.play(assets.audio.KEYPRESS, { volume: settings.fxVolume });
     if (this.indexTyped === -1) {
       this.indexTyped = 0;
     }
@@ -104,7 +107,7 @@ export class Word extends Phaser.GameObjects.Container {
     // });
 
     if (this.indexTyped === this.word.length) {
-      this.board.sound.play(assets.audio.EXPLOSION_SMALL);
+      this.board.sound.play(assets.audio.EXPLOSION_SMALL, { volume: settings.fxVolume });
       this.status = 'completed';
       this.board.score.increateWord();
 

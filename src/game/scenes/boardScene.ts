@@ -6,6 +6,7 @@ import { VolumeButton } from "../components/volumeButton";
 import { Word } from "../components/word";
 import { assets } from "../constants/assets";
 import { gameEvents } from "../constants/events";
+import { SettingsType } from "../settings";
 
 // TODO
 // Add waves - Wave 1 easy, wave 2 medium, wave 3 hard
@@ -32,6 +33,7 @@ export class BoardScene extends Phaser.Scene {
   }
 
   create() {
+    const settings = this.game.registry.get('_settingsValue') as SettingsType;
     const background = this.add.image(0, -600, assets.bg.GAME_BACKGROUND);
     background.setOrigin(0, 0);
     background.setAlpha(0.1);
@@ -39,7 +41,7 @@ export class BoardScene extends Phaser.Scene {
     this.words = [];
     this.currentWord = undefined;
 
-    this.sound.play(assets.audio.GAME_MUSIC, { volume: 0.5 });
+    this.sound.play(assets.audio.GAME_MUSIC, { volume: settings.musicVolume, loop: true });
 
     this.tweens.add({
       targets: background,

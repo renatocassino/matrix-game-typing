@@ -1,4 +1,4 @@
-import { SettingsComponent } from "../components/settingsComponent";
+import { SettingsModalComponent } from "../components/settingsModalComponent";
 import { assets } from "../constants/assets";
 
 const today = `000${new Date().getDate()}`.slice(-3);
@@ -205,7 +205,7 @@ export class MenuScene extends Phaser.Scene {
     const self = this;
     const settings = this.add.image(this.sys.game.canvas.width - 20, 20, assets.icon.SETTINGS).setOrigin(1, 0).setInteractive().setScale(1);
 
-    const settingComponent = new SettingsComponent(this, this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2);
+    const settingComponent = new SettingsModalComponent(this, this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2);
 
 
     settings.on('pointerdown', () => {
