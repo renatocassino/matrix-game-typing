@@ -4,9 +4,6 @@
   background-color: #242424;
 }
 
-body {
-}
-
 .content {
   justify-content: center;
   text-align: center;
@@ -25,4 +22,11 @@ h1 {
   max-width: 1280px;
   margin: 0 auto;
   text-align: center;
+}
+
+
+@media (max-width: 680px) {
+  #bmc-wbtn {
+    display: none !important;
+  }
 }

@@ -5,7 +5,7 @@ export class VirtualKeyboard extends Phaser.GameObjects.Container {
 
     const boardWidth = scene.sys.game.canvas.width;
 
-    const bg = scene.add.rectangle(0, 0, boardWidth, 130, 0x007700, 0.5).setOrigin(0, 0);
+    const bg = scene.add.rectangle(0, 0, boardWidth, 150, 0x007700, 0.5).setOrigin(0, 0);
     this.add(bg);
 
     this.buildKeyboard();
@@ -26,41 +26,47 @@ export class VirtualKeyboard extends Phaser.GameObjects.Container {
     const availableWidth = boardWidth - totalSpacing;
     const letterSize = availableWidth / firstLine.length;
 
-    const addKeyCommand = (button: Phaser.GameObjects.Text) => {
+    const addKeyCommand = (button: Phaser.GameObjects.Rectangle, key: string) => {
       button.setInteractive();
       button.on('pointerdown', () => {
-        console.log('Key press :)', button.text);
-        self.scene.input.keyboard?.emit('keydown', { key: button.text.toLowerCase() });
+        console.log('Key press :)', key);
+        self.scene.input.keyboard?.emit('keydown', { key: key.toLowerCase() });
       });
     };
 
     let xPosition = letterSize / 2;
 
     for (let i = 0; i < firstLine.length; i++) {
-      const button = self.scene.add.text(xPosition, 25, firstLine[i], {
+      const area = this.scene.add.rectangle(xPosition, 30, letterSize, 40, 0x000000, 0.5).setOrigin(0.5, 0.5);
+      const button = self.scene.add.text(xPosition, 30, firstLine[i], {
         fontSize: `24px`, color: '#ffffff',
       }).setOrigin(0.5, 0.5);
-      addKeyCommand(button);
+      addKeyCommand(area, firstLine[i]);
+      this.add(area);
       this.add(button);
       xPosition += letterSize + letterSpacing;
     }
 
     xPosition = letterSize;
     for (let i = 0; i < secondLine.length; i++) {
-      const button = self.scene.add.text(xPosition, 65, secondLine[i], {
+      const area = this.scene.add.rectangle(xPosition, 75, letterSize, 40, 0x000000, 0.5).setOrigin(0.5, 0.5);
+      const button = self.scene.add.text(xPosition, 75, secondLine[i], {
         fontSize: `24px`, color: '#ffffff',
       }).setOrigin(0.5, 0.5);
-      addKeyCommand(button);
+      addKeyCommand(area, secondLine[i]);
+      this.add(area);
       this.add(button);
       xPosition += letterSize + letterSpacing;
     }
 
     xPosition = letterSize * 2;
     for (let i = 0; i < thirdLine.length; i++) {
-      const button = self.scene.add.text(xPosition, 105, thirdLine[i], {
+      const area = this.scene.add.rectangle(xPosition, 120, letterSize, 40, 0x000000, 0.5).setOrigin(0.5, 0.5);
+      const button = self.scene.add.text(xPosition, 120, thirdLine[i], {
         fontSize: `24px`, color: '#ffffff',
       }).setOrigin(0.5, 0.5);
-      addKeyCommand(button);
+      addKeyCommand(area, thirdLine[i]);
+      this.add(area);
       this.add(button);
       xPosition += letterSize + letterSpacing;
     }

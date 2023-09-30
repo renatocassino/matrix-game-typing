@@ -91,7 +91,7 @@ export class BoardScene extends Phaser.Scene {
     });
 
     if (isMobile()) {
-      new VirtualKeyboard(this, 0, this.sys.game.canvas.height - 130);
+      new VirtualKeyboard(this, 0, this.sys.game.canvas.height - 150);
     }
   }
 
@@ -122,6 +122,7 @@ export class BoardScene extends Phaser.Scene {
     if (!keyCode.match(/^[a-z0-9]$/i)) {
       return
     }
+    console.log(this.currentWord?.word, keyCode, this.currentWord?.word[this.currentWord?.indexTyped]);
 
     if (!this.currentWord) {
       this.currentWord = this.words.find(word => word.word[0] === keyCode);
