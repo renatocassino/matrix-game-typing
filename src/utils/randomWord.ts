@@ -1,17 +1,14 @@
 import { listOfWords } from '../listOfWords';
 
 export const getRandomWord = (forbiddenLetters: string[]): string | null => {
-  const clone = [...listOfWords];
+  const letterUsed = new Set(forbiddenLetters);
+  const clone = [...listOfWords].filter((word) => letterUsed.has(word[0]) === false);
 
   while (clone.length > 1) {
     const index = Math.floor(Math.random() * clone.length);
     const word = clone[index];
     clone.splice(index, 1);
     if (!word) {
-      continue;
-    }
-
-    if (forbiddenLetters.some(letter => word.toString().startsWith(letter))) {
       continue;
     }
 
