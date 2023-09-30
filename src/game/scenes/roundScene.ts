@@ -19,6 +19,7 @@ import { SettingsType } from "../settings";
 // Add ads :)
 // Decide a name to game
 // Buy a domain
+// Fix background image in round
 
 export class RoundScene extends Phaser.Scene {
   static readonly key = 'BoardScene';
@@ -52,10 +53,11 @@ export class RoundScene extends Phaser.Scene {
   }
 
   create() {
+    const boardWidth = this.sys.game.canvas.width;
+    const boardHeight = this.sys.game.canvas.height;
+
     const settings = this.game.registry.get('_settingsValue') as SettingsType;
-    const background = this.add.image(0, -200, assets.bg.GAME_BACKGROUND);
-    background.setOrigin(0, 0);
-    background.setAlpha(0.1);
+    const background = this.add.image(boardWidth / 2, boardHeight / 2, assets.bg.GAME_BACKGROUND).setOrigin(0.5, 0.5).setAlpha(0.1).setScale(1.5);
 
     this.words = [];
     this.currentWord = undefined;
