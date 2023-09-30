@@ -20,7 +20,7 @@ createApp(App).use(
 
 window.addEventListener('load', () => {
   const config: Phaser.Types.Core.GameConfig = {
-    width: Math.min(850, window.innerWidth),
+    width: Math.min(1200, window.innerWidth),
     height: Math.min(720, window.innerHeight),
     type: Phaser.AUTO,
     parent: 'game',
