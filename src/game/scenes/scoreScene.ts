@@ -34,23 +34,24 @@ export class ScoreScene extends Phaser.Scene {
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
-    this.add.image(boardWidth / 2, boardHeight / 2, assets.ui.CARD).setScale(0.6).setAlpha(0.6);
-    const xText = 240;
+    this.add.image(boardWidth / 2, boardHeight / 2, assets.ui.CARD).setScale(0.7).setAlpha(0.6).setRotation(Phaser.Math.DegToRad(90));
     const style = { color: '#FFF', font: '16px Arial' };
     const yText = 215;
 
+    this.add.text(boardWidth / 2, boardHeight / 2 - 200, 'Score', { font: '32px Arial', color: '#fff' }).setOrigin(0.5, 0.5);
+
     const texts = [
-      `Keys Pressed: ${this.scoreStatus?.keysPressed}`,
-      `Misses: ${this.scoreStatus?.misses}`,
-      `Longest Streak: ${this.scoreStatus?.longestStreak}`,
-      `Score: ${this.scoreStatus?.score}`,
-      `WPM: ${this.scoreStatus?.wpm.toFixed(2)}`,
-      `Words Typed: ${this.scoreStatus?.wordsTyped}`,
-      `Precision: ${this.scoreStatus?.precision}`,
+      `Keys Pressed: ${this.scoreStatus?.keysPressed ?? 0}`,
+      `Misses: ${this.scoreStatus?.misses ?? 0}`,
+      `Longest Streak: ${this.scoreStatus?.longestStreak ?? 0}`,
+      `Score: ${this.scoreStatus?.score ?? 0}`,
+      `WPM: ${this.scoreStatus?.wpm.toFixed(2) ?? 0}`,
+      `Words Typed: ${this.scoreStatus?.wordsTyped ?? 0}`,
+      `Precision: ${this.scoreStatus?.precision ?? 0}`,
     ];
 
     texts.forEach((text, index) => {
-      this.add.text(xText, yText + (index * 25), text, style);
+      this.add.text(boardWidth / 2, yText + (index * 25), text, style).setOrigin(0.5, 0);
     });
 
     const scoreGraph = this.add.text(this.cameras.main.width / 2, 440, 'See graph', { color: '#FFF', font: '20px Arial' }).setOrigin(0.5);
@@ -85,7 +86,7 @@ export class ScoreScene extends Phaser.Scene {
   }
 
   addBackground() {
-    const bg = this.textures.get('background-score').get(0);
+    const bg = this.textures.get(assets.bg.SCORE).get(0);
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
@@ -94,7 +95,7 @@ export class ScoreScene extends Phaser.Scene {
 
     const scaleFactor = Math.max(widthRatio, heightRatio);
 
-    const img = this.add.image(boardWidth / 2, boardHeight / 2, 'background-score');
+    const img = this.add.image(boardWidth / 2, boardHeight / 2, assets.bg.SCORE).setOrigin(0.5, 0.5);
     img.setScale(scaleFactor);
   }
 

@@ -14,7 +14,7 @@ onMounted(() => {
 <template>
   <v-dialog
     v-model="dialog"
-    width="800"
+    width="500"
   >
     <v-card>
       <v-card-title>

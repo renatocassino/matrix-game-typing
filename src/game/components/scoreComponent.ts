@@ -22,7 +22,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
   startTime: number = Date.now();
   lastSecond: number | null;
 
-  roundTime: number = 40;
+  roundTime: number = 50;
 
   constructor(readonly scene: Phaser.Scene, readonly x: number, readonly y: number) {
     super(scene, x, y);
@@ -44,7 +44,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
     const board = this.scene as BoardScene;
     board.emitter.on(gameEvents.HIT, this.hit.bind(this));
     board.emitter.on(gameEvents.PRESS_MISS, this.miss.bind(this));
-    board.emitter.on(gameEvents.WORD_COMPLETED, this.increateWord.bind(this));
+    board.emitter.on(gameEvents.WORD_COMPLETED, this.increaseWord.bind(this));
 
     this.add(this.scene.add.image(0, 0, assets.ui.CARD).setOrigin(0, 0).setScale(0.37).setAlpha(0.6));
     this.text = this.scene.add.text(20, 10, '', { color: '#0F0' });
@@ -67,7 +67,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
     this.status.keysPressed++;
   }
 
-  increateWord() {
+  increaseWord() {
     this.status.wordsTyped += 1;
   }
 
@@ -88,7 +88,6 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
       this.scene.sound.stopAll();
       this.scene.scene.start(ScoreScene.key, { score: this.status });
     }
-
 
     this.status.wpm = wpm;
 

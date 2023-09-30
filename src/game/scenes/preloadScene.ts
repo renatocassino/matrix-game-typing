@@ -91,7 +91,7 @@ export class PreloadScene extends Phaser.Scene {
 
     const scoreId = `000${Math.floor((new Date().getDate() + 20) % 31) + 1}`.slice(-3);
 
-    this.load.image('background-score', `bgs/${scoreId}.jpeg`);
+    this.load.image(assets.bg.SCORE, `bgs/${scoreId}.jpeg`);
     this.load.image(assets.ui.CARD, 'card.png');
   }
 

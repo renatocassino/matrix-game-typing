@@ -109,7 +109,7 @@ export class WordComponent extends Phaser.GameObjects.Container {
     if (this.indexTyped === this.word.length) {
       this.board.sound.play(assets.audio.EXPLOSION_SMALL, { volume: settings.getConfig('fxVolume') });
       this.status = 'completed';
-      this.emit(gameEvents.WORD_COMPLETED, this);
+      this.board.emitter.emit(gameEvents.WORD_COMPLETED, this);
 
       return;
     }
