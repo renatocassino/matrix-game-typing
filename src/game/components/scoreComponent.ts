@@ -14,7 +14,7 @@ export type ScoreStatus = {
   wpmHistory: number[];
 };
 
-export class Score extends Phaser.GameObjects.Container {
+export class ScoreComponent extends Phaser.GameObjects.Container {
   status: ScoreStatus;
 
   text?: Phaser.GameObjects.Text;

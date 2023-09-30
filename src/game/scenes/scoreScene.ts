@@ -1,5 +1,5 @@
 import { CustomWindow } from "../../commonTypes";
-import { ScoreStatus } from "../components/score";
+import { ScoreStatus } from "../components/scoreComponent";
 import { assets } from "../constants/assets";
 
 export class ScoreScene extends Phaser.Scene {

@@ -4,10 +4,10 @@ import { assets } from "../constants/assets";
 import { gameEvents } from "../constants/events";
 import { BoardScene } from "../scenes/boardScene";
 import { Settings } from "../settings";
-import { Letter } from "./letter";
+import { LetterComponent } from "./letterComponent";
 
-export class Word extends Phaser.GameObjects.Container {
-  letters: Letter[] = [];
+export class WordComponent extends Phaser.GameObjects.Container {
+  letters: LetterComponent[] = [];
   status: WordStatus;
   y: number;
   indexTyped = -1;
@@ -39,7 +39,7 @@ export class Word extends Phaser.GameObjects.Container {
     };
 
     this.word.split('').forEach((letter, index) => {
-      const currentLetter = new Letter(this.board, letter, index, this);
+      const currentLetter = new LetterComponent(this.board, letter, index, this);
       this.letters.push(currentLetter);
       this.add(currentLetter);
     });

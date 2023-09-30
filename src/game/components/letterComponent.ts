@@ -1,8 +1,8 @@
 import { LetterStatus } from '../../types';
 import { BoardScene } from '../scenes/boardScene';
-import { Word } from './word';
+import { WordComponent } from './wordComponent';
 
-export class Letter extends Phaser.GameObjects.Container {
+export class LetterComponent extends Phaser.GameObjects.Container {
   text: Phaser.GameObjects.Text;
   status: LetterStatus;
 
@@ -10,7 +10,7 @@ export class Letter extends Phaser.GameObjects.Container {
     private readonly board: BoardScene,
     private readonly letter: string,
     private readonly index: number,
-    private readonly word: Word,
+    private readonly word: WordComponent,
   ) {
     super(board, 0, 0);
     const size = this.board.worldConfig.letterSize;

@@ -1,9 +1,9 @@
 import { Config } from "../../types";
 import { getRandomWord } from "../../utils/randomWord";
 import { PauseToggleButton } from "../components/pauseToggleButton";
-import { Score } from "../components/score";
+import { ScoreComponent } from "../components/scoreComponent";
 import { VolumeButton } from "../components/volumeButton";
-import { Word } from "../components/word";
+import { WordComponent } from "../components/wordComponent";
 import { assets } from "../constants/assets";
 import { gameEvents } from "../constants/events";
 import { SettingsType } from "../settings";
@@ -16,11 +16,11 @@ import { SettingsType } from "../settings";
 // Create a keyboard when is mobile
 
 export class BoardScene extends Phaser.Scene {
-  words: Word[] = [];
+  words: WordComponent[] = [];
   worldConfig: Config;
   lastUpdate = Date.now();
-  currentWord?: Word;
-  score!: Score;
+  currentWord?: WordComponent;
+  score!: ScoreComponent;
   cursor!: Phaser.GameObjects.Rectangle;
   emitter: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
 
@@ -56,7 +56,7 @@ export class BoardScene extends Phaser.Scene {
 
     new VolumeButton(this, this.sys.game.canvas.width - 60, 20);
     new PauseToggleButton(this, this.sys.game.canvas.width - 30, 20);
-    this.score = new Score(this, 10, 10);
+    this.score = new ScoreComponent(this, 10, 10);
 
     // const emitter = this.add.particles(0, 0, 'flares', {
     //   frame: { frames: ['white'], },
@@ -103,7 +103,7 @@ export class BoardScene extends Phaser.Scene {
     const word = getRandomWord(this.words.map(word => word.word[0]));
     if (word) {
       const x = possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
-      this.words.push(new Word(this, word.toLowerCase(), x * this.worldConfig.letterSize, 0, x));
+      this.words.push(new WordComponent(this, word.toLowerCase(), x * this.worldConfig.letterSize, 0, x));
     }
   }
 
