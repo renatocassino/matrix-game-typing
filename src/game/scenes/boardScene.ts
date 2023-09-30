@@ -15,7 +15,8 @@ import { SettingsType } from "../settings";
 // Make a menu when pause with option to stop sounds, restart, etc
 // Add a timer before start with time of music (na virada)
 // Add special power
-// Create a keyboard when is mobile
+// Create modules to round, example: Just letters, just words with ASD, just words with ASDFGLKJH
+// Remove all big words
 
 export class BoardScene extends Phaser.Scene {
   static readonly key = 'BoardScene';
