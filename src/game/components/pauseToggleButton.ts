@@ -2,7 +2,6 @@ import { assets } from "../constants/assets";
 
 export class PauseToggleButton extends Phaser.GameObjects.Container {
   private pauseToggle: Phaser.GameObjects.Image;
-  private paused: boolean = false;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y);
@@ -22,14 +21,16 @@ export class PauseToggleButton extends Phaser.GameObjects.Container {
   }
 
   private togglePause() {
-    if (this.paused) {
-      this.pauseToggle.setTexture(assets.icon.PLAY);
-      this.scene.scene.pause("default");
+    if (this.scene.game.isPaused) {
+      this.scene.game.resume();
+      setTimeout(() => {
+        this.pauseToggle.setTexture(assets.icon.PAUSE);
+      }, 50)
     } else {
-      this.pauseToggle.setTexture(assets.icon.PAUSE);
-      this.scene.scene.resume("default");
+      this.pauseToggle.setTexture(assets.icon.PLAY);
+      setTimeout(() => {
+        this.scene.game.pause();
+      }, 50);
     }
-
-    this.paused = !this.paused;
   }
 }
