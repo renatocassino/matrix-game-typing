@@ -22,7 +22,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
   startTime: number = Date.now();
   lastSecond: number | null;
 
-  roundTime: number = 50;
+  roundTime: number;
 
   constructor(readonly scene: Phaser.Scene, readonly x: number, readonly y: number) {
     super(scene, x, y);
@@ -41,6 +41,8 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
       precision: '0.00%',
       wpmHistory: [],
     };
+
+    this.roundTime = (scene as RoundScene).roundConfig.timeLimit;
 
     const board = this.scene as RoundScene;
     board.emitter.on(gameEvents.HIT, this.hit.bind(this));

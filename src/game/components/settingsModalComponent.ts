@@ -44,7 +44,7 @@ export class SettingsModalComponent extends Phaser.GameObjects.Container {
       scene.input.setDefaultCursor('default');
     });
 
-    const musicText = scene.add.text(0, 0, 'Music Volume', { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-150).setAlpha(0.8);
+    const musicText = scene.add.text(0, 0, 'Music Volume', { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-150).setAlpha(0.6);
     this.add(musicText);
 
     const musicValue = scene.add.text(0, 0, asPercentage(settings.getConfig('musicVolume')), { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-120);
@@ -78,7 +78,7 @@ export class SettingsModalComponent extends Phaser.GameObjects.Container {
     });
     this.add(decreaseVolume);
 
-    const fxText = scene.add.text(0, 0, 'FX Volume', { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-60).setAlpha(0.8);
+    const fxText = scene.add.text(0, 0, 'FX Volume', { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-60).setAlpha(0.6);
     this.add(fxText);
 
     const fxValue = scene.add.text(0, 0, asPercentage(settings.getConfig('fxVolume')), { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-30);

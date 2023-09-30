@@ -20,3 +20,9 @@ export const getRandomWord = (forbiddenLetters: string[]): string | null => {
 
   return null;
 }
+
+export const getRandomLetter = (forbiddenLetters: string[]): string => {
+  const letters = 'abcdefghijklmnopqrstuvwxyz';
+  const availableLetters = letters.split('').filter(letter => !forbiddenLetters.includes(letter));
+  return availableLetters[Math.floor(Math.random() * availableLetters.length)];
+}

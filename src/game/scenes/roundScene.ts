@@ -1,6 +1,6 @@
-import { Config } from "../../types";
+import { Config, GameLevel, GameMode, RoundConfig, WordMode } from "../../types";
 import { isMobile } from "../../utils/isMobile";
-import { getRandomWord } from "../../utils/randomWord";
+import { getRandomLetter, getRandomWord } from "../../utils/randomWord";
 import { PauseToggleButton } from "../components/pauseToggleButton";
 import { ScoreComponent } from "../components/scoreComponent";
 import { VirtualKeyboard } from "../components/virtualKeyboard";
@@ -16,10 +16,8 @@ import { SettingsType } from "../settings";
 // Add a timer before start with time of music (na virada)
 // Add special power
 // Create modules to round, example: Just letters, just words with ASD, just words with ASDFGLKJH
-// Remove all big words
 // Add ads :)
 // Decide a name to game
-// Words starting with same key
 
 export class RoundScene extends Phaser.Scene {
   static readonly key = 'BoardScene';
@@ -30,13 +28,26 @@ export class RoundScene extends Phaser.Scene {
   score!: ScoreComponent;
   cursor!: Phaser.GameObjects.Rectangle;
   emitter: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
+  roundConfig: RoundConfig;
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: RoundScene.key, ...(config ?? {}) });
 
+    this.roundConfig = {
+      gameMode: GameMode.Words,
+      timeLimit: 60,
+      level: GameLevel.Easy,
+      wordMode: WordMode.Duration,
+      wordDropInterval: 800,
+    };
+
+    if (this.roundConfig.gameMode === GameMode.Letters) {
+      this.roundConfig.wordDropInterval = 300;
+    }
+
     this.worldConfig = {
       letterSize: 20,
-    }
+    };
   }
 
   create() {
@@ -111,7 +122,10 @@ export class RoundScene extends Phaser.Scene {
       return;
     }
 
-    const word = getRandomWord(this.words.map(word => word.word[0]));
+    const usedLetters = this.words.map(word => word.word[0]);
+
+    const word = this.roundConfig.gameMode === GameMode.Words ? getRandomWord(usedLetters) : getRandomLetter(usedLetters);
+
     if (word) {
       const x = possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
       this.words.push(new WordComponent(this, word.toLowerCase(), x * this.worldConfig.letterSize, 0, x));
@@ -156,7 +170,7 @@ export class RoundScene extends Phaser.Scene {
     const now = Date.now();
     const delta = now - this.lastUpdate;
 
-    if (delta > 1000 || this.words.length === 0) {
+    if (delta > this.roundConfig.wordDropInterval || this.words.length === 0) {
       this.lastUpdate = now;
       this.createNewWord();
     }
