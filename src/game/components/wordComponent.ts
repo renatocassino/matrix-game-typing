@@ -44,8 +44,6 @@ export class WordComponent extends Phaser.GameObjects.Container {
       this.add(currentLetter);
     });
 
-    this.board.emitter.on(gameEvents.HIT, this.keyNextLetter.bind(this));
-
     board.add.existing(this);
   }
 

@@ -37,7 +37,7 @@ export class BoardScene extends Phaser.Scene {
 
   create() {
     const settings = this.game.registry.get('_settingsValue') as SettingsType;
-    const background = this.add.image(0, -600, assets.bg.GAME_BACKGROUND);
+    const background = this.add.image(0, -200, assets.bg.GAME_BACKGROUND);
     background.setOrigin(0, 0);
     background.setAlpha(0.1);
 
@@ -127,6 +127,7 @@ export class BoardScene extends Phaser.Scene {
       this.currentWord = this.words.find(word => word.word[0] === keyCode);
       if (this.currentWord) {
         this.currentWord.status = 'active';
+        this.currentWord.keyNextLetter();
         this.emitter.emit(gameEvents.HIT);
         return;
       }
@@ -137,6 +138,8 @@ export class BoardScene extends Phaser.Scene {
 
     if (this.currentWord.word[this.currentWord.indexTyped] === keyCode) {
       this.emitter.emit(gameEvents.HIT);
+      this.currentWord.keyNextLetter();
+
       return;
     }
 
