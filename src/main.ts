@@ -6,6 +6,7 @@ import 'vuetify/styles';
 import { Game } from './game/game';
 import { BoardScene } from './game/scenes/boardScene';
 import { MenuScene } from './game/scenes/menuScene';
+import { PreloadScene } from './game/scenes/preloadScene';
 import { ScoreScene } from './game/scenes/scoreScene';
 import App from './page/App.vue';
 import './style.css';
@@ -19,12 +20,12 @@ createApp(App).use(
 
 window.addEventListener('load', () => {
   const config: Phaser.Types.Core.GameConfig = {
-    width: 800,
-    height: 600,
+    width: Math.min(700, window.innerWidth),
+    height: Math.min(720, window.innerHeight),
     type: Phaser.AUTO,
     parent: 'game',
     backgroundColor: '#000000',
-    scene: [MenuScene, BoardScene, ScoreScene],
+    scene: [PreloadScene, MenuScene, BoardScene, ScoreScene],
   };
 
   new Game(config);

@@ -1,12 +1,14 @@
 import { CustomWindow } from "../../commonTypes";
 import { ScoreStatus } from "../components/scoreComponent";
 import { assets } from "../constants/assets";
+import { MenuScene } from "./menuScene";
 
 export class ScoreScene extends Phaser.Scene {
+  static key = 'ScoreScene';
   scoreStatus?: ScoreStatus;
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
-    super({ key: 'Score', ...(config ?? {}) });
+    super({ key: ScoreScene.key, ...(config ?? {}) });
   }
 
   init(data: { score: ScoreStatus }) {
@@ -72,7 +74,7 @@ export class ScoreScene extends Phaser.Scene {
     const backToMenuText = this.add.text(this.cameras.main.width / 2, 500, 'Back to menu', { color: '#FFF', font: '20px Arial' }).setOrigin(0.5);
     backToMenuText.setInteractive();
     backToMenuText.on('pointerdown', () => {
-      this.scene.start('Menu');
+      this.scene.start(MenuScene.key);
     }).on('pointerover', function () {
       backToMenuText.setAlpha(0.8);
       self.input.setDefaultCursor('pointer');

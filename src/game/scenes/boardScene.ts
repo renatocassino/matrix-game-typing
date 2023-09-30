@@ -16,6 +16,7 @@ import { SettingsType } from "../settings";
 // Create a keyboard when is mobile
 
 export class BoardScene extends Phaser.Scene {
+  static readonly key = 'BoardScene';
   words: WordComponent[] = [];
   worldConfig: Config;
   lastUpdate = Date.now();
@@ -25,7 +26,7 @@ export class BoardScene extends Phaser.Scene {
   emitter: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
-    super({ key: 'Board', ...(config ?? {}) });
+    super({ key: BoardScene.key, ...(config ?? {}) });
 
     this.worldConfig = {
       letterSize: 20,

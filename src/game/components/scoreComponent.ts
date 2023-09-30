@@ -1,6 +1,7 @@
 import { assets } from "../constants/assets";
 import { gameEvents } from "../constants/events";
 import { BoardScene } from "../scenes/boardScene";
+import { ScoreScene } from "../scenes/scoreScene";
 
 export type ScoreStatus = {
   hits: number;
@@ -85,7 +86,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
 
     if (secondsToRound <= 0) {
       this.scene.sound.stopAll();
-      this.scene.scene.start('Score', { score: this.status });
+      this.scene.scene.start(ScoreScene.key, { score: this.status });
     }
 
 
