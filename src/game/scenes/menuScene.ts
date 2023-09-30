@@ -1,7 +1,9 @@
+import { SettingsComponent } from "../components/settingsComponent";
 import { assets } from "../constants/assets";
 
 const today = `000${new Date().getDate()}`.slice(-3);
 
+// TODO - create a preload scene
 export class MenuScene extends Phaser.Scene {
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: 'Menu', ...(config ?? {}) });
@@ -83,6 +85,10 @@ export class MenuScene extends Phaser.Scene {
     this.load.svg(assets.icon.VOLUME_OFF, 'icons/volume-off.svg');
     this.load.svg(assets.icon.PLAY, 'icons/play.svg');
     this.load.svg(assets.icon.PAUSE, 'icons/pause.svg');
+    this.load.svg(assets.icon.SETTINGS, 'icons/settings.svg');
+    this.load.svg(assets.icon.CLOSE, 'icons/close.svg');
+    this.load.svg(assets.icon.PLUS, 'icons/plus.svg');
+    this.load.svg(assets.icon.MINUS, 'icons/minus.svg');
 
     this.load.svg('n0', '0.svg');
     this.load.svg('n1', '1.svg');
@@ -102,6 +108,7 @@ export class MenuScene extends Phaser.Scene {
     this.addFadeAnimation();
     this.addLogo();
     this.addPlayButton();
+    this.addSettings();
   }
 
   addBackground() {
@@ -192,5 +199,32 @@ export class MenuScene extends Phaser.Scene {
       self.input.setDefaultCursor('default');
       scene.start('Board');
     }, this);
+  }
+
+  addSettings() {
+    const self = this;
+    const settings = this.add.image(this.sys.game.canvas.width - 20, 20, assets.icon.SETTINGS).setOrigin(1, 0).setInteractive().setScale(1);
+
+    const settingComponent = new SettingsComponent(this, this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2);
+
+
+    settings.on('pointerdown', () => {
+      if (settingComponent.visible) {
+        settingComponent.close();
+      } else {
+        settingComponent.open();
+      }
+    });
+
+    settings.on('pointerover', function () {
+      settings.setAlpha(0.8);
+      self.input.setDefaultCursor('pointer');
+    }, this);
+
+    settings.on('pointerout', function () {
+      settings.setAlpha(1);
+      self.input.setDefaultCursor('default');
+    }, this);
+
   }
 }

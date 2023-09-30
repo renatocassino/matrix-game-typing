@@ -14,6 +14,10 @@ export const assets = {
     VOLUME_OFF: 'volume-off',
     PLAY: 'play-icon',
     PAUSE: 'pause-icon',
+    SETTINGS: 'settings-icon',
+    CLOSE: 'close-icon',
+    PLUS: 'plus-icon',
+    MINUS: 'minus-icon',
   },
   ui: {
     CARD: 'card-ui',
