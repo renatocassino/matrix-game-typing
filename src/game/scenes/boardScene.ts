@@ -83,6 +83,9 @@ export class BoardScene extends Phaser.Scene {
     this.emitter.on(gameEvents.PRESS_MISS, () => {
       this.sound.play(assets.audio.KEYWRONG);
     });
+    this.emitter.on(gameEvents.WORD_COMPLETED, () => {
+      this.currentWord = undefined;
+    });
   }
 
   createNewWord() {
@@ -105,6 +108,9 @@ export class BoardScene extends Phaser.Scene {
   }
 
   keyPress(event: KeyboardEvent) {
+    if (this.game.isPaused) {
+      return;
+    }
     const keyCode = event.key;
     if (!keyCode.match(/^[a-z0-9]$/i)) {
       return

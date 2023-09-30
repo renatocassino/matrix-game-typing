@@ -24,11 +24,11 @@ export class ScoreScene extends Phaser.Scene {
     this.cameras.main.fadeIn(300);
     this.addBackground();
     this.addFadeAnimation();
-    this.addPlayButton();
     this.addScoreStatus();
   }
 
   addScoreStatus() {
+    const self = this;
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
@@ -61,12 +61,24 @@ export class ScoreScene extends Phaser.Scene {
           (window as CustomWindow).updateChart(this.scoreStatus.wpmHistory);
         }
       }, 500);
-    });
+    }).on('pointerover', function () {
+      backToMenuText.setAlpha(0.8);
+      self.input.setDefaultCursor('pointer');
+    }).on('pointerout', function () {
+      backToMenuText.setAlpha(1);
+      self.input.setDefaultCursor('default');
+    });;
 
     const backToMenuText = this.add.text(this.cameras.main.width / 2, 500, 'Back to menu', { color: '#FFF', font: '20px Arial' }).setOrigin(0.5);
     backToMenuText.setInteractive();
     backToMenuText.on('pointerdown', () => {
       this.scene.start('Menu');
+    }).on('pointerover', function () {
+      backToMenuText.setAlpha(0.8);
+      self.input.setDefaultCursor('pointer');
+    }).on('pointerout', function () {
+      backToMenuText.setAlpha(1);
+      self.input.setDefaultCursor('default');
     });
   }
 
@@ -98,8 +110,5 @@ export class ScoreScene extends Phaser.Scene {
       ease: 'Linear',
       repeat: 0,
     });
-  }
-
-  addPlayButton() {
   }
 }
