@@ -6,7 +6,7 @@ import { Settings } from "../settings";
 export class SettingsComponent extends Phaser.GameObjects.Container {
   constructor(scene: Scene, x: number, y: number) {
     super(scene, x, y);
-    this.visible = true;
+    this.visible = false;
 
     const settings = scene.game.registry.get('settings') as Settings;
 
