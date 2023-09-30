@@ -6,18 +6,20 @@ import { Settings } from "../settings";
 export class SettingsComponent extends Phaser.GameObjects.Container {
   constructor(scene: Scene, x: number, y: number) {
     super(scene, x, y);
-    this.visible = false;
+    this.visible = true;
 
     const settings = scene.game.registry.get('settings') as Settings;
 
-    const bg = scene.add.rectangle(0, 0, scene.sys.game.canvas.width, scene.sys.game.canvas.height, 0x000000, 0.8).setInteractive().on('pointerdown', () => {
+    const bgWrap = scene.add.rectangle(0, 0, scene.sys.game.canvas.width, scene.sys.game.canvas.height, 0x000000, 0.8).setInteractive().on('pointerdown', () => {
       this.close();
     });
-    this.add(bg);
+    this.add(bgWrap);
 
     const bgSettings = scene.add.image(0, 0, assets.ui.CARD).setRotation(Phaser.Math.DegToRad(90)).setScale(0.8).setInteractive().on('pointerdown', ({ event }: { event: MouseEvent }) => {
       event.stopPropagation();
     });
+    const areaWidth = bgSettings.height * bgSettings.scaleY;
+    // const areaHeight = bgSettings.width * bgSettings.scaleX;
     this.add(bgSettings);
 
     const settingsText = scene.add.text(0, 0, 'Settings', { fontSize: '24px', color: '#fff' }).setOrigin(0.5, 0.5).setY(-220);
@@ -32,7 +34,7 @@ export class SettingsComponent extends Phaser.GameObjects.Container {
     const text = scene.add.text(0, 0, 'Press ESC to close', { fontSize: '14px', color: '#fff' }).setOrigin(0.5, 0.5).setY(230);
     this.add(text);
 
-    const closeButton = scene.add.image(0, 0, assets.icon.CLOSE).setOrigin(0.5, 0.5).setX(120).setY(-245).setInteractive().on('pointerdown', () => {
+    const closeButton = scene.add.image(0, 0, assets.icon.CLOSE).setOrigin(0.5, 0.5).setX(areaWidth / 2 - 30).setY(-245).setInteractive().on('pointerdown', () => {
       this.close();
     }).on('pointerover', function () {
       closeButton.setAlpha(0.8);
