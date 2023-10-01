@@ -1,3 +1,4 @@
+import { formatTime } from "../../utils/numbers";
 import { assets } from "../constants/assets";
 import { gameEvents } from "../constants/events";
 import { RoundScene } from "../scenes/roundScene";
@@ -20,14 +21,15 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
   status: ScoreStatus;
 
   text?: Phaser.GameObjects.Text;
-  startTime: number = Date.now();
   lastSecond: number | null;
 
-  roundTime: number;
+  timer: Phaser.Time.TimerEvent;
+  timerText: Phaser.GameObjects.Text;
+  currentTime: number = 0;
 
   constructor(readonly scene: Phaser.Scene, readonly x: number, readonly y: number) {
     super(scene, x, y);
-    this.visible = false;
+    this.visible = true;
 
     this.lastSecond = null;
 
@@ -44,7 +46,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
       lostWords: 0,
     };
 
-    this.roundTime = (scene as RoundScene).roundConfig.timeLimit;
+    this.currentTime = (scene as RoundScene).roundConfig.timeLimit * 1000;
 
     const board = this.scene as RoundScene;
     board.emitter.on(gameEvents.HIT, this.hit.bind(this));
@@ -52,11 +54,35 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
     board.emitter.on(gameEvents.WORD_COMPLETED, this.increaseWord.bind(this));
     board.emitter.on(gameEvents.LOST_WORD, this.lostWord.bind(this));
 
-    this.add(this.scene.add.image(0, 0, assets.ui.CARD).setOrigin(0, 0).setScale(0.37).setAlpha(0.6));
-    this.text = this.scene.add.text(20, 10, '', { color: '#0F0' });
+    this.add(this.scene.add.image(0, 0, assets.ui.CARD).setOrigin(0, 0).setScale(0.37).setAlpha(0));
+    this.text = this.scene.add.text(20, 10, '', { color: '#0F0' }).setAlpha(0);
     this.add(this.text);
 
+    this.timer = this.scene.time.addEvent({
+      delay: 100,
+      callback: this.updateTimer.bind(this),
+      callbackScope: this,
+      loop: true
+    });
+
+    this.timerText = this.scene.add.text(0, 0, formatTime(this.currentTime), {
+      fontSize: '24px',
+      color: '#090'
+    });
+
+    this.add(this.timerText);
     this.scene.add.existing(this);
+  }
+
+  updateTimer() {
+    this.currentTime -= 100;
+    this.timerText.setText(formatTime(this.currentTime));
+
+    if (this.currentTime <= 0) {
+      this.timer.remove(false);
+      this.scene.sound.stopAll();
+      this.scene.scene.start(ScoreScene.key, { score: this.status });
+    }
   }
 
   lostWord() {
@@ -68,6 +94,11 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
     this.status.score += 10;
     this.status.longestStreak = Math.max(this.status.longestStreak, this.status.hits);
     this.status.keysPressed++;
+
+    if ("vibrate" in navigator) {
+      // Faz o dispositivo vibrar por 1000 milissegundos (1 segundo)
+      navigator.vibrate(1000);
+    }
   }
 
   miss() {
@@ -82,21 +113,12 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
   }
 
   update() {
-    const now = Date.now();
-    const diffTime = now - this.startTime;
-    const elapsedTimeInSeconds = (now - this.startTime) / 1000;
-
-    const secondsToRound = Math.floor(this.roundTime - diffTime / 1000);
+    const elapsedTimeInSeconds = ((this.scene as RoundScene).roundConfig.timeLimit * 1000 - this.currentTime) / 1000;
     const wpm = (this.status.wordsTyped / elapsedTimeInSeconds) * 60;
 
-    if (this.lastSecond !== secondsToRound) {
-      this.lastSecond = secondsToRound;
+    if (this.lastSecond !== this.currentTime) {
+      this.lastSecond = this.currentTime;
       this.status.wpmHistory.push(wpm);
-    }
-
-    if (secondsToRound <= 0) {
-      this.scene.sound.stopAll();
-      this.scene.scene.start(ScoreScene.key, { score: this.status });
     }
 
     this.status.wpm = wpm;
@@ -111,7 +133,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
       `Longest streak: ${this.status.longestStreak}`,
       `Precision: ${this.status.precision}%`,
       `Words typed: ${this.status.wordsTyped}`,
-      `Time: ${Math.floor(this.roundTime - diffTime / 1000)}`,
+      `Time: ${formatTime(this.currentTime)}`,
     ]
 
     this.text?.setText(texts.join('\n'));

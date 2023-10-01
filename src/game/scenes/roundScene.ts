@@ -19,7 +19,6 @@ import { SettingsType } from "../settings";
 // Add ads :)
 // Decide a name to game
 // Buy a domain
-// Fix background image in round
 
 export class RoundScene extends Phaser.Scene {
   static readonly key = 'BoardScene';

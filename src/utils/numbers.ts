@@ -22,3 +22,9 @@ export function calculateDurationWord(baseDuration: number, word: string): numbe
     let extraChars = Math.max(0, word.length - baseCharCount);
     return baseDuration + (extraDurationPerChar * extraChars);
 }
+
+export function formatTime(milliseconds: number) {
+    const minutes = Math.floor(milliseconds / 60000);
+    const seconds = Math.floor((milliseconds % 60000) / 1000);
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
