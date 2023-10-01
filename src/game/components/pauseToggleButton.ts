@@ -1,4 +1,6 @@
 import { assets } from "../constants/assets";
+import { gameEvents } from "../constants/events";
+import { RoundScene } from "../scenes/roundScene";
 
 export class PauseToggleButton extends Phaser.GameObjects.Container {
   private pauseToggle: Phaser.GameObjects.Image;
@@ -17,20 +19,21 @@ export class PauseToggleButton extends Phaser.GameObjects.Container {
       scene.input.setDefaultCursor('default');
     });
 
+    scene.input.keyboard?.on('keydown', this.keyPress.bind(this));
     scene.add.existing(this);
+  }
+
+  keyPress(event: KeyboardEvent) {
+    if (event.key == 'Escape') {
+      this.togglePause();
+    }
   }
 
   private togglePause() {
     if (this.scene.game.isPaused) {
-      this.scene.game.resume();
-      setTimeout(() => {
-        this.pauseToggle.setTexture(assets.icon.PAUSE);
-      }, 50)
+      (this.scene as RoundScene).emitter.emit(gameEvents.RESUME);
     } else {
-      this.pauseToggle.setTexture(assets.icon.PLAY);
-      setTimeout(() => {
-        this.scene.game.pause();
-      }, 50);
+      (this.scene as RoundScene).emitter.emit(gameEvents.PAUSE);
     }
   }
 }

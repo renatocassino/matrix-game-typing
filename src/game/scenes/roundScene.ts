@@ -1,6 +1,7 @@
 import { Config, GameLevel, GameMode, RoundConfig, WordMode } from "../../types";
 import { isMobile } from "../../utils/isMobile";
 import { getRandomLetter, getRandomWord } from "../../utils/randomWord";
+import { PauseModalComponent } from "../components/pauseModalComponent";
 import { PauseToggleButton } from "../components/pauseToggleButton";
 import { ScoreComponent } from "../components/scoreComponent";
 import { VirtualKeyboard } from "../components/virtualKeyboard";
@@ -79,6 +80,8 @@ export class RoundScene extends Phaser.Scene {
     new PauseToggleButton(this, this.sys.game.canvas.width - 30, 20);
     this.score = new ScoreComponent(this, 10, 10);
 
+    const pauseModal = new PauseModalComponent(this, boardWidth / 2, boardHeight / 2);
+
     // const emitter = this.add.particles(0, 0, 'flares', {
     //   frame: { frames: ['white'], },
     //   blendMode: 'ADD',
@@ -107,6 +110,22 @@ export class RoundScene extends Phaser.Scene {
     this.emitter.on(gameEvents.WORD_COMPLETED, () => {
       this.currentWord = undefined;
     });
+
+    this.emitter.on(gameEvents.RESUME, () => {
+      this.game.resume();
+      setTimeout(() => {
+        console.log('Pause modal to false');
+        pauseModal.visible = false;
+      }, 30);
+    }, this);
+
+    this.emitter.on(gameEvents.PAUSE, () => {
+      console.log('Pause modal to true');
+      pauseModal.visible = true;
+      setTimeout(() => {
+        this.game.pause();
+      }, 30);
+    }, this);
 
     if (isMobile()) {
       new VirtualKeyboard(this, 0, this.sys.game.canvas.height - 150);
