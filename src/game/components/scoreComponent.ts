@@ -96,8 +96,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
     this.status.keysPressed++;
 
     if ("vibrate" in navigator) {
-      // Faz o dispositivo vibrar por 1000 milissegundos (1 segundo)
-      navigator.vibrate(1000);
+      navigator.vibrate(100);
     }
   }
 
