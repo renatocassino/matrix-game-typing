@@ -116,8 +116,8 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
     const elapsedTimeInSeconds = ((this.scene as RoundScene).roundConfig.timeLimit * 1000 - this.currentTime) / 1000;
     const wpm = (this.status.wordsTyped / elapsedTimeInSeconds) * 60;
 
-    if (this.lastSecond !== this.currentTime) {
-      this.lastSecond = this.currentTime;
+    if (this.lastSecond !== Math.floor(this.currentTime / 1000)) {
+      this.lastSecond = Math.floor(this.currentTime / 1000);
       this.status.wpmHistory.push(wpm);
     }
 
