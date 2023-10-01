@@ -17,8 +17,8 @@ export class LetterComponent extends Phaser.GameObjects.Container {
     this.text = this.board.add.text(
       0,
       this.index * size,
-      this.letter,
-      { color: '#0F0', fontSize: `${size}px` },
+      this.letter.toUpperCase(),
+      { color: '#0F0', fontFamily: `'Roboto Slab'`, fontSize: `${size - 3}px` },
     ).setOrigin(0.5, 0);
 
     this.status = LetterStatus.Initial;
