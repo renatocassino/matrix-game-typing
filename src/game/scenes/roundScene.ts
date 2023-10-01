@@ -30,6 +30,7 @@ export class RoundScene extends Phaser.Scene {
   cursor!: Phaser.GameObjects.Rectangle;
   emitter: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
   roundConfig: RoundConfig;
+  currentWordText!: Phaser.GameObjects.Text;
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: RoundScene.key, ...(config ?? {}) });
@@ -110,12 +111,14 @@ export class RoundScene extends Phaser.Scene {
     if (isMobile()) {
       new VirtualKeyboard(this, 0, this.sys.game.canvas.height - 150);
     }
+
+    this.currentWordText = this.add.text(boardWidth / 2, 5, '', { color: '#090', fontFamily: `'Orbitron'`, fontSize: '12px' }).setOrigin(0.5, 0).setAlpha(0.6);
   }
 
   createNewWord() {
     const boardSize = this.sys.game.canvas.width;
-    const min = 1;
-    const max = Math.floor(boardSize / this.worldConfig.letterSize);
+    const min = 3;
+    const max = Math.floor(boardSize / this.worldConfig.letterSize) - 3;
     const allXs = Array.from({ length: max - min }, (_, i) => i + min);
     const usedX = new Set(this.words.map(word => word.indexXPosition));
 
@@ -169,6 +172,8 @@ export class RoundScene extends Phaser.Scene {
 
   update() {
     this.score.update();
+    this.currentWordText.setText(this.currentWord?.word.toUpperCase() ?? '');
+
     const now = Date.now();
     const delta = now - this.lastUpdate;
 
