@@ -50,6 +50,7 @@ export class PauseModalComponent extends Phaser.GameObjects.Container {
       scene.input.setDefaultCursor('default');
     }).on('pointerdown', () => {
       (self.scene as RoundScene).emitter.emit(gameEvents.RESUME);
+      self.scene.sound.stopAll();
       scene.scene.start(MenuScene.key);
     });
 
