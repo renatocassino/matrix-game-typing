@@ -1,4 +1,4 @@
-import { Config, GameLevel, GameMode, RoundConfig, WordMode } from "../../types";
+import { Config, GameDifficult, GameMode, RoundConfig, WordMode } from "../../types";
 import { isMobile } from "../../utils/isMobile";
 import { getRandomLetter, getRandomWord } from "../../utils/randomWord";
 import { PauseModalComponent } from "../components/pauseModalComponent";
@@ -6,6 +6,7 @@ import { PauseToggleButton } from "../components/pauseToggleButton";
 import { ScoreComponent } from "../components/scoreComponent";
 import { VirtualKeyboard } from "../components/virtualKeyboard";
 import { VolumeButton } from "../components/volumeButton";
+import { WaveAnimation } from "../components/waveAnimation";
 import { WordComponent } from "../components/wordComponent";
 import { assets } from "../constants/assets";
 import { gameEvents } from "../constants/events";
@@ -24,6 +25,7 @@ import { SettingsType } from "../settings";
 export class RoundScene extends Phaser.Scene {
   static readonly key = 'BoardScene';
   words: WordComponent[] = [];
+  currentWave: number = 0;
   worldConfig: Config;
   lastUpdate = Date.now();
   currentWord?: WordComponent;
@@ -32,6 +34,8 @@ export class RoundScene extends Phaser.Scene {
   emitter: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
   roundConfig: RoundConfig;
   currentWordText!: Phaser.GameObjects.Text;
+  status: 'playing' | 'waveAnimation' | 'start' = 'start';
+  waveAnimation!: WaveAnimation;
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: RoundScene.key, ...(config ?? {}) });
@@ -39,9 +43,39 @@ export class RoundScene extends Phaser.Scene {
     this.roundConfig = {
       gameMode: GameMode.Words,
       timeLimit: 60,
-      level: GameLevel.Easy,
+      level: GameDifficult.Easy,
       wordMode: WordMode.Duration,
       wordDropInterval: 800,
+      maxFailures: 5,
+      waves: [
+        {
+          velocity: {
+            min: 0.5,
+            max: 1,
+          },
+          waveNumber: 1,
+          wordDropInterval: 800,
+          wordsToType: 10,
+        },
+        {
+          velocity: {
+            min: 0.5,
+            max: 1.5,
+          },
+          waveNumber: 2,
+          wordDropInterval: 700,
+          wordsToType: 15,
+        },
+        {
+          velocity: {
+            min: 0.5,
+            max: 2,
+          },
+          waveNumber: 3,
+          wordDropInterval: 600,
+          wordsToType: 20,
+        },
+      ],
     };
 
     if (this.roundConfig.gameMode === GameMode.Letters) {
@@ -81,6 +115,8 @@ export class RoundScene extends Phaser.Scene {
     this.score = new ScoreComponent(this, 10, 10);
 
     const pauseModal = new PauseModalComponent(this, boardWidth / 2, boardHeight / 2);
+
+    this.waveAnimation = new WaveAnimation(this, boardWidth / 2, boardHeight / 2);
 
     // const emitter = this.add.particles(0, 0, 'flares', {
     //   frame: { frames: ['white'], },
@@ -131,6 +167,10 @@ export class RoundScene extends Phaser.Scene {
       new VirtualKeyboard(this, 0, this.sys.game.canvas.height - 150);
     }
 
+    setInterval(() => {
+      this.nextWave();
+    }, 10000);
+
     this.currentWordText = this.add.text(boardWidth / 2, 5, '', { color: '#090', fontFamily: `'Orbitron'`, fontSize: '12px' }).setOrigin(0.5, 0).setAlpha(0.6);
   }
 
@@ -164,7 +204,6 @@ export class RoundScene extends Phaser.Scene {
     if (!keyCode.match(/^[a-z0-9]$/i)) {
       return
     }
-    console.log(this.currentWord?.word, keyCode, this.currentWord?.word[this.currentWord?.indexTyped]);
 
     if (!this.currentWord) {
       this.currentWord = this.words.find(word => word.word[0] === keyCode);
@@ -189,7 +228,28 @@ export class RoundScene extends Phaser.Scene {
     this.emitter.emit(gameEvents.PRESS_MISS);
   }
 
+  nextWave() {
+    const self = this;
+    this.status = 'waveAnimation';
+    this.waveAnimation.increaseWave();
+    this.waveAnimation.play(() => {
+      self.status = 'playing';
+    });
+    this.currentWave++;
+    this.words.forEach(word => word.remove());
+    this.words = [];
+    this.currentWord = undefined;
+  }
+
   update() {
+    if (this.status === 'start') {
+      this.nextWave();
+      this.status = 'waveAnimation';
+      return;
+    }
+    if (this.status === 'waveAnimation') {
+      return;
+    }
     this.score.update();
     this.currentWordText.setText(this.currentWord?.word.toUpperCase() ?? '');
 

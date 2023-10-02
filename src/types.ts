@@ -12,8 +12,8 @@ export enum LetterStatus {
 
 export enum GameMode {
   Words,
-  Letters,
-  TypeLesson,
+  Letters, // UNDER CONSTRUCTION
+  TypeLesson, // UNDER CONSTRUCTION
 }
 
 export enum WordMode {
@@ -21,24 +21,28 @@ export enum WordMode {
   Waves,
 }
 
-export enum GameLevel {
+export enum GameDifficult { // UNDER CONSTRUCTION
   Easy,
   Medium,
   Hard,
 }
 
 export type WaveConfig = {
-  duration: number;
-  words: string[];
+  words?: string[]; // Under construction
   waveNumber: number;
   wordDropInterval: number;
+  velocity: {
+    min: number;
+    max: number;
+  },
+  wordsToType: number;
 }
 
 export type RoundConfig = {
   gameMode: GameMode;
   wordMode: WordMode;
   timeLimit: number;
-  level: GameLevel;
+  level: GameDifficult;
   wordDropInterval: number;
   maxFailures?: number;
   waves?: WaveConfig[];
