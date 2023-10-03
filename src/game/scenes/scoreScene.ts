@@ -1,10 +1,11 @@
-import { CustomWindow } from "../../commonTypes";
-import { ScoreStatus } from "../components/scoreComponent";
-import { assets } from "../constants/assets";
-import { MenuScene } from "./menuScene";
+import { CustomWindow } from '../../commonTypes';
+import { ScoreStatus } from '../components/scoreComponent';
+import { assets } from '../constants/assets';
+import { MenuScene } from './menuScene';
 
 export class ScoreScene extends Phaser.Scene {
   static key = 'ScoreScene';
+
   scoreStatus?: ScoreStatus;
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
@@ -34,7 +35,14 @@ export class ScoreScene extends Phaser.Scene {
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
-    this.add.image(boardWidth / 2, boardHeight / 2, assets.ui.CARD).setScale(0.7).setAlpha(0.6).setRotation(Phaser.Math.DegToRad(90));
+    this.add.image(
+      boardWidth / 2,
+      boardHeight / 2,
+      assets.ui.CARD,
+    )
+      .setScale(0.7)
+      .setAlpha(0.6)
+      .setRotation(Phaser.Math.DegToRad(90));
     const style = { color: '#FFF', font: '16px Orbitron' };
     const yText = 215;
 
@@ -55,6 +63,11 @@ export class ScoreScene extends Phaser.Scene {
       this.add.text(boardWidth / 2, yText + (index * 25), text, style).setOrigin(0.5, 0);
     });
 
+    const backToMenuText = this
+      .add
+      .text(this.cameras.main.width / 2, 500, 'Back to menu', { color: '#FFF', font: '20px Orbitron' })
+      .setOrigin(0.5);
+
     const scoreGraph = this.add.text(this.cameras.main.width / 2, 440, 'See graph', { color: '#FFF', font: '20px Orbitron' }).setOrigin(0.5);
     scoreGraph.setInteractive();
     scoreGraph.on('pointerdown', () => {
@@ -65,22 +78,21 @@ export class ScoreScene extends Phaser.Scene {
           (window as CustomWindow).updateChart(this.scoreStatus.wpmHistory);
         }
       }, 500);
-    }).on('pointerover', function () {
+    }).on('pointerover', () => {
       backToMenuText.setAlpha(0.8);
       self.input.setDefaultCursor('pointer');
-    }).on('pointerout', function () {
+    }).on('pointerout', () => {
       backToMenuText.setAlpha(1);
       self.input.setDefaultCursor('default');
-    });;
+    });
 
-    const backToMenuText = this.add.text(this.cameras.main.width / 2, 500, 'Back to menu', { color: '#FFF', font: '20px Orbitron' }).setOrigin(0.5);
     backToMenuText.setInteractive();
     backToMenuText.on('pointerdown', () => {
       this.scene.start(MenuScene.key);
-    }).on('pointerover', function () {
+    }).on('pointerover', () => {
       backToMenuText.setAlpha(0.8);
       self.input.setDefaultCursor('pointer');
-    }).on('pointerout', function () {
+    }).on('pointerout', () => {
       backToMenuText.setAlpha(1);
       self.input.setDefaultCursor('default');
     });
@@ -96,15 +108,22 @@ export class ScoreScene extends Phaser.Scene {
 
     const scaleFactor = Math.max(widthRatio, heightRatio);
 
-    const img = this.add.image(boardWidth / 2, boardHeight / 2, assets.bg.SCORE).setOrigin(0.5, 0.5);
-    img.setScale(scaleFactor);
+    this
+      .add
+      .image(boardWidth / 2, boardHeight / 2, assets.bg.SCORE)
+      .setOrigin(0.5, 0.5)
+      .setScale(scaleFactor);
   }
 
   addFadeAnimation() {
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
-    const rectangle = this.add.rectangle(0, 0, boardWidth, boardHeight, 0x000000, 1).setOrigin(0, 0).setAlpha(0);
+    const rectangle = this
+      .add
+      .rectangle(0, 0, boardWidth, boardHeight, 0x000000, 1)
+      .setOrigin(0, 0)
+      .setAlpha(0);
 
     this.tweens.add({
       targets: rectangle,

@@ -1,6 +1,6 @@
-import { assets } from "../constants/assets";
-import { gameEvents } from "../constants/events";
-import { RoundScene } from "../scenes/roundScene";
+import { assets } from '../constants/assets';
+import { gameEvents } from '../constants/events';
+import { RoundScene } from '../scenes/roundScene';
 
 export class PauseToggleButton extends Phaser.GameObjects.Container {
   private pauseToggle: Phaser.GameObjects.Image;
@@ -12,10 +12,10 @@ export class PauseToggleButton extends Phaser.GameObjects.Container {
     this.add(this.pauseToggle);
 
     this.pauseToggle.on('pointerdown', this.togglePause, this);
-    this.pauseToggle.on('pointerover', function () {
+    this.pauseToggle.on('pointerover', () => {
       scene.input.setDefaultCursor('pointer');
     });
-    this.pauseToggle.on('pointerout', function () {
+    this.pauseToggle.on('pointerout', () => {
       scene.input.setDefaultCursor('default');
     });
 
@@ -24,7 +24,7 @@ export class PauseToggleButton extends Phaser.GameObjects.Container {
   }
 
   keyPress(event: KeyboardEvent) {
-    if (event.key == 'Escape') {
+    if (event.key === 'Escape') {
       this.togglePause();
     }
   }

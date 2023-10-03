@@ -1,29 +1,43 @@
-import { LetterStatus, WordStatus } from "../../types";
-import { generateRandomInteger } from "../../utils/numbers";
-import { assets } from "../constants/assets";
-import { gameEvents } from "../constants/events";
-import { RoundScene } from "../scenes/roundScene";
-import { Settings } from "../settings";
-import { LetterComponent } from "./letterComponent";
+import { LetterStatus, WordStatus } from '../../types';
+import { generateRandomInteger } from '../../utils/numbers';
+import { assets } from '../constants/assets';
+import { gameEvents } from '../constants/events';
+import { RoundScene } from '../scenes/roundScene';
+import { Settings } from '../settings';
+import { LetterComponent } from './letterComponent';
 
 export class WordComponent extends Phaser.GameObjects.Container {
   letters: LetterComponent[] = [];
+
   status: WordStatus;
+
   y: number;
+
   indexTyped = -1;
+
   particles: Phaser.GameObjects.Particles.ParticleEmitter[] = [];
+
   lastUpdate = Date.now();
+
   velocity: number = 0;
+
   velocityConfig: {
     finalY: number;
     duration: number;
     currentTime: number;
     initialY: number;
-  }
+  };
+
   pressedWord: number = Date.now();
 
-  constructor(private readonly board: RoundScene, readonly word: string, readonly x: number, y: number, readonly indexXPosition: number) {
-    super(board, x, y)
+  constructor(
+    private readonly board: RoundScene,
+    readonly word: string,
+    readonly x: number,
+    y: number,
+    readonly indexXPosition: number,
+  ) {
+    super(board, x, y);
     this.status = 'inactive';
 
     const boardHeight = this.board.sys.game.canvas.height;
@@ -56,10 +70,10 @@ export class WordComponent extends Phaser.GameObjects.Container {
       // const diff = finalY - initialY;
       // const elementY = initialY + diff * easeOutSmooth(progress);
       // this.y = elementY;
-      this.velocityConfig.currentTime++;
+      this.velocityConfig.currentTime += 1;
     }
 
-    this.letters.forEach(letter => letter.update());
+    this.letters.forEach((letter) => letter.update());
     this.lastUpdate = Date.now();
   }
 
@@ -76,7 +90,7 @@ export class WordComponent extends Phaser.GameObjects.Container {
     }
 
     this.letters[this.indexTyped].status = LetterStatus.Typed;
-    this.indexTyped++;
+    this.indexTyped += 1;
 
     ['n0', 'n1'].forEach((n) => {
       this.add(this.board.add.particles(
@@ -96,7 +110,8 @@ export class WordComponent extends Phaser.GameObjects.Container {
       ));
     });
 
-    // this.board.add.particles(this.x * size, this.y + (this.indexTyped * this.board.worldConfig.letterSize), 'invalid', {
+    // this.board.add.particles(this.x * size,
+    // this.y + (this.indexTyped * this.board.worldConfig.letterSize), 'invalid', {
     //   speed: 100,
     //   scale: { start: 1, end: 0 },
     //   duration: 200,
@@ -122,8 +137,8 @@ export class WordComponent extends Phaser.GameObjects.Container {
     }
 
     const disappeared = (
-      this.y > this.velocityConfig.finalY ||
-      this.velocityConfig.currentTime > this.velocityConfig.duration
+      this.y > this.velocityConfig.finalY
+      || this.velocityConfig.currentTime > this.velocityConfig.duration
     );
 
     if (disappeared) {
@@ -133,12 +148,14 @@ export class WordComponent extends Phaser.GameObjects.Container {
     return disappeared;
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   remove() {
-    this.letters.forEach(letter => letter.text.destroy());
+    this.letters.forEach((letter) => letter.text.destroy());
     this.destroy();
     // const size = this.board.worldConfig.letterSize;
-    // this.board.add.particles(this.x * size, this.y + (this.letters.length * this.board.worldConfig.letterSize), 'red', {
+    // this.board.add.particles(this.x * size, this.y +
+    // (this.letters.length * this.board.worldConfig.letterSize), 'red', {
     //   speed: 100,
     //   scale: { start: 1, end: 0 },
     //   duration: 200,

@@ -1,4 +1,4 @@
-import { Settings } from "./settings";
+import { Settings } from './settings';
 
 export class Game extends Phaser.Game {
   constructor(config: Phaser.Types.Core.GameConfig) {

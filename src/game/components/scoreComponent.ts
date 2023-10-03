@@ -1,8 +1,8 @@
-import { formatTime } from "../../utils/numbers";
-import { assets } from "../constants/assets";
-import { gameEvents } from "../constants/events";
-import { RoundScene } from "../scenes/roundScene";
-import { ScoreScene } from "../scenes/scoreScene";
+import { formatTime } from '../../utils/numbers';
+import { assets } from '../constants/assets';
+import { gameEvents } from '../constants/events';
+import { RoundScene } from '../scenes/roundScene';
+import { ScoreScene } from '../scenes/scoreScene';
 
 export type ScoreStatus = {
   hits: number;
@@ -21,10 +21,13 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
   status: ScoreStatus;
 
   text?: Phaser.GameObjects.Text;
+
   lastSecond: number | null;
 
   timer: Phaser.Time.TimerEvent;
+
   timerText: Phaser.GameObjects.Text;
+
   currentTime: number = 0;
 
   constructor(readonly scene: Phaser.Scene, readonly x: number, readonly y: number) {
@@ -62,12 +65,12 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
       delay: 100,
       callback: this.updateTimer.bind(this),
       callbackScope: this,
-      loop: true
+      loop: true,
     });
 
     this.timerText = this.scene.add.text(0, 0, formatTime(this.currentTime), {
       fontSize: '24px',
-      color: '#090'
+      color: '#090',
     });
 
     this.add(this.timerText);
@@ -86,25 +89,25 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
   }
 
   lostWord() {
-    this.status.lostWords++;
+    this.status.lostWords += 1;
   }
 
   hit() {
-    this.status.hits++;
+    this.status.hits += 1;
     this.status.score += 10;
     this.status.longestStreak = Math.max(this.status.longestStreak, this.status.hits);
-    this.status.keysPressed++;
+    this.status.keysPressed += 1;
 
-    if ("vibrate" in navigator) {
+    if ('vibrate' in navigator) {
       navigator.vibrate(100);
     }
   }
 
   miss() {
-    this.status.misses++;
+    this.status.misses += 1;
     this.status.hits = 0;
     this.status.score -= 5;
-    this.status.keysPressed++;
+    this.status.keysPressed += 1;
   }
 
   increaseWord() {
@@ -112,7 +115,9 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
   }
 
   update() {
-    const elapsedTimeInSeconds = ((this.scene as RoundScene).roundConfig.timeLimit * 1000 - this.currentTime) / 1000;
+    const elapsedTimeInSeconds = ((this.scene as RoundScene)
+      .roundConfig
+      .timeLimit * 1000 - this.currentTime) / 1000;
     const wpm = (this.status.wordsTyped / elapsedTimeInSeconds) * 60;
 
     if (this.lastSecond !== Math.floor(this.currentTime / 1000)) {
@@ -122,8 +127,8 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
 
     this.status.wpm = wpm;
 
-    const precision = 100 - (this.status.misses * 100 / this.status.keysPressed);
-    this.status.precision = `${isNaN(precision) ? '0.00' : (precision).toFixed(2)}%`;
+    const precision = 100 - ((this.status.misses * 100) / this.status.keysPressed);
+    this.status.precision = `${Number.isNaN(precision) ? '0.00' : (precision).toFixed(2)}%`;
     const texts = [
       `Hits: ${this.status.hits}`,
       `Misses: ${this.status.misses}`,
@@ -133,7 +138,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
       `Precision: ${this.status.precision}%`,
       `Words typed: ${this.status.wordsTyped}`,
       `Time: ${formatTime(this.currentTime)}`,
-    ]
+    ];
 
     this.text?.setText(texts.join('\n'));
   }

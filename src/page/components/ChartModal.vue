@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { CustomWindow } from '../../commonTypes';
-import chart from './Chart.vue';
+import chart from './ChartWpm.vue';
 
-let dialog = ref(false);
+const dialog = ref(false);
 
 onMounted(() => {
   (window as CustomWindow).openScoreModal = () => {
     dialog.value = true;
-  }
+  };
 });
 </script>
 <template>

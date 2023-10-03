@@ -1,9 +1,10 @@
-import { SettingsModalComponent } from "../components/settingsModalComponent";
-import { assets } from "../constants/assets";
-import { RoundScene } from "./roundScene";
+import { SettingsModalComponent } from '../components/settingsModalComponent';
+import { assets } from '../constants/assets';
+import { RoundScene } from './roundScene';
 
 export class MenuScene extends Phaser.Scene {
   static key = 'MenuScene';
+
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: MenuScene.key, ...(config ?? {}) });
   }
@@ -35,7 +36,11 @@ export class MenuScene extends Phaser.Scene {
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
-    const rectangle = this.add.rectangle(0, 0, boardWidth, boardHeight, 0x000000, 1).setOrigin(0, 0).setAlpha(0);
+    const rectangle = this
+      .add
+      .rectangle(0, 0, boardWidth, boardHeight, 0x000000, 1)
+      .setOrigin(0, 0)
+      .setAlpha(0);
 
     this.tweens.add({
       targets: rectangle,
@@ -72,7 +77,7 @@ export class MenuScene extends Phaser.Scene {
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
-    const scene = this.scene;
+    const { scene } = this;
     const button = this.add.text(boardWidth / 2, boardHeight / 2 + 80, 'New Game', {
       fontFamily: 'Orbitron',
       fontSize: '22px',
@@ -87,21 +92,21 @@ export class MenuScene extends Phaser.Scene {
       },
     }).setOrigin(0.5, 0.5).setInteractive().setAlpha(1);
 
-    button.on('pointerover', function () {
+    button.on('pointerover', () => {
       self.input.setDefaultCursor('pointer');
       button.setAlpha(0.8);
       button.setColor('#00FF00');
       button.setShadow(0, 0, '#00FF00', 2, true, true);
     });
 
-    button.on('pointerout', function () {
+    button.on('pointerout', () => {
       self.input.setDefaultCursor('default');
       button.setColor('#FFF');
       button.setAlpha(1);
       button.setShadow(0, 0, '#FFF', 0, true, true);
     });
 
-    button.on('pointerdown', function () {
+    button.on('pointerdown', () => {
       self.input.setDefaultCursor('default');
       scene.start(RoundScene.key);
     }, this);
@@ -109,9 +114,18 @@ export class MenuScene extends Phaser.Scene {
 
   addSettings() {
     const self = this;
-    const settings = this.add.image(this.sys.game.canvas.width - 20, 20, assets.icon.SETTINGS).setOrigin(1, 0).setInteractive().setScale(1);
+    const settings = this
+      .add
+      .image(this.sys.game.canvas.width - 20, 20, assets.icon.SETTINGS)
+      .setOrigin(1, 0)
+      .setInteractive()
+      .setScale(1);
 
-    const settingComponent = new SettingsModalComponent(this, this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2);
+    const settingComponent = new SettingsModalComponent(
+      this,
+      this.sys.game.canvas.width / 2,
+      this.sys.game.canvas.height / 2,
+    );
 
     settings.on('pointerdown', () => {
       if (settingComponent.visible) {
@@ -121,15 +135,14 @@ export class MenuScene extends Phaser.Scene {
       }
     });
 
-    settings.on('pointerover', function () {
+    settings.on('pointerover', () => {
       settings.setAlpha(0.8);
       self.input.setDefaultCursor('pointer');
     }, this);
 
-    settings.on('pointerout', function () {
+    settings.on('pointerout', () => {
       settings.setAlpha(1);
       self.input.setDefaultCursor('default');
     }, this);
-
   }
 }

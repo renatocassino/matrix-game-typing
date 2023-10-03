@@ -1,7 +1,7 @@
-import { Scene } from "phaser";
-import { asPercentage } from "../../utils/string";
-import { assets } from "../constants/assets";
-import { Settings } from "../settings";
+import { Scene } from 'phaser';
+import { asPercentage } from '../../utils/string';
+import { assets } from '../constants/assets';
+import { Settings } from '../settings';
 
 export class SettingsModalComponent extends Phaser.GameObjects.Container {
   constructor(scene: Scene, x: number, y: number) {
@@ -15,9 +15,15 @@ export class SettingsModalComponent extends Phaser.GameObjects.Container {
     });
     this.add(bgWrap);
 
-    const bgSettings = scene.add.image(0, 0, assets.ui.CARD).setRotation(Phaser.Math.DegToRad(90)).setScale(0.8).setInteractive().on('pointerdown', ({ event }: { event: MouseEvent }) => {
-      event.stopPropagation();
-    });
+    const bgSettings = scene
+      .add
+      .image(0, 0, assets.ui.CARD)
+      .setRotation(Phaser.Math.DegToRad(90))
+      .setScale(0.8)
+      .setInteractive()
+      .on('pointerdown', ({ event }: { event: MouseEvent }) => {
+        event.stopPropagation();
+      });
     const areaWidth = bgSettings.height * bgSettings.scaleY;
     // const areaHeight = bgSettings.width * bgSettings.scaleX;
     this.add(bgSettings);
@@ -31,84 +37,146 @@ export class SettingsModalComponent extends Phaser.GameObjects.Container {
       }
     });
 
-    const text = scene.add.text(0, 0, 'Press ESC to close', { font: '14px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(230);
+    const text = scene
+      .add
+      .text(0, 0, 'Press ESC to close', { font: '14px Orbitron', color: '#fff' })
+      .setOrigin(0.5, 0.5).setY(230);
     this.add(text);
 
-    const closeButton = scene.add.image(0, 0, assets.icon.CLOSE).setOrigin(0.5, 0.5).setX(areaWidth / 2 - 30).setY(-245).setInteractive().on('pointerdown', () => {
-      this.close();
-    }).on('pointerover', function () {
-      closeButton.setAlpha(0.8);
-      scene.input.setDefaultCursor('pointer');
-    }).on('pointerout', function () {
-      closeButton.setAlpha(1);
-      scene.input.setDefaultCursor('default');
-    });
+    const closeButton = scene
+      .add
+      .image(0, 0, assets.icon.CLOSE)
+      .setOrigin(0.5, 0.5)
+      .setX(areaWidth / 2 - 30)
+      .setY(-245)
+      .setInteractive()
+      .on('pointerdown', () => {
+        this.close();
+      })
+      .on('pointerover', () => {
+        closeButton.setAlpha(0.8);
+        scene.input.setDefaultCursor('pointer');
+      })
+      .on('pointerout', () => {
+        closeButton.setAlpha(1);
+        scene.input.setDefaultCursor('default');
+      });
 
-    const musicText = scene.add.text(0, 0, 'Music Volume', { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-150).setAlpha(0.6);
+    const musicText = scene
+      .add
+      .text(0, 0, 'Music Volume', { font: '18px Orbitron', color: '#fff' })
+      .setOrigin(0.5, 0.5)
+      .setY(-150)
+      .setAlpha(0.6);
     this.add(musicText);
 
     const musicValue = scene.add.text(0, 0, asPercentage(settings.getConfig('musicVolume')), { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-120);
     this.add(musicValue);
 
-    const increaseVolume = scene.add.image(0, 0, assets.icon.PLUS).setOrigin(0.5, 0.5).setX(50).setY(-120).setInteractive().on('pointerdown', () => {
-      const volume = settings.getConfig('musicVolume');
-      const newVolume = (Math.floor(volume * 10) + 1) / 10;
-      settings.setConfig('musicVolume', Math.min(1, newVolume));
-      musicValue.setText(asPercentage(settings.getConfig('musicVolume')));
-    }).on('pointerover', function () {
-      increaseVolume.setAlpha(0.8);
-      scene.input.setDefaultCursor('pointer');
-    }).on('pointerout', function () {
-      increaseVolume.setAlpha(1);
-      scene.input.setDefaultCursor('default');
-    });
+    const increaseVolume = scene
+      .add
+      .image(0, 0, assets.icon.PLUS)
+      .setOrigin(0.5, 0.5)
+      .setX(50)
+      .setY(-120)
+      .setInteractive()
+      .on('pointerdown', () => {
+        const volume = settings.getConfig('musicVolume');
+        const newVolume = (Math.floor(volume * 10) + 1) / 10;
+        settings.setConfig('musicVolume', Math.min(1, newVolume));
+        musicValue.setText(asPercentage(settings.getConfig('musicVolume')));
+      })
+      .on('pointerover', () => {
+        increaseVolume.setAlpha(0.8);
+        scene.input.setDefaultCursor('pointer');
+      })
+      .on('pointerout', () => {
+        increaseVolume.setAlpha(1);
+        scene.input.setDefaultCursor('default');
+      });
     this.add(increaseVolume);
 
-    const decreaseVolume = scene.add.image(0, 0, assets.icon.MINUS).setOrigin(0.5, 0.5).setX(-50).setY(-120).setInteractive().on('pointerdown', () => {
-      const volume = settings.getConfig('musicVolume');
-      const newVolume = (Math.floor(volume * 10) - 1) / 10;
-      settings.setConfig('musicVolume', Math.max(0, newVolume));
-      musicValue.setText(asPercentage(settings.getConfig('musicVolume')));
-    }).on('pointerover', function () {
-      decreaseVolume.setAlpha(0.8);
-      scene.input.setDefaultCursor('pointer');
-    }).on('pointerout', function () {
-      decreaseVolume.setAlpha(1);
-      scene.input.setDefaultCursor('default');
-    });
+    const decreaseVolume = scene
+      .add
+      .image(0, 0, assets.icon.MINUS)
+      .setOrigin(0.5, 0.5)
+      .setX(-50)
+      .setY(-120)
+      .setInteractive()
+      .on('pointerdown', () => {
+        const volume = settings.getConfig('musicVolume');
+        const newVolume = (Math.floor(volume * 10) - 1) / 10;
+        settings.setConfig('musicVolume', Math.max(0, newVolume));
+        musicValue.setText(asPercentage(settings.getConfig('musicVolume')));
+      })
+      .on('pointerover', () => {
+        decreaseVolume.setAlpha(0.8);
+        scene.input.setDefaultCursor('pointer');
+      })
+      .on('pointerout', () => {
+        decreaseVolume.setAlpha(1);
+        scene.input.setDefaultCursor('default');
+      });
     this.add(decreaseVolume);
 
-    const fxText = scene.add.text(0, 0, 'FX Volume', { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-60).setAlpha(0.6);
+    const fxText = scene
+      .add
+      .text(0, 0, 'FX Volume', { font: '18px Orbitron', color: '#fff' })
+      .setOrigin(0.5, 0.5)
+      .setY(-60)
+      .setAlpha(0.6);
     this.add(fxText);
 
-    const fxValue = scene.add.text(0, 0, asPercentage(settings.getConfig('fxVolume')), { font: '18px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-30);
+    const fxValue = scene
+      .add
+      .text(0, 0, asPercentage(settings.getConfig('fxVolume')), { font: '18px Orbitron', color: '#fff' })
+      .setOrigin(0.5, 0.5)
+      .setY(-30);
     this.add(fxValue);
 
-    const increateFxVolume = scene.add.image(0, 0, assets.icon.PLUS).setOrigin(0.5, 0.5).setX(50).setY(-30).setInteractive().on('pointerdown', () => {
-      const volume = settings.getConfig('fxVolume');
-      const newVolume = (Math.floor(volume * 10) + 1) / 10;
-      settings.setConfig('fxVolume', Math.min(1, newVolume));
-      fxValue.setText(asPercentage(settings.getConfig('fxVolume')));
-    }).on('pointerover', function () {
-      increateFxVolume.setAlpha(0.8);
-      scene.input.setDefaultCursor('pointer');
-    }).on('pointerout', function () {
-      increateFxVolume.setAlpha(1);
-      scene.input.setDefaultCursor('default');
-    });
+    const increateFxVolume = scene
+      .add
+      .image(0, 0, assets.icon.PLUS)
+      .setOrigin(0.5, 0.5)
+      .setX(50)
+      .setY(-30)
+      .setInteractive()
+      .on('pointerdown', () => {
+        const volume = settings.getConfig('fxVolume');
+        const newVolume = (Math.floor(volume * 10) + 1) / 10;
+        settings.setConfig('fxVolume', Math.min(1, newVolume));
+        fxValue.setText(asPercentage(settings.getConfig('fxVolume')));
+      })
+      .on('pointerover', () => {
+        increateFxVolume.setAlpha(0.8);
+        scene.input.setDefaultCursor('pointer');
+      })
+      .on('pointerout', () => {
+        increateFxVolume.setAlpha(1);
+        scene.input.setDefaultCursor('default');
+      });
 
-    const decreaseFxVolume = scene.add.image(0, 0, assets.icon.MINUS).setOrigin(0.5, 0.5).setX(-50).setY(-30).setInteractive().on('pointerdown', () => {
-      const volume = settings.getConfig('fxVolume');
-      const newVolume = (Math.floor(volume * 10) - 1) / 10;
-      settings.setConfig('fxVolume', Math.max(0, newVolume));
-      fxValue.setText(asPercentage(settings.getConfig('fxVolume')));
-    }).on('pointerover', function () {
-      decreaseFxVolume.setAlpha(0.8);
-      scene.input.setDefaultCursor('pointer');
-    }).on('pointerout', function () {
-      decreaseFxVolume.setAlpha(1);
-      scene.input.setDefaultCursor('default');
-    });
+    const decreaseFxVolume = scene
+      .add
+      .image(0, 0, assets.icon.MINUS)
+      .setOrigin(0.5, 0.5)
+      .setX(-50)
+      .setY(-30)
+      .setInteractive()
+      .on('pointerdown', () => {
+        const volume = settings.getConfig('fxVolume');
+        const newVolume = (Math.floor(volume * 10) - 1) / 10;
+        settings.setConfig('fxVolume', Math.max(0, newVolume));
+        fxValue.setText(asPercentage(settings.getConfig('fxVolume')));
+      })
+      .on('pointerover', () => {
+        decreaseFxVolume.setAlpha(0.8);
+        scene.input.setDefaultCursor('pointer');
+      })
+      .on('pointerout', () => {
+        decreaseFxVolume.setAlpha(1);
+        scene.input.setDefaultCursor('default');
+      });
     this.add(increateFxVolume);
     this.add(decreaseFxVolume);
 
@@ -134,7 +202,7 @@ export class SettingsModalComponent extends Phaser.GameObjects.Container {
       duration: 300,
       complete: () => {
         this.visible = false;
-      }
+      },
     });
   }
 }

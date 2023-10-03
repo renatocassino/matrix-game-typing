@@ -1,4 +1,3 @@
-
 export class VirtualKeyboard extends Phaser.GameObjects.Container {
   constructor(scene: Phaser.Scene, readonly x: number, readonly y: number) {
     super(scene, x, y);
@@ -37,8 +36,12 @@ export class VirtualKeyboard extends Phaser.GameObjects.Container {
     let xPosition = letterSize / 2;
     const font = '22px Orbitron';
 
-    for (let i = 0; i < firstLine.length; i++) {
-      const area = this.scene.add.rectangle(xPosition, 30, letterSize, 40, 0x000000, 0.5).setOrigin(0.5, 0.5);
+    for (let i = 0; i < firstLine.length; i += 1) {
+      const area = this
+        .scene
+        .add
+        .rectangle(xPosition, 30, letterSize, 40, 0x000000, 0.5)
+        .setOrigin(0.5, 0.5);
       const button = self.scene.add.text(xPosition, 30, firstLine[i], {
         font, color: '#ffffff',
       }).setOrigin(0.5, 0.5);
@@ -49,8 +52,12 @@ export class VirtualKeyboard extends Phaser.GameObjects.Container {
     }
 
     xPosition = letterSize;
-    for (let i = 0; i < secondLine.length; i++) {
-      const area = this.scene.add.rectangle(xPosition, 75, letterSize, 40, 0x000000, 0.5).setOrigin(0.5, 0.5);
+    for (let i = 0; i < secondLine.length; i += 1) {
+      const area = this
+        .scene
+        .add
+        .rectangle(xPosition, 75, letterSize, 40, 0x000000, 0.5)
+        .setOrigin(0.5, 0.5);
       const button = self.scene.add.text(xPosition, 75, secondLine[i], {
         font, color: '#ffffff',
       }).setOrigin(0.5, 0.5);
@@ -61,8 +68,12 @@ export class VirtualKeyboard extends Phaser.GameObjects.Container {
     }
 
     xPosition = letterSize * 2;
-    for (let i = 0; i < thirdLine.length; i++) {
-      const area = this.scene.add.rectangle(xPosition, 120, letterSize, 40, 0x000000, 0.5).setOrigin(0.5, 0.5);
+    for (let i = 0; i < thirdLine.length; i += 1) {
+      const area = this
+        .scene
+        .add
+        .rectangle(xPosition, 120, letterSize, 40, 0x000000, 0.5)
+        .setOrigin(0.5, 0.5);
       const button = self.scene.add.text(xPosition, 120, thirdLine[i], {
         font, color: '#ffffff',
       }).setOrigin(0.5, 0.5);

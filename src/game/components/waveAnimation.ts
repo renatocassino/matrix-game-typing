@@ -1,10 +1,12 @@
-import { RoundScene } from "../scenes/roundScene";
+import { RoundScene } from '../scenes/roundScene';
 
 export class WaveAnimation extends Phaser.GameObjects.Container {
   currentWave: number;
+
   status: 'playing' | 'ended' = 'ended';
 
   waveText: Phaser.GameObjects.Text;
+
   wrapBg: Phaser.GameObjects.Rectangle;
 
   constructor(scene: RoundScene, x: number, y: number) {
@@ -16,10 +18,17 @@ export class WaveAnimation extends Phaser.GameObjects.Container {
     const boardWidth = this.scene.sys.game.canvas.width;
     const boardHeight = this.scene.sys.game.canvas.height;
 
-    this.wrapBg = scene.add.rectangle(0, 0, boardWidth, boardHeight, 0x000000).setOrigin(0.5, 0.5).setScale(1).setAlpha(0).setInteractive().on('pointerdown', () => {
-      this.visible = false;
-      this.status = 'ended';
-    });
+    this.wrapBg = scene
+      .add
+      .rectangle(0, 0, boardWidth, boardHeight, 0x000000)
+      .setOrigin(0.5, 0.5)
+      .setScale(1)
+      .setAlpha(0)
+      .setInteractive()
+      .on('pointerdown', () => {
+        this.visible = false;
+        this.status = 'ended';
+      });
     this.add(this.wrapBg);
 
     this.waveText = scene.add.text(0 - boardWidth / 4, 0, 'WAVE 1', {
@@ -33,7 +42,7 @@ export class WaveAnimation extends Phaser.GameObjects.Container {
   }
 
   increaseWave() {
-    this.currentWave++;
+    this.currentWave += 1;
   }
 
   play(cb: () => void) {
@@ -64,7 +73,7 @@ export class WaveAnimation extends Phaser.GameObjects.Container {
           this.waveText.setY(0);
           cb();
         },
-      })
+      });
     });
   }
 }

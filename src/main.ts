@@ -15,8 +15,8 @@ createApp(App).use(
   createVuetify({
     components,
     directives,
-  })
-).mount('#app')
+  }),
+).mount('#app');
 
 window.addEventListener('load', () => {
   const config: Phaser.Types.Core.GameConfig = {
@@ -30,4 +30,3 @@ window.addEventListener('load', () => {
 
   new Game(config);
 });
-
