@@ -244,6 +244,7 @@ export class RoundScene extends Phaser.Scene {
       return;
     }
 
+    // eslint-disable-next-line max-len
     if (this.currentWord.word[this.currentWord.indexTyped].toUpperCase() === keyCode.toUpperCase()) {
       this.emitter.emit(gameEvents.HIT);
       this.currentWord.keyNextLetter();
@@ -255,7 +256,6 @@ export class RoundScene extends Phaser.Scene {
   }
 
   nextWave() {
-    console.log('Next wave');
     this.status = 'waveAnimation';
     this.currentWave += 1;
     this.words.forEach((word) => word.remove());
@@ -263,9 +263,10 @@ export class RoundScene extends Phaser.Scene {
     this.currentWord = undefined;
 
     this.scene.launch(WaveScene.key, {
-      wave: this.currentWave, cb: () => {
+      wave: this.currentWave,
+      cb: () => {
         this.status = 'playing';
-      }
+      },
     });
   }
 

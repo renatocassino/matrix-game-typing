@@ -1,8 +1,11 @@
-import { WaveAnimation } from "../components/waveAnimation";
+import { WaveAnimation } from '../components/waveAnimation';
 
 export class WaveScene extends Phaser.Scene {
   static key = 'WaveScene';
+
   waveNumber: number = 0;
+
+  // eslint-disable-next-line class-methods-use-this
   callback: () => void = () => { };
 
   constructor() {
