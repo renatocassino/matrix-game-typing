@@ -8,11 +8,11 @@ import { PauseToggleButton } from '../components/pauseToggleButton';
 import { ScoreComponent } from '../components/scoreComponent';
 import { VirtualKeyboard } from '../components/virtualKeyboard';
 import { VolumeButton } from '../components/volumeButton';
-import { WaveAnimation } from '../components/waveAnimation';
 import { WordComponent } from '../components/wordComponent';
 import { assets } from '../constants/assets';
 import { gameEvents } from '../constants/events';
 import { SettingsType } from '../settings';
+import { WaveScene } from './waveScene';
 
 // TODO
 // Add waves - Wave 1 easy, wave 2 medium, wave 3 hard
@@ -48,8 +48,6 @@ export class RoundScene extends Phaser.Scene {
   currentWordText!: Phaser.GameObjects.Text;
 
   status: 'playing' | 'waveAnimation' | 'start' = 'start';
-
-  waveAnimation!: WaveAnimation;
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: RoundScene.key, ...(config ?? {}) });
@@ -135,8 +133,6 @@ export class RoundScene extends Phaser.Scene {
 
     const pauseModal = new PauseModalComponent(this, boardWidth / 2, boardHeight / 2);
 
-    this.waveAnimation = new WaveAnimation(this, boardWidth / 2, boardHeight / 2);
-
     // const emitter = this.add.particles(0, 0, 'flares', {
     //   frame: { frames: ['white'], },
     //   blendMode: 'ADD',
@@ -171,13 +167,11 @@ export class RoundScene extends Phaser.Scene {
     this.emitter.on(gameEvents.RESUME, () => {
       this.game.resume();
       setTimeout(() => {
-        console.log('Pause modal to false');
         pauseModal.visible = false;
       }, 30);
     }, this);
 
     this.emitter.on(gameEvents.PAUSE, () => {
-      console.log('Pause modal to true');
       pauseModal.visible = true;
       setTimeout(() => {
         this.game.pause();
@@ -188,15 +182,11 @@ export class RoundScene extends Phaser.Scene {
       new VirtualKeyboard(this, 0, this.sys.game.canvas.height - 150);
     }
 
-    // TODO - Remove this
-    // Add a category of words with levels
-    // Change the velocity of words respecting the current wave
-    // Remove timer to game
-    setInterval(() => {
-      this.nextWave();
-    }, 10000);
-
-    this.currentWordText = this.add.text(boardWidth / 2, 5, '', { color: '#090', fontFamily: '\'Orbitron\'', fontSize: '12px' }).setOrigin(0.5, 0).setAlpha(0.6);
+    this.currentWordText = this
+      .add
+      .text(boardWidth / 2, 5, '', { color: '#090', fontFamily: '\'Orbitron\'', fontSize: '12px' })
+      .setOrigin(0.5, 0)
+      .setAlpha(0.6);
   }
 
   createNewWord() {
@@ -241,7 +231,8 @@ export class RoundScene extends Phaser.Scene {
     }
 
     if (!this.currentWord) {
-      this.currentWord = this.words.find((word) => word.word[0] === keyCode);
+      this.currentWord = this.words
+        .find((word) => word.word[0].toUpperCase() === keyCode.toUpperCase());
       if (this.currentWord) {
         this.currentWord.status = 'active';
         this.currentWord.keyNextLetter();
@@ -253,7 +244,7 @@ export class RoundScene extends Phaser.Scene {
       return;
     }
 
-    if (this.currentWord.word[this.currentWord.indexTyped] === keyCode) {
+    if (this.currentWord.word[this.currentWord.indexTyped].toUpperCase() === keyCode.toUpperCase()) {
       this.emitter.emit(gameEvents.HIT);
       this.currentWord.keyNextLetter();
 
@@ -264,22 +255,23 @@ export class RoundScene extends Phaser.Scene {
   }
 
   nextWave() {
-    const self = this;
+    console.log('Next wave');
     this.status = 'waveAnimation';
-    this.waveAnimation.increaseWave();
-    this.waveAnimation.play(() => {
-      self.status = 'playing';
-    });
     this.currentWave += 1;
     this.words.forEach((word) => word.remove());
     this.words = [];
     this.currentWord = undefined;
+
+    this.scene.launch(WaveScene.key, {
+      wave: this.currentWave, cb: () => {
+        this.status = 'playing';
+      }
+    });
   }
 
   update() {
     if (this.status === 'start') {
       this.nextWave();
-      this.status = 'waveAnimation';
       return;
     }
     if (this.status === 'waveAnimation') {

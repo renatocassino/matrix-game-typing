@@ -1,4 +1,4 @@
-import { RoundScene } from '../scenes/roundScene';
+import { Scene } from 'phaser';
 
 export class WaveAnimation extends Phaser.GameObjects.Container {
   currentWave: number;
@@ -9,7 +9,7 @@ export class WaveAnimation extends Phaser.GameObjects.Container {
 
   wrapBg: Phaser.GameObjects.Rectangle;
 
-  constructor(scene: RoundScene, x: number, y: number) {
+  constructor(scene: Scene, x: number, y: number) {
     super(scene, x, y);
     this.currentWave = 0;
     this.visible = false;
@@ -43,6 +43,10 @@ export class WaveAnimation extends Phaser.GameObjects.Container {
 
   increaseWave() {
     this.currentWave += 1;
+  }
+
+  setWave(wave: number) {
+    this.currentWave = wave;
   }
 
   play(cb: () => void) {

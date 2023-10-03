@@ -28,7 +28,6 @@ export class VirtualKeyboard extends Phaser.GameObjects.Container {
     const addKeyCommand = (button: Phaser.GameObjects.Rectangle, key: string) => {
       button.setInteractive();
       button.on('pointerdown', () => {
-        console.log('Key press :)', key);
         self.scene.input.keyboard?.emit('keydown', { key: key.toLowerCase() });
       });
     };
