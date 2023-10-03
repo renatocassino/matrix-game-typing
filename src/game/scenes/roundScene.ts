@@ -167,6 +167,10 @@ export class RoundScene extends Phaser.Scene {
       new VirtualKeyboard(this, 0, this.sys.game.canvas.height - 150);
     }
 
+    // TODO - Remove this
+    // Add a category of words with levels
+    // Change the velocity of words respecting the current wave
+    // Remove timer to game
     setInterval(() => {
       this.nextWave();
     }, 10000);

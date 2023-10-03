@@ -51,7 +51,7 @@ export class MenuScene extends Phaser.Scene {
     // The logo is just a text
     const boardWidth = this.sys.game.canvas.width;
     // const boardHeight = this.sys.game.canvas.height;
-    this.add.text(boardWidth / 2, 120, 'Type Matrix\nWar', {
+    this.add.text(boardWidth / 2, 120, 'Matrix Type.io', {
       fontFamily: 'Orbitron',
       fontSize: '50px',
       color: '#ffffff',
