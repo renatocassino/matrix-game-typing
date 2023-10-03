@@ -4,6 +4,7 @@ import { WordComponent } from './wordComponent';
 
 export class LetterComponent extends Phaser.GameObjects.Container {
   text: Phaser.GameObjects.Text;
+
   status: LetterStatus;
 
   constructor(
@@ -18,7 +19,7 @@ export class LetterComponent extends Phaser.GameObjects.Container {
       0,
       this.index * size,
       this.letter.toUpperCase(),
-      { color: '#0F0', fontFamily: `'Roboto Slab'`, fontSize: `${size - 3}px` },
+      { color: '#0F0', fontFamily: '\'Roboto Slab\'', fontSize: `${size - 3}px` },
     ).setOrigin(0.5, 0);
 
     this.status = LetterStatus.Initial;

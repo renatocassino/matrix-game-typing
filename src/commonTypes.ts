@@ -1,4 +1,4 @@
 export type CustomWindow = Window & typeof globalThis & {
-    updateChart: (data: number[]) => void;
+    updateChart: (_data: number[]) => void;
     openScoreModal: () => void;
 }

@@ -25,5 +25,5 @@ export const assets = {
   },
   font: {
     game: 'orbitron',
-  }
+  },
 };

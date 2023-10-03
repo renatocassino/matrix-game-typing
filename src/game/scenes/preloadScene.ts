@@ -1,20 +1,22 @@
-import { assets } from "../constants/assets";
-import { MenuScene } from "./menuScene";
+import { assets } from '../constants/assets';
+import { MenuScene } from './menuScene';
 
 export class PreloadScene extends Phaser.Scene {
   static key = 'PreloadScene';
+
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: PreloadScene.key, ...(config ?? {}) });
   }
 
   preload() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
 
     const progressBoxWidth = 320;
     const progressBar = this.add.graphics();
     const progressBox = this.add.graphics();
-    progressBox.fillStyle(0x008800, 0.8).fillRect(width / 2 - progressBoxWidth / 2, 270, progressBoxWidth, 50);
+    progressBox.fillStyle(0x008800, 0.8)
+      .fillRect(width / 2 - progressBoxWidth / 2, 270, progressBoxWidth, 50);
 
     const loadingText = this.make.text({
       x: width / 2,
@@ -22,8 +24,8 @@ export class PreloadScene extends Phaser.Scene {
       text: 'Loading...',
       style: {
         font: '20px Orbitron',
-        color: '#ffffff'
-      }
+        color: '#ffffff',
+      },
     }).setOrigin(0.5, 0.5);
 
     const percentText = this.make.text({
@@ -32,8 +34,8 @@ export class PreloadScene extends Phaser.Scene {
       text: '0%',
       style: {
         font: '18px Orbitron',
-        color: '#ffffff'
-      }
+        color: '#ffffff',
+      },
     }).setOrigin(0.5, 0.5);
 
     const assetText = this.make.text({
@@ -42,22 +44,28 @@ export class PreloadScene extends Phaser.Scene {
       text: '',
       style: {
         font: '18px Orbitron',
-        color: '#ffffff'
-      }
+        color: '#ffffff',
+      },
     }).setOrigin(0.5, 0.5);
 
     this.load.on('progress', (value: number) => {
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
-      progressBar.fillRect(width / 2 - progressBoxWidth / 2 + 10, 280, (progressBoxWidth - 20) * value, 30);
-      percentText.setText(Math.floor(value * 100) + '%');
+      progressBar
+        .fillRect(
+          width / 2 - progressBoxWidth / 2 + 10,
+          280,
+          (progressBoxWidth - 20) * value,
+          30,
+        );
+      percentText.setText(`${Math.floor(value * 100)}%`);
     });
 
     this.load.on('fileprogress', (file: { key: string }) => {
-      assetText.setText('Loading asset: ' + file.key);
+      assetText.setText(`Loading asset: ${file.key}`);
     });
 
-    this.load.on('complete', function () {
+    this.load.on('complete', () => {
       progressBar.destroy();
       progressBox.destroy();
       loadingText.destroy();

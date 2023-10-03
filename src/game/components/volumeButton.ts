@@ -1,7 +1,8 @@
-import { assets } from "../constants/assets";
+import { assets } from '../constants/assets';
 
 export class VolumeButton extends Phaser.GameObjects.Container {
   private volumeButton: Phaser.GameObjects.Image;
+
   private volumeOn: boolean = true;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -13,10 +14,10 @@ export class VolumeButton extends Phaser.GameObjects.Container {
 
     this.volumeButton.on('pointerdown', this.toggleVolume, this);
 
-    this.volumeButton.on('pointerover', function () {
+    this.volumeButton.on('pointerover', () => {
       scene.input.setDefaultCursor('pointer');
     });
-    this.volumeButton.on('pointerout', function () {
+    this.volumeButton.on('pointerout', () => {
       scene.input.setDefaultCursor('default');
     });
 

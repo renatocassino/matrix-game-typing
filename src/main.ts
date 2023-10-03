@@ -8,6 +8,7 @@ import { MenuScene } from './game/scenes/menuScene';
 import { PreloadScene } from './game/scenes/preloadScene';
 import { RoundScene } from './game/scenes/roundScene';
 import { ScoreScene } from './game/scenes/scoreScene';
+import { WaveScene } from './game/scenes/waveScene';
 import App from './page/App.vue';
 import './style.css';
 
@@ -15,8 +16,8 @@ createApp(App).use(
   createVuetify({
     components,
     directives,
-  })
-).mount('#app')
+  }),
+).mount('#app');
 
 window.addEventListener('load', () => {
   const config: Phaser.Types.Core.GameConfig = {
@@ -25,9 +26,8 @@ window.addEventListener('load', () => {
     type: Phaser.AUTO,
     parent: 'game',
     backgroundColor: '#000000',
-    scene: [PreloadScene, MenuScene, RoundScene, ScoreScene],
+    scene: [PreloadScene, WaveScene, MenuScene, RoundScene, ScoreScene],
   };
 
   new Game(config);
 });
-
