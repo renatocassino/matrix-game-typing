@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 import { asPercentage } from '../../../../utils/string';
-import { assets } from '../../../constants/assets';
-import { Settings } from '../../../settings';
+import { assets } from '../../../common/constants/assets';
+import { Settings } from '../../../common/settings';
 
 export class SettingsModalComponent extends Phaser.GameObjects.Container {
   constructor(scene: Scene, x: number, y: number) {

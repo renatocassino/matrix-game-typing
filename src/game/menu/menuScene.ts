@@ -1,4 +1,4 @@
-import { assets } from '../constants/assets';
+import { assets } from '../common/constants/assets';
 import { RoundScene } from '../round/roundScene';
 import { SettingsModalComponent } from './components/ui/settingsModalComponent';
 

@@ -1,5 +1,5 @@
 import { CustomWindow } from '../../commonTypes';
-import { assets } from '../constants/assets';
+import { assets } from '../common/constants/assets';
 import { MenuScene } from '../menu/menuScene';
 import { ScoreStatus } from '../round/components/scoreComponent';
 

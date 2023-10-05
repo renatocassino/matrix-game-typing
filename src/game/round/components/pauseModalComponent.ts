@@ -1,5 +1,5 @@
-import { assets } from '../../constants/assets';
-import { gameEvents } from '../../constants/events';
+import { assets } from '../../common/constants/assets';
+import { gameEvents } from '../../common/constants/events';
 import { MenuScene } from '../../menu/menuScene';
 import { RoundScene } from '../roundScene';
 

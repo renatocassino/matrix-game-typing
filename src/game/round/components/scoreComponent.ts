@@ -1,6 +1,6 @@
 import { formatTime } from '../../../utils/numbers';
-import { assets } from '../../constants/assets';
-import { gameEvents } from '../../constants/events';
+import { assets } from '../../common/constants/assets';
+import { gameEvents } from '../../common/constants/events';
 import { ScoreScene } from '../../score/scoreScene';
 import { RoundScene } from '../roundScene';
 

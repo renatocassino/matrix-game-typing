@@ -1,8 +1,8 @@
 import { LetterStatus, WordStatus } from '../../../types';
 import { generateRandom, generateRandomInteger } from '../../../utils/numbers';
-import { assets } from '../../constants/assets';
-import { gameEvents } from '../../constants/events';
-import { Settings } from '../../settings';
+import { assets } from '../../common/constants/assets';
+import { gameEvents } from '../../common/constants/events';
+import { Settings } from '../../common/settings';
 import { RoundScene } from '../roundScene';
 import { LetterComponent } from './letterComponent';
 

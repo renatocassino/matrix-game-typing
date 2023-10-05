@@ -1,4 +1,4 @@
-import { assets } from '../constants/assets';
+import { assets } from '../common/constants/assets';
 import { MenuScene } from '../menu/menuScene';
 
 export class PreloadScene extends Phaser.Scene {

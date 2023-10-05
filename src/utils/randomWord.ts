@@ -1,4 +1,4 @@
-import { listOfWords } from '../listOfWords';
+import { listOfWords } from '../game/common/constants/listOfWords';
 
 export const getRandomWord = (
   forbiddenLetters: string[],

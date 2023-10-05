@@ -3,9 +3,9 @@ import {
 } from '../../types';
 import { isMobile } from '../../utils/isMobile';
 import { getRandomLetter, getRandomWord } from '../../utils/randomWord';
-import { assets } from '../constants/assets';
-import { gameEvents } from '../constants/events';
-import { SettingsType } from '../settings';
+import { assets } from '../common/constants/assets';
+import { gameEvents } from '../common/constants/events';
+import { SettingsType } from '../common/settings';
 import { WaveScene } from './animations/waveScene';
 import { PauseModalComponent } from './components/pauseModalComponent';
 import { PauseToggleButton } from './components/pauseToggleButton';
