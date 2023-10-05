@@ -92,8 +92,6 @@ export class RoundScene extends Phaser.Scene {
       waves: generateWaves(80),
     };
 
-    console.log(this.roundConfig.waves);
-
     if (this.roundConfig.gameMode === GameMode.Letters) {
       this.roundConfig.wordDropInterval = 300;
     }

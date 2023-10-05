@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { CustomWindow } from '../../commonTypes';
+import { CustomWindow } from '../../game/common/types/commonTypes';
 import chart from './ChartWpm.vue';
 
 const dialog = ref(false);

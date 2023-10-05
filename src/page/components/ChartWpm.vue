@@ -11,7 +11,7 @@ import {
 } from 'chart.js';
 import { computed, onMounted, ref } from 'vue';
 import { Line } from 'vue-chartjs';
-import { CustomWindow } from '../../commonTypes';
+import { CustomWindow } from '../../game/common/types/commonTypes';
 
 ChartJS.register(
   CategoryScale,
