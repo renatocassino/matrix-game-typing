@@ -3,7 +3,7 @@ import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import 'vuetify/styles';
-import { GamePlay } from './game/gameplay';
+import { GamePlay } from './game/gamePlay';
 import { MenuScene } from './game/menu/menuScene';
 import { PreloadScene } from './game/preload/preloadScene';
 import { WaveScene } from './game/round/animations/waveScene';

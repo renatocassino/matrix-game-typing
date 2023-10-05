@@ -1,6 +1,7 @@
 import { TextButton } from '../common/components/ui/textButton';
 import { assets } from '../common/constants/assets';
 import { RoundScene } from '../round/roundScene';
+import { Logo } from './components/ui/logo';
 import { SettingsModalComponent } from './components/ui/settingsModalComponent';
 
 export class MenuScene extends Phaser.Scene {
@@ -14,9 +15,9 @@ export class MenuScene extends Phaser.Scene {
     this.cameras.main.fadeIn(300);
     this.addBackground();
     this.addFadeAnimation();
-    this.addLogo();
     this.addPlayButton();
     this.addSettings();
+    new Logo(this, this.sys.game.canvas.width / 2, 120);
   }
 
   addBackground() {
@@ -53,38 +54,17 @@ export class MenuScene extends Phaser.Scene {
     });
   }
 
-  addLogo() {
-    // The logo is just a text
-    const boardWidth = this.sys.game.canvas.width;
-    // const boardHeight = this.sys.game.canvas.height;
-    this.add.text(boardWidth / 2, 120, 'Matrix Type.io', {
-      fontFamily: 'Orbitron',
-      fontSize: '50px',
-      color: '#ffffff',
-      align: 'center',
-      shadow: {
-        offsetX: 0,
-        offsetY: 0,
-        color: '#0f0',
-        blur: 20,
-        stroke: true,
-        fill: true,
-      },
-    }).setOrigin(0.5, 0).setAlpha(1);
-  }
-
   addPlayButton() {
-    const self = this;
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
-    const { scene } = this;
+    const { scene, input } = this;
     const button = new TextButton(this, boardWidth / 2, boardHeight / 2, 'New Game');
 
     button.on('pointerdown', () => {
-      self.input.setDefaultCursor('default');
+      input.setDefaultCursor('default');
       scene.start(RoundScene.key);
-    }, this);
+    });
   }
 
   addSettings() {
