@@ -1,5 +1,6 @@
-import { CustomWindow } from '../../commonTypes';
+import { TextButton } from '../common/components/ui/textButton';
 import { assets } from '../common/constants/assets';
+import { CustomWindow } from '../common/types/commonTypes';
 import { MenuScene } from '../menu/menuScene';
 import { ScoreStatus } from '../round/components/scoreComponent';
 
@@ -31,7 +32,6 @@ export class ScoreScene extends Phaser.Scene {
   }
 
   addScoreStatus() {
-    const self = this;
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
@@ -63,13 +63,9 @@ export class ScoreScene extends Phaser.Scene {
       this.add.text(boardWidth / 2, yText + (index * 25), text, style).setOrigin(0.5, 0);
     });
 
-    const backToMenuText = this
-      .add
-      .text(this.cameras.main.width / 2, 500, 'Back to menu', { color: '#FFF', font: '20px Orbitron' })
-      .setOrigin(0.5);
+    const backToMenuText = new TextButton(this, boardWidth / 2, 500, 'Back to menu');
+    const scoreGraph = new TextButton(this, boardWidth / 2, 550, 'Score Graph');
 
-    const scoreGraph = this.add.text(this.cameras.main.width / 2, 440, 'See graph', { color: '#FFF', font: '20px Orbitron' }).setOrigin(0.5);
-    scoreGraph.setInteractive();
     scoreGraph.on('pointerdown', () => {
       (window as CustomWindow).openScoreModal();
 
@@ -78,23 +74,10 @@ export class ScoreScene extends Phaser.Scene {
           (window as CustomWindow).updateChart(this.scoreStatus.wpmHistory);
         }
       }, 500);
-    }).on('pointerover', () => {
-      backToMenuText.setAlpha(0.8);
-      self.input.setDefaultCursor('pointer');
-    }).on('pointerout', () => {
-      backToMenuText.setAlpha(1);
-      self.input.setDefaultCursor('default');
     });
 
-    backToMenuText.setInteractive();
     backToMenuText.on('pointerdown', () => {
       this.scene.start(MenuScene.key);
-    }).on('pointerover', () => {
-      backToMenuText.setAlpha(0.8);
-      self.input.setDefaultCursor('pointer');
-    }).on('pointerout', () => {
-      backToMenuText.setAlpha(1);
-      self.input.setDefaultCursor('default');
     });
   }
 

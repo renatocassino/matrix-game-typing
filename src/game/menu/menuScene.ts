@@ -1,3 +1,4 @@
+import { TextButton } from '../common/components/ui/textButton';
 import { assets } from '../common/constants/assets';
 import { RoundScene } from '../round/roundScene';
 import { SettingsModalComponent } from './components/ui/settingsModalComponent';
@@ -78,33 +79,7 @@ export class MenuScene extends Phaser.Scene {
     const boardHeight = this.sys.game.canvas.height;
 
     const { scene } = this;
-    const button = this.add.text(boardWidth / 2, boardHeight / 2 + 80, 'New Game', {
-      fontFamily: 'Orbitron',
-      fontSize: '22px',
-      color: '#ffffff',
-      shadow: {
-        offsetX: 0,
-        offsetY: 0,
-        color: '#fff',
-        blur: 0,
-        stroke: true,
-        fill: true,
-      },
-    }).setOrigin(0.5, 0.5).setInteractive().setAlpha(1);
-
-    button.on('pointerover', () => {
-      self.input.setDefaultCursor('pointer');
-      button.setAlpha(0.8);
-      button.setColor('#00FF00');
-      button.setShadow(0, 0, '#00FF00', 2, true, true);
-    });
-
-    button.on('pointerout', () => {
-      self.input.setDefaultCursor('default');
-      button.setColor('#FFF');
-      button.setAlpha(1);
-      button.setShadow(0, 0, '#FFF', 0, true, true);
-    });
+    const button = new TextButton(this, boardWidth / 2, boardHeight / 2, 'New Game');
 
     button.on('pointerdown', () => {
       self.input.setDefaultCursor('default');

@@ -25,7 +25,6 @@ export class SettingsModalComponent extends Phaser.GameObjects.Container {
         event.stopPropagation();
       });
     const areaWidth = bgSettings.height * bgSettings.scaleY;
-    // const areaHeight = bgSettings.width * bgSettings.scaleX;
     this.add(bgSettings);
 
     const settingsText = scene.add.text(0, 0, 'Settings', { font: '24px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-220);
