@@ -1,5 +1,5 @@
 import { assets } from '../constants/assets';
-import { MenuScene } from './menuScene';
+import { MenuScene } from '../menu/menuScene';
 
 export class PreloadScene extends Phaser.Scene {
   static key = 'PreloadScene';

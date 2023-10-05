@@ -1,7 +1,7 @@
-import { assets } from '../constants/assets';
-import { gameEvents } from '../constants/events';
-import { MenuScene } from '../scenes/menuScene';
-import { RoundScene } from '../scenes/roundScene';
+import { assets } from '../../constants/assets';
+import { gameEvents } from '../../constants/events';
+import { MenuScene } from '../../menu/menuScene';
+import { RoundScene } from '../roundScene';
 
 export class PauseModalComponent extends Phaser.GameObjects.Container {
   constructor(readonly scene: Phaser.Scene, x: number, y: number) {

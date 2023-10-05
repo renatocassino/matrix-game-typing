@@ -1,9 +1,9 @@
-import { LetterStatus, WordStatus } from '../../types';
-import { generateRandom, generateRandomInteger } from '../../utils/numbers';
-import { assets } from '../constants/assets';
-import { gameEvents } from '../constants/events';
-import { RoundScene } from '../scenes/roundScene';
-import { Settings } from '../settings';
+import { LetterStatus, WordStatus } from '../../../types';
+import { generateRandom, generateRandomInteger } from '../../../utils/numbers';
+import { assets } from '../../constants/assets';
+import { gameEvents } from '../../constants/events';
+import { Settings } from '../../settings';
+import { RoundScene } from '../roundScene';
 import { LetterComponent } from './letterComponent';
 
 export class WordComponent extends Phaser.GameObjects.Container {

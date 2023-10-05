@@ -1,5 +1,5 @@
-import { LetterStatus } from '../../types';
-import { RoundScene } from '../scenes/roundScene';
+import { LetterStatus } from '../../../types';
+import { RoundScene } from '../roundScene';
 import { WordComponent } from './wordComponent';
 
 export class LetterComponent extends Phaser.GameObjects.Container {

@@ -1,8 +1,8 @@
-import { formatTime } from '../../utils/numbers';
-import { assets } from '../constants/assets';
-import { gameEvents } from '../constants/events';
-import { RoundScene } from '../scenes/roundScene';
-import { ScoreScene } from '../scenes/scoreScene';
+import { formatTime } from '../../../utils/numbers';
+import { assets } from '../../constants/assets';
+import { gameEvents } from '../../constants/events';
+import { ScoreScene } from '../../score/scoreScene';
+import { RoundScene } from '../roundScene';
 
 export type ScoreStatus = {
   hits: number;

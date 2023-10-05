@@ -1,6 +1,6 @@
-import { assets } from '../constants/assets';
-import { gameEvents } from '../constants/events';
-import { RoundScene } from '../scenes/roundScene';
+import { assets } from '../../constants/assets';
+import { gameEvents } from '../../constants/events';
+import { RoundScene } from '../roundScene';
 
 export class PauseToggleButton extends Phaser.GameObjects.Container {
   private pauseToggle: Phaser.GameObjects.Image;

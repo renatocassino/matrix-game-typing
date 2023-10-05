@@ -1,6 +1,6 @@
-import { SettingsModalComponent } from '../components/settingsModalComponent';
 import { assets } from '../constants/assets';
-import { RoundScene } from './roundScene';
+import { RoundScene } from '../round/roundScene';
+import { SettingsModalComponent } from './components/ui/settingsModalComponent';
 
 export class MenuScene extends Phaser.Scene {
   static key = 'MenuScene';

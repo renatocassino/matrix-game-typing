@@ -3,16 +3,16 @@ import {
 } from '../../types';
 import { isMobile } from '../../utils/isMobile';
 import { getRandomLetter, getRandomWord } from '../../utils/randomWord';
-import { PauseModalComponent } from '../components/pauseModalComponent';
-import { PauseToggleButton } from '../components/pauseToggleButton';
-import { ScoreComponent } from '../components/scoreComponent';
-import { VirtualKeyboard } from '../components/virtualKeyboard';
-import { VolumeButton } from '../components/volumeButton';
-import { WordComponent } from '../components/wordComponent';
 import { assets } from '../constants/assets';
 import { gameEvents } from '../constants/events';
 import { SettingsType } from '../settings';
-import { WaveScene } from './waveScene';
+import { WaveScene } from './animations/waveScene';
+import { PauseModalComponent } from './components/pauseModalComponent';
+import { PauseToggleButton } from './components/pauseToggleButton';
+import { ScoreComponent } from './components/scoreComponent';
+import { VirtualKeyboard } from './components/virtualKeyboard';
+import { VolumeButton } from './components/volumeButton';
+import { WordComponent } from './components/wordComponent';
 
 // TODO
 // Make a menu when pause with option to stop sounds, restart, etc

@@ -3,12 +3,12 @@ import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import 'vuetify/styles';
-import { Game } from './game/game';
-import { MenuScene } from './game/scenes/menuScene';
-import { PreloadScene } from './game/scenes/preloadScene';
-import { RoundScene } from './game/scenes/roundScene';
-import { ScoreScene } from './game/scenes/scoreScene';
-import { WaveScene } from './game/scenes/waveScene';
+import { GamePlay } from './game/gameplay';
+import { MenuScene } from './game/menu/menuScene';
+import { PreloadScene } from './game/preload/preloadScene';
+import { WaveScene } from './game/round/animations/waveScene';
+import { RoundScene } from './game/round/roundScene';
+import { ScoreScene } from './game/score/scoreScene';
 import App from './page/App.vue';
 import './style.css';
 
@@ -29,5 +29,5 @@ window.addEventListener('load', () => {
     scene: [PreloadScene, WaveScene, MenuScene, RoundScene, ScoreScene],
   };
 
-  new Game(config);
+  new GamePlay(config);
 });

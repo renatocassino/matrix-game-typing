@@ -1,7 +1,7 @@
 import { CustomWindow } from '../../commonTypes';
-import { ScoreStatus } from '../components/scoreComponent';
 import { assets } from '../constants/assets';
-import { MenuScene } from './menuScene';
+import { MenuScene } from '../menu/menuScene';
+import { ScoreStatus } from '../round/components/scoreComponent';
 
 export class ScoreScene extends Phaser.Scene {
   static key = 'ScoreScene';
