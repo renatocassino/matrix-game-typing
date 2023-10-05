@@ -15,10 +15,10 @@ import { SettingsType } from '../settings';
 import { WaveScene } from './waveScene';
 
 // TODO
-// Add waves - Wave 1 easy, wave 2 medium, wave 3 hard
 // Make a menu when pause with option to stop sounds, restart, etc
-// Add a timer before start with time of music (na virada)
+// Migrate all menus to new scenes (Refactor)
 // Add special power
+// Add sequence feedback and multiply score
 // Create modules to round, example: Just letters, just words with ASD, just words with ASDFGLKJH
 // Add ads :)
 // Decide a name to game
@@ -28,19 +28,20 @@ function generateWaves(numWaves: number): RoundConfig['waves'] {
   const waves = [];
 
   for (let i = 1; i <= numWaves; i += 1) {
-    // let logFactor = Math.log(i + 1);
+    const logFactor = Math.log(i + 1);
 
     const wave = {
       velocity: {
-        min: 0.8 * (i * 0.002),
-        max: 1 + (i * 0.3),
+        min: Math.max(0.8 * (i * 0.02), 1),
+        max: Math.min(1 + (i * logFactor), 2),
       },
       waveNumber: i,
-      wordDropInterval: Math.max(1000 - (i * 20), 400),
-      wordsToType: Math.min(5 + (i * 3), 40),
+      // TODO - add min and max and randomize in wordDropInterval
+      wordDropInterval: Math.max(900 - (i * 100 * logFactor), 400),
+      wordsToType: Math.floor(Math.min(5 + (i * logFactor), 40)),
       wordConfig: {
         size: {
-          min: Math.min(Math.max(1, (i - 1) * 2), 5),
+          min: Math.floor(Math.min(Math.max(1, (i - 1) * logFactor), 5)),
           max: (i * 2) + 2,
         },
       },
