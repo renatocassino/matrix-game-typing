@@ -70,6 +70,12 @@ export class RoundScene extends Phaser.Scene {
           waveNumber: 1,
           wordDropInterval: 800,
           wordsToType: 10,
+          wordConfig: {
+            size: {
+              min: 1,
+              max: 4,
+            },
+          },
         },
         {
           velocity: {
@@ -79,6 +85,12 @@ export class RoundScene extends Phaser.Scene {
           waveNumber: 2,
           wordDropInterval: 700,
           wordsToType: 15,
+          wordConfig: {
+            size: {
+              min: 2,
+              max: 6,
+            },
+          },
         },
         {
           velocity: {
@@ -88,6 +100,12 @@ export class RoundScene extends Phaser.Scene {
           waveNumber: 3,
           wordDropInterval: 600,
           wordsToType: 20,
+          wordConfig: {
+            size: {
+              min: 4,
+              max: 8,
+            },
+          },
         },
       ],
     };
@@ -106,7 +124,9 @@ export class RoundScene extends Phaser.Scene {
       throw new Error('No waves defined');
     }
 
-    return this.roundConfig.waves[Math.min(this.currentWave, this.roundConfig.waves.length - 1)];
+    return this.roundConfig.waves[
+      Math.min(this.currentWave - 1, this.roundConfig.waves.length - 1)
+    ];
   }
 
   create() {
@@ -192,10 +212,6 @@ export class RoundScene extends Phaser.Scene {
       }, 30);
     }, this);
 
-    this.emitter.on(gameEvents.LOST_WORD, () => {
-
-    }, this);
-
     if (isMobile()) {
       new VirtualKeyboard(this, 0, this.sys.game.canvas.height - 150);
     }
@@ -231,8 +247,10 @@ export class RoundScene extends Phaser.Scene {
 
     const usedLetters = this.words.map((word) => word.word[0]);
 
+    const wave = this.currentWaveConfig;
+    console.log(wave.wordConfig.size.min, wave.wordConfig.size.max);
     const word = this.roundConfig.gameMode === GameMode.Words
-      ? getRandomWord(usedLetters)
+      ? getRandomWord(usedLetters, wave.wordConfig.size.min, wave.wordConfig.size.max)
       : getRandomLetter(usedLetters);
 
     if (!word) {

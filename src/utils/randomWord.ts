@@ -1,6 +1,10 @@
 import { listOfWords } from '../listOfWords';
 
-export const getRandomWord = (forbiddenLetters: string[]): string | null => {
+export const getRandomWord = (
+  forbiddenLetters: string[],
+  minSize: number,
+  maxSize: number,
+): string | null => {
   const letterUsed = new Set(forbiddenLetters);
   const clone = [...listOfWords].filter((word) => letterUsed.has(word[0]) === false);
 
@@ -13,7 +17,12 @@ export const getRandomWord = (forbiddenLetters: string[]): string | null => {
       continue;
     }
 
-    return word as string;
+    if (word.length < minSize || word.length > maxSize) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    return word;
   }
 
   return null;

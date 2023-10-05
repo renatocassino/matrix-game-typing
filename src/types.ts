@@ -35,6 +35,12 @@ export type WaveConfig = {
     min: number;
     max: number;
   },
+  wordConfig: {
+    size: {
+      min: number;
+      max: number;
+    },
+  },
   wordsToType: number;
 }
 
