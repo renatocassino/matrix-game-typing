@@ -138,7 +138,6 @@ export class WordComponent extends Phaser.GameObjects.Container {
 
     const disappeared = (
       this.y > this.velocityConfig.finalY
-      || this.velocityConfig.currentTime > this.velocityConfig.duration
     );
 
     if (disappeared) {

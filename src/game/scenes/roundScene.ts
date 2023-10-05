@@ -49,6 +49,8 @@ export class RoundScene extends Phaser.Scene {
 
   status: 'playing' | 'waveAnimation' | 'start' = 'start';
 
+  wordsLeftToFall: number = 0;
+
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: RoundScene.key, ...(config ?? {}) });
 
@@ -193,6 +195,10 @@ export class RoundScene extends Phaser.Scene {
       }, 30);
     }, this);
 
+    this.emitter.on(gameEvents.LOST_WORD, () => {
+
+    }, this);
+
     if (isMobile()) {
       new VirtualKeyboard(this, 0, this.sys.game.canvas.height - 150);
     }
@@ -211,6 +217,10 @@ export class RoundScene extends Phaser.Scene {
   }
 
   createNewWord() {
+    if (this.wordsLeftToFall === 0) {
+      return;
+    }
+
     const boardSize = this.sys.game.canvas.width;
     const min = 3;
     const max = Math.floor(boardSize / this.worldConfig.letterSize) - 3;
@@ -228,18 +238,21 @@ export class RoundScene extends Phaser.Scene {
       ? getRandomWord(usedLetters)
       : getRandomLetter(usedLetters);
 
-    if (word) {
-      const x = possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
-      this.words.push(
-        new WordComponent(
-          this,
-          word.toLowerCase(),
-          x * this.worldConfig.letterSize,
-          0,
-          x,
-        ),
-      );
+    if (!word) {
+      return;
     }
+
+    this.wordsLeftToFall -= 1;
+    const x = possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
+    this.words.push(
+      new WordComponent(
+        this,
+        word.toLowerCase(),
+        x * this.worldConfig.letterSize,
+        0,
+        x,
+      ),
+    );
   }
 
   keyPress(event: KeyboardEvent) {
@@ -282,6 +295,7 @@ export class RoundScene extends Phaser.Scene {
     this.words.forEach((word) => word.remove());
     this.words = [];
     this.currentWord = undefined;
+    this.wordsLeftToFall = this.currentWaveConfig.wordsToType;
 
     this.scene.launch(WaveScene.key, {
       wave: this.currentWave,
@@ -301,6 +315,11 @@ export class RoundScene extends Phaser.Scene {
     }
     this.score.update();
     this.currentWordText.setText(this.currentWord?.word.toUpperCase() ?? '');
+
+    if (this.wordsLeftToFall === 0 && this.words.length === 0) {
+      this.nextWave();
+      return;
+    }
 
     const now = Date.now();
     const delta = now - this.lastUpdate;
