@@ -24,6 +24,33 @@ import { WaveScene } from './waveScene';
 // Decide a name to game
 // Buy a domain
 
+function generateWaves(numWaves: number): RoundConfig['waves'] {
+  const waves = [];
+
+  for (let i = 1; i <= numWaves; i += 1) {
+    // let logFactor = Math.log(i + 1);
+
+    const wave = {
+      velocity: {
+        min: 0.8 * (i * 0.002),
+        max: 1 + (i * 0.3),
+      },
+      waveNumber: i,
+      wordDropInterval: Math.max(1000 - (i * 20), 400),
+      wordsToType: Math.min(5 + (i * 3), 40),
+      wordConfig: {
+        size: {
+          min: Math.min(Math.max(1, (i - 1) * 2), 5),
+          max: (i * 2) + 2,
+        },
+      },
+    };
+    waves.push(wave);
+  }
+
+  return waves;
+}
+
 export class RoundScene extends Phaser.Scene {
   static readonly key = 'BoardScene';
 
@@ -61,54 +88,10 @@ export class RoundScene extends Phaser.Scene {
       wordMode: WordMode.Duration,
       wordDropInterval: 800,
       maxFailures: 5,
-      waves: [
-        {
-          velocity: {
-            min: 0.5,
-            max: 1,
-          },
-          waveNumber: 1,
-          wordDropInterval: 800,
-          wordsToType: 10,
-          wordConfig: {
-            size: {
-              min: 1,
-              max: 4,
-            },
-          },
-        },
-        {
-          velocity: {
-            min: 0.5,
-            max: 1.5,
-          },
-          waveNumber: 2,
-          wordDropInterval: 700,
-          wordsToType: 15,
-          wordConfig: {
-            size: {
-              min: 2,
-              max: 6,
-            },
-          },
-        },
-        {
-          velocity: {
-            min: 0.5,
-            max: 2,
-          },
-          waveNumber: 3,
-          wordDropInterval: 600,
-          wordsToType: 20,
-          wordConfig: {
-            size: {
-              min: 4,
-              max: 8,
-            },
-          },
-        },
-      ],
+      waves: generateWaves(80),
     };
+
+    console.log(this.roundConfig.waves);
 
     if (this.roundConfig.gameMode === GameMode.Letters) {
       this.roundConfig.wordDropInterval = 300;
@@ -248,7 +231,6 @@ export class RoundScene extends Phaser.Scene {
     const usedLetters = this.words.map((word) => word.word[0]);
 
     const wave = this.currentWaveConfig;
-    console.log(wave.wordConfig.size.min, wave.wordConfig.size.max);
     const word = this.roundConfig.gameMode === GameMode.Words
       ? getRandomWord(usedLetters, wave.wordConfig.size.min, wave.wordConfig.size.max)
       : getRandomLetter(usedLetters);
