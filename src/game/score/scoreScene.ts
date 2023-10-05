@@ -1,3 +1,5 @@
+import { BackgroundImage } from '../common/components/ui/backgroundImage';
+import { Overlay } from '../common/components/ui/overlay';
 import { TextButton } from '../common/components/ui/textButton';
 import { assets } from '../common/constants/assets';
 import { CustomWindow } from '../common/types/commonTypes';
@@ -26,8 +28,16 @@ export class ScoreScene extends Phaser.Scene {
 
   create() {
     this.cameras.main.fadeIn(300);
-    this.addBackground();
-    this.addFadeAnimation();
+    const overlay = new Overlay(this);
+    this.tweens.add({
+      targets: overlay,
+      alpha: 0.5,
+      delay: 100,
+      duration: 1000,
+      ease: 'Linear',
+      repeat: 0,
+    });
+    new BackgroundImage(this, assets.bg.SCORE);
     this.addScoreStatus();
   }
 
@@ -78,43 +88,6 @@ export class ScoreScene extends Phaser.Scene {
 
     backToMenuText.on('pointerdown', () => {
       this.scene.start(MenuScene.key);
-    });
-  }
-
-  addBackground() {
-    const bg = this.textures.get(assets.bg.SCORE).get(0);
-    const boardWidth = this.sys.game.canvas.width;
-    const boardHeight = this.sys.game.canvas.height;
-
-    const widthRatio = boardWidth / bg.width;
-    const heightRatio = boardHeight / bg.height;
-
-    const scaleFactor = Math.max(widthRatio, heightRatio);
-
-    this
-      .add
-      .image(boardWidth / 2, boardHeight / 2, assets.bg.SCORE)
-      .setOrigin(0.5, 0.5)
-      .setScale(scaleFactor);
-  }
-
-  addFadeAnimation() {
-    const boardWidth = this.sys.game.canvas.width;
-    const boardHeight = this.sys.game.canvas.height;
-
-    const rectangle = this
-      .add
-      .rectangle(0, 0, boardWidth, boardHeight, 0x000000, 1)
-      .setOrigin(0, 0)
-      .setAlpha(0);
-
-    this.tweens.add({
-      targets: rectangle,
-      alpha: 0.5,
-      delay: 100,
-      duration: 1000,
-      ease: 'Linear',
-      repeat: 0,
     });
   }
 }

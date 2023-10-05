@@ -3,6 +3,7 @@ import {
 } from '../../types';
 import { isMobile } from '../../utils/isMobile';
 import { getRandomLetter, getRandomWord } from '../../utils/randomWord';
+import { BackgroundImage } from '../common/components/ui/backgroundImage';
 import { assets } from '../common/constants/assets';
 import { gameEvents } from '../common/constants/events';
 import { SettingsType } from '../common/settings';
@@ -119,12 +120,7 @@ export class RoundScene extends Phaser.Scene {
     const boardHeight = this.sys.game.canvas.height;
 
     const settings = this.game.registry.get('_settingsValue') as SettingsType;
-    const background = this
-      .add
-      .image(boardWidth / 2, boardHeight / 2, assets.bg.GAME_BACKGROUND)
-      .setOrigin(0.5, 0.5)
-      .setAlpha(0.1)
-      .setScale(1.5);
+    const background = new BackgroundImage(this, assets.bg.GAME_BACKGROUND).setAlpha(0.1);
 
     this.words = [];
     this.currentWord = undefined;

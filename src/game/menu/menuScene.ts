@@ -1,3 +1,4 @@
+import { BackgroundImage } from '../common/components/ui/backgroundImage';
 import { TextButton } from '../common/components/ui/textButton';
 import { assets } from '../common/constants/assets';
 import { RoundScene } from '../round/roundScene';
@@ -13,25 +14,11 @@ export class MenuScene extends Phaser.Scene {
 
   create() {
     this.cameras.main.fadeIn(300);
-    this.addBackground();
+    new BackgroundImage(this, assets.bg.MENU_BACKGROUND);
     this.addFadeAnimation();
     this.addPlayButton();
     this.addSettings();
     new Logo(this, this.sys.game.canvas.width / 2, 120);
-  }
-
-  addBackground() {
-    const bg = this.textures.get(assets.bg.MENU_BACKGROUND).get(0);
-    const boardWidth = this.sys.game.canvas.width;
-    const boardHeight = this.sys.game.canvas.height;
-
-    const widthRatio = boardWidth / bg.width;
-    const heightRatio = boardHeight / bg.height;
-
-    const scaleFactor = Math.max(widthRatio, heightRatio);
-
-    const img = this.add.image(boardWidth / 2, boardHeight / 2, assets.bg.MENU_BACKGROUND);
-    img.setScale(scaleFactor);
   }
 
   addFadeAnimation() {
