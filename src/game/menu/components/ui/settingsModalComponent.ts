@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
 import { asPercentage } from '../../../../utils/string';
+import { CardModal } from '../../../common/components/ui/cardModal';
 import { IconButton } from '../../../common/components/ui/iconButton';
 import { Overlay } from '../../../common/components/ui/overlay';
 import { assets } from '../../../common/constants/assets';
@@ -15,16 +16,11 @@ export class SettingsModalComponent extends Phaser.GameObjects.Container {
     const overlay = new Overlay(scene).setEventToClose(() => this.close());
     this.add(overlay);
 
-    const bgSettings = scene
-      .add
-      .image(0, 0, assets.ui.CARD)
-      .setRotation(Phaser.Math.DegToRad(90))
-      .setScale(0.8)
-      .setInteractive()
-      .on('pointerdown', ({ event }: { event: MouseEvent }) => {
-        event.stopPropagation();
-      });
-    const areaWidth = bgSettings.height * bgSettings.scaleY;
+    const bgSettings = new CardModal(scene, 0, 0);
+    bgSettings.on('pointerdown', ({ event }: { event: MouseEvent }) => {
+      event.stopPropagation();
+    });
+    const areaWidth = bgSettings.width * bgSettings.scaleY;
     this.add(bgSettings);
 
     const settingsText = scene.add.text(0, 0, 'Settings', { font: '24px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5).setY(-220);

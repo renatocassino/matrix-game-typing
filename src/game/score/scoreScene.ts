@@ -22,7 +22,7 @@ export class ScoreScene extends Phaser.Scene {
 
   addScoreInLocalStorage() {
     const scores = JSON.parse(localStorage.getItem('scores') ?? '[]');
-    scores.push({ ...this.scoreStatus, date: new Date().toISOString() });
+    scores.push({ ...this.scoreStatus, date: new Date().toISOString() }).slice(-10);
     localStorage.setItem('scores', JSON.stringify(scores));
   }
 
@@ -51,8 +51,7 @@ export class ScoreScene extends Phaser.Scene {
       assets.ui.CARD,
     )
       .setScale(0.7)
-      .setAlpha(0.6)
-      .setRotation(Phaser.Math.DegToRad(90));
+      .setAlpha(0.6);
     const style = { color: '#FFF', font: '16px Orbitron' };
     const yText = 215;
 

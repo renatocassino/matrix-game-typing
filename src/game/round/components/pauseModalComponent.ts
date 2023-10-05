@@ -31,7 +31,6 @@ export class PauseModalComponent extends Phaser.GameObjects.Container {
       .setOrigin(0.5, 0.5)
       .setScale(1)
       .setAlpha(0.8)
-      .setRotation(Phaser.Math.DegToRad(90))
       .setInteractive()
       .on('pointerdown', ({ event }: { event: MouseEvent }) => {
         event.stopPropagation();
