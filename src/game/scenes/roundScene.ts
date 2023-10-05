@@ -99,7 +99,21 @@ export class RoundScene extends Phaser.Scene {
     };
   }
 
+  get currentWaveConfig() {
+    if (!this.roundConfig.waves) {
+      throw new Error('No waves defined');
+    }
+
+    if (this.currentWave in this.roundConfig.waves) {
+      return this.roundConfig.waves[this.roundConfig.waves.length - 1];
+    }
+    return this.roundConfig.waves[this.currentWave];
+  }
+
   create() {
+    this.status = 'start';
+    this.currentWave = 0;
+
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
@@ -129,6 +143,7 @@ export class RoundScene extends Phaser.Scene {
 
     new VolumeButton(this, this.sys.game.canvas.width - 60, 20);
     new PauseToggleButton(this, this.sys.game.canvas.width - 30, 20);
+
     this.score = new ScoreComponent(this, 10, 10);
 
     const pauseModal = new PauseModalComponent(this, boardWidth / 2, boardHeight / 2);
@@ -187,6 +202,12 @@ export class RoundScene extends Phaser.Scene {
       .text(boardWidth / 2, 5, '', { color: '#090', fontFamily: '\'Orbitron\'', fontSize: '12px' })
       .setOrigin(0.5, 0)
       .setAlpha(0.6);
+
+    this.events.once('shutdown', () => {
+      this.input.keyboard?.off('keydown', this.keyPress.bind(this));
+      this.emitter.removeAllListeners();
+      this.sound.stopAll();
+    }, this);
   }
 
   createNewWord() {
@@ -300,13 +321,5 @@ export class RoundScene extends Phaser.Scene {
         this.words = this.words.filter((w) => w !== word);
       }
     });
-  }
-
-  shutdown() {
-    this.words.forEach((word) => word.remove());
-
-    this.score.destroy();
-    this.currentWord = undefined;
-    this.sound.stopAll();
   }
 }

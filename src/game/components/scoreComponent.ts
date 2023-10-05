@@ -17,6 +17,12 @@ export type ScoreStatus = {
   lostWords: number;
 };
 
+const TOTAL_POINTS_TO_LOSE = 8;
+
+const config = {
+  useTimer: false,
+};
+
 export class ScoreComponent extends Phaser.GameObjects.Container {
   status: ScoreStatus;
 
@@ -24,14 +30,17 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
 
   lastSecond: number | null;
 
-  timer: Phaser.Time.TimerEvent;
+  timer?: Phaser.Time.TimerEvent;
 
   timerText: Phaser.GameObjects.Text;
+
+  lostWordsCount: Phaser.GameObjects.Text;
 
   currentTime: number = 0;
 
   constructor(readonly scene: Phaser.Scene, readonly x: number, readonly y: number) {
     super(scene, x, y);
+
     this.visible = true;
 
     this.lastSecond = null;
@@ -52,29 +61,48 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
     this.currentTime = (scene as RoundScene).roundConfig.timeLimit * 1000;
 
     const board = this.scene as RoundScene;
-    board.emitter.on(gameEvents.HIT, this.hit.bind(this));
-    board.emitter.on(gameEvents.PRESS_MISS, this.miss.bind(this));
-    board.emitter.on(gameEvents.WORD_COMPLETED, this.increaseWord.bind(this));
-    board.emitter.on(gameEvents.LOST_WORD, this.lostWord.bind(this));
+    board.emitter.on(gameEvents.HIT, this.hit, this);
+    board.emitter.on(gameEvents.PRESS_MISS, this.miss, this);
+    board.emitter.on(gameEvents.WORD_COMPLETED, this.increaseWord, this);
+    board.emitter.on(gameEvents.LOST_WORD, this.lostWord, this);
 
     this.add(this.scene.add.image(0, 0, assets.ui.CARD).setOrigin(0, 0).setScale(0.37).setAlpha(0));
     this.text = this.scene.add.text(20, 10, '', { color: '#0F0' }).setAlpha(0);
     this.add(this.text);
 
-    this.timer = this.scene.time.addEvent({
-      delay: 100,
-      callback: this.updateTimer.bind(this),
-      callbackScope: this,
-      loop: true,
-    });
-
     this.timerText = this.scene.add.text(0, 0, formatTime(this.currentTime), {
       fontSize: '24px',
       color: '#090',
-    });
+    }).setAlpha(config.useTimer ? 1 : 0);
+
+    this.lostWordsCount = this.scene.add.text(0, 0, '', {
+      fontSize: '24px',
+      color: '#090',
+    })
+      .setAlpha(config.useTimer ? 0 : 1)
+      .setText(`Words left: ${TOTAL_POINTS_TO_LOSE - this.status.lostWords}`);
+
+    if (config.useTimer) {
+      this.timer = this.scene.time.addEvent({
+        delay: 100,
+        callback: this.updateTimer,
+        callbackScope: this,
+        loop: true,
+      });
+    }
 
     this.add(this.timerText);
+    this.add(this.lostWordsCount);
     this.scene.add.existing(this);
+  }
+
+  destroy() {
+    const board = this.scene as RoundScene;
+    board.emitter.off(gameEvents.HIT, this.hit, this);
+    board.emitter.off(gameEvents.PRESS_MISS, this.miss, this);
+    board.emitter.off(gameEvents.WORD_COMPLETED, this.increaseWord, this);
+    board.emitter.off(gameEvents.LOST_WORD, this.lostWord, this);
+    super.destroy();
   }
 
   updateTimer() {
@@ -82,7 +110,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
     this.timerText.setText(formatTime(this.currentTime));
 
     if (this.currentTime <= 0) {
-      this.timer.remove(false);
+      this.timer?.remove(false);
       this.scene.sound.stopAll();
       this.scene.scene.start(ScoreScene.key, { score: this.status });
     }
@@ -90,6 +118,14 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
 
   lostWord() {
     this.status.lostWords += 1;
+    this.lostWordsCount.setText(`Words left: ${TOTAL_POINTS_TO_LOSE - this.status.lostWords}`);
+
+    if (!config.useTimer && this.status.lostWords >= TOTAL_POINTS_TO_LOSE) {
+      this.scene.sound.stopAll();
+      this.scene.scene.stop();
+      this.scene.scene.start(ScoreScene.key, { score: this.status });
+      this.destroy();
+    }
   }
 
   hit() {
