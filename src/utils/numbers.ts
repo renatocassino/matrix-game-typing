@@ -1,5 +1,9 @@
+export function generateRandom(min: number, max: number): number {
+  return min + Math.random() * (max - min);
+}
+
 export function generateRandomInteger(min: number, max: number): number {
-  return Math.floor(min + Math.random() * (max - min + 1));
+  return Math.floor(generateRandom(min, max));
 }
 
 export function easeOutCubic(t: number): number {

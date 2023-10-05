@@ -106,10 +106,7 @@ export class RoundScene extends Phaser.Scene {
       throw new Error('No waves defined');
     }
 
-    if (this.currentWave in this.roundConfig.waves) {
-      return this.roundConfig.waves[this.roundConfig.waves.length - 1];
-    }
-    return this.roundConfig.waves[this.currentWave];
+    return this.roundConfig.waves[Math.min(this.currentWave, this.roundConfig.waves.length - 1)];
   }
 
   create() {
@@ -278,8 +275,8 @@ export class RoundScene extends Phaser.Scene {
       return;
     }
 
-    // eslint-disable-next-line max-len
-    if (this.currentWord.word[this.currentWord.indexTyped].toUpperCase() === keyCode.toUpperCase()) {
+    const letter = this.currentWord.word[this.currentWord.indexTyped].toUpperCase();
+    if (letter === keyCode.toUpperCase()) {
       this.emitter.emit(gameEvents.HIT);
       this.currentWord.keyNextLetter();
 
@@ -292,7 +289,7 @@ export class RoundScene extends Phaser.Scene {
   nextWave() {
     this.status = 'waveAnimation';
     this.currentWave += 1;
-    this.words.forEach((word) => word.remove());
+    this.words.forEach((word) => word.destroy());
     this.words = [];
     this.currentWord = undefined;
     this.wordsLeftToFall = this.currentWaveConfig.wordsToType;
@@ -333,7 +330,7 @@ export class RoundScene extends Phaser.Scene {
       word.update();
 
       if (word.shouldRemove()) {
-        word.remove();
+        word.destroy();
         if (this.currentWord === word) {
           this.currentWord = undefined;
         }

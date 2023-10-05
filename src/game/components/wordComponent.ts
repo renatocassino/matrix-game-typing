@@ -1,5 +1,5 @@
 import { LetterStatus, WordStatus } from '../../types';
-import { generateRandomInteger } from '../../utils/numbers';
+import { generateRandom, generateRandomInteger } from '../../utils/numbers';
 import { assets } from '../constants/assets';
 import { gameEvents } from '../constants/events';
 import { RoundScene } from '../scenes/roundScene';
@@ -42,7 +42,9 @@ export class WordComponent extends Phaser.GameObjects.Container {
 
     const boardHeight = this.board.sys.game.canvas.height;
     const finalY = boardHeight;
-    this.velocity = generateRandomInteger(0.5, 1.3);
+
+    const waveConfig = this.board.currentWaveConfig;
+    this.velocity = generateRandom(waveConfig.velocity.min, waveConfig.velocity.max);
 
     this.y = board.worldConfig.letterSize * word.length * -1;
     this.velocityConfig = {
@@ -64,12 +66,6 @@ export class WordComponent extends Phaser.GameObjects.Container {
   update() {
     if (Date.now() > this.pressedWord) {
       this.y += this.velocity;
-
-      // const { finalY, duration, currentTime, initialY } = this.velocityConfig;
-      // const progress = currentTime / duration;
-      // const diff = finalY - initialY;
-      // const elementY = initialY + diff * easeOutSmooth(progress);
-      // this.y = elementY;
       this.velocityConfig.currentTime += 1;
     }
 
@@ -147,11 +143,9 @@ export class WordComponent extends Phaser.GameObjects.Container {
     return disappeared;
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  remove() {
-    this.letters.forEach((letter) => letter.text.destroy());
-    this.destroy();
+  destroy() {
+    this.letters.forEach((letter) => letter.destroy());
+    super.destroy();
     // const size = this.board.worldConfig.letterSize;
     // this.board.add.particles(this.x * size, this.y +
     // (this.letters.length * this.board.worldConfig.letterSize), 'red', {
