@@ -9,6 +9,7 @@ import { SettingsModal } from './game/menu/components/ui/settingsModal';
 import { MenuScene } from './game/menu/menuScene';
 import { PreloadScene } from './game/preload/preloadScene';
 import { WaveScene } from './game/round/animations/waveScene';
+import { RoundModal } from './game/round/components/ui/RoundModal';
 import { RoundScene } from './game/round/roundScene';
 import { ScoreScene } from './game/score/scoreScene';
 import App from './page/App.vue';
@@ -28,7 +29,16 @@ window.addEventListener('load', () => {
     type: Phaser.AUTO,
     parent: 'game',
     backgroundColor: '#000000',
-    scene: [PreloadScene, BaseModal, SettingsModal, WaveScene, MenuScene, RoundScene, ScoreScene],
+    scene: [
+      PreloadScene,
+      BaseModal,
+      RoundModal,
+      SettingsModal,
+      WaveScene,
+      MenuScene,
+      RoundScene,
+      ScoreScene,
+    ],
   };
 
   new GamePlay(config);

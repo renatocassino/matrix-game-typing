@@ -8,9 +8,9 @@ import { assets } from '../common/constants/assets';
 import { gameEvents } from '../common/constants/events';
 import { SettingsType } from '../common/settings';
 import { WaveScene } from './animations/waveScene';
-import { PauseModalComponent } from './components/pauseModalComponent';
 import { PauseToggleButton } from './components/pauseToggleButton';
 import { ScoreComponent } from './components/scoreComponent';
+import { RoundModal } from './components/ui/RoundModal';
 import { VirtualKeyboard } from './components/virtualKeyboard';
 import { VolumeButton } from './components/volumeButton';
 import { WordComponent } from './components/wordComponent';
@@ -117,7 +117,6 @@ export class RoundScene extends Phaser.Scene {
     this.currentWave = 0;
 
     const boardWidth = this.sys.game.canvas.width;
-    const boardHeight = this.sys.game.canvas.height;
 
     const settings = this.game.registry.get('_settingsValue') as SettingsType;
     const background = new BackgroundImage(this, assets.bg.GAME_BACKGROUND).setAlpha(0.1);
@@ -142,8 +141,6 @@ export class RoundScene extends Phaser.Scene {
     new PauseToggleButton(this, this.sys.game.canvas.width - 30, 20);
 
     this.score = new ScoreComponent(this, 10, 10);
-
-    const pauseModal = new PauseModalComponent(this, boardWidth / 2, boardHeight / 2);
 
     // const emitter = this.add.particles(0, 0, 'flares', {
     //   frame: { frames: ['white'], },
@@ -176,18 +173,14 @@ export class RoundScene extends Phaser.Scene {
       this.currentWord = undefined;
     });
 
-    this.emitter.on(gameEvents.RESUME, () => {
-      this.game.resume();
-      setTimeout(() => {
-        pauseModal.visible = false;
-      }, 30);
-    }, this);
-
     this.emitter.on(gameEvents.PAUSE, () => {
-      pauseModal.visible = true;
-      setTimeout(() => {
-        this.game.pause();
-      }, 30);
+      this.scene.launch(RoundModal.key);
+      this.scene.bringToTop(RoundModal.key);
+
+      const modalScene = this.scene.get(RoundModal.key);
+      modalScene.events.once('create', () => {
+        this.scene.pause();
+      });
     }, this);
 
     if (isMobile()) {
@@ -204,6 +197,7 @@ export class RoundScene extends Phaser.Scene {
       this.input.keyboard?.off('keydown', this.keyPress.bind(this));
       this.emitter.removeAllListeners();
       this.sound.stopAll();
+      this.scene.setActive(false);
     }, this);
   }
 
@@ -298,6 +292,8 @@ export class RoundScene extends Phaser.Scene {
   }
 
   update() {
+    if (!this.scene.isActive()) return;
+
     if (this.status === 'start') {
       this.nextWave();
       return;

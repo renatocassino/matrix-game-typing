@@ -7,8 +7,8 @@ import { Settings } from '../../../common/settings';
 export class SettingsModal extends BaseModal {
   static key = 'SettingsModal';
 
-  constructor() {
-    super(SettingsModal.key);
+  constructor(key?: string) {
+    super(key ?? SettingsModal.key);
     this.title = 'Settings';
   }
 

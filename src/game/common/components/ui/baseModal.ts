@@ -18,6 +18,9 @@ export class BaseModal extends Phaser.Scene {
     super({ key: key ?? BaseModal.key });
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  onCloseModal() {}
+
   create() {
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
@@ -61,10 +64,12 @@ export class BaseModal extends Phaser.Scene {
 
     this.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
+        this.onCloseModal();
         this.scene.stop();
       }
     });
     overlay.on('pointerdown', () => {
+      this.onCloseModal();
       this.scene.stop();
     });
 
