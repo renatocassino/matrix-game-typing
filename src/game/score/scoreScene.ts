@@ -66,6 +66,7 @@ export class ScoreScene extends Phaser.Scene {
       `Words Typed: ${this.scoreStatus?.wordsTyped ?? 0}`,
       `Precision: ${this.scoreStatus?.precision ?? 0}`,
       `Lost words: ${this.scoreStatus?.lostWords ?? 0}`,
+      `Wave: ${this.scoreStatus?.wave ?? 0}`,
     ];
 
     texts.forEach((text, index) => {

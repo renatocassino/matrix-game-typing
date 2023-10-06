@@ -15,6 +15,7 @@ export type ScoreStatus = {
   precision: string
   wpmHistory: number[];
   lostWords: number;
+  wave: number;
 };
 
 const TOTAL_POINTS_TO_LOSE = 8;
@@ -58,6 +59,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
       precision: '0.00%',
       wpmHistory: [],
       lostWords: 0,
+      wave: 0,
     };
 
     this.currentTime = (scene as RoundScene).roundConfig.timeLimit * 1000;
@@ -168,6 +170,10 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
 
   increaseWord() {
     this.status.wordsTyped += 1;
+  }
+
+  increaseWave() {
+    this.status.wave += 1;
   }
 
   update() {

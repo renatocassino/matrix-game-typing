@@ -280,6 +280,7 @@ export class RoundScene extends Phaser.Scene {
     this.words = [];
     this.currentWord = undefined;
     this.wordsLeftToFall = this.currentWaveConfig.wordsToType;
+    this.score.increaseWave();
 
     this.scene.launch(WaveScene.key, {
       wave: this.currentWave,
