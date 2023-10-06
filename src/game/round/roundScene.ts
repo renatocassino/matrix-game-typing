@@ -16,8 +16,6 @@ import { VolumeButton } from './components/volumeButton';
 import { WordComponent } from './components/wordComponent';
 
 // TODO
-// Make a menu when pause with option to stop sounds, restart, etc
-// Migrate all menus to new scenes (Refactor)
 // Add special power
 // Add sequence feedback and multiply score
 // Create modules to round, example: Just letters, just words with ASD, just words with ASDFGLKJH

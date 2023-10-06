@@ -22,8 +22,8 @@ export class ScoreScene extends Phaser.Scene {
 
   addScoreInLocalStorage() {
     const scores = JSON.parse(localStorage.getItem('scores') ?? '[]');
-    scores.push({ ...this.scoreStatus, date: new Date().toISOString() }).slice(-10);
-    localStorage.setItem('scores', JSON.stringify(scores));
+    scores.push({ ...this.scoreStatus, date: new Date().toISOString() });
+    localStorage.setItem('scores', JSON.stringify(scores.slice(-10)));
   }
 
   create() {

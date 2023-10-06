@@ -34,6 +34,11 @@ export class SettingsModal extends BaseModal {
       const newVolume = (Math.floor(volume * 10) + 1) / 10;
       settings.setConfig('musicVolume', Math.min(1, newVolume));
       musicValue.setText(asPercentage(settings.getConfig('musicVolume')));
+
+      const audio = this.sound.get(assets.audio.GAME_MUSIC);
+      if (audio) {
+        (audio as Phaser.Sound.HTML5AudioSound).setVolume(settings.getConfig('musicVolume'));
+      }
     });
 
     const decreaseVolume = new IconButton(this, xCenter - marginButton, 150, assets.icon.MINUS);
@@ -42,6 +47,10 @@ export class SettingsModal extends BaseModal {
       const newVolume = (Math.floor(volume * 10) - 1) / 10;
       settings.setConfig('musicVolume', Math.max(0, newVolume));
       musicValue.setText(asPercentage(settings.getConfig('musicVolume')));
+      const audio = this.sound.get(assets.audio.GAME_MUSIC);
+      if (audio) {
+        (audio as Phaser.Sound.HTML5AudioSound).setVolume(settings.getConfig('musicVolume'));
+      }
     });
 
     const fxText = this
