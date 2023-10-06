@@ -38,6 +38,8 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
 
   currentTime: number = 0;
 
+  lastUpdate = Date.now();
+
   constructor(readonly scene: Phaser.Scene, readonly x: number, readonly y: number) {
     super(scene, x, y);
 
@@ -151,13 +153,14 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
   }
 
   update() {
-    const elapsedTimeInSeconds = ((this.scene as RoundScene)
-      .roundConfig
-      .timeLimit * 1000 - this.currentTime) / 1000;
+    const now = Date.now();
+    this.lastUpdate = this.lastUpdate ?? now;
+
+    const elapsedTimeInSeconds = (now - this.lastUpdate) / 1000;
     const wpm = (this.status.wordsTyped / elapsedTimeInSeconds) * 60;
 
-    if (this.lastSecond !== Math.floor(this.currentTime / 1000)) {
-      this.lastSecond = Math.floor(this.currentTime / 1000);
+    if (this.lastSecond !== Math.floor(now / 1000)) {
+      this.lastSecond = Math.floor(now / 1000);
       this.status.wpmHistory.push(wpm);
     }
 
