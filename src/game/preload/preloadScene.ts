@@ -90,6 +90,7 @@ export class PreloadScene extends Phaser.Scene {
     this.load.svg(assets.icon.CLOSE, 'icons/close.svg');
     this.load.svg(assets.icon.PLUS, 'icons/plus.svg');
     this.load.svg(assets.icon.MINUS, 'icons/minus.svg');
+    this.load.svg(assets.icon.HEART, 'icons/heart.svg');
 
     this.load.svg('n0', '0.svg');
     this.load.svg('n1', '1.svg');

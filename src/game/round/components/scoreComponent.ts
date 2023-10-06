@@ -34,7 +34,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
 
   timerText: Phaser.GameObjects.Text;
 
-  lostWordsCount: Phaser.GameObjects.Text;
+  hearts: Phaser.GameObjects.Image[] = [];
 
   currentTime: number = 0;
 
@@ -77,12 +77,18 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
       color: '#090',
     }).setAlpha(config.useTimer ? 1 : 0);
 
-    this.lostWordsCount = this.scene.add.text(0, 0, '', {
-      fontSize: '24px',
-      color: '#090',
-    })
-      .setAlpha(config.useTimer ? 0 : 1)
-      .setText(`Words left: ${TOTAL_POINTS_TO_LOSE - this.status.lostWords}`);
+    this.hearts = [];
+    for (let i = 0; i < TOTAL_POINTS_TO_LOSE; i += 1) {
+      const heart = this.scene.add
+        .image(0 + i * 20, 0, assets.icon.HEART)
+        .setTint(0x00FF00)
+        .setOrigin(0, 0)
+        .setScale(1)
+        .setAlpha(0.5);
+
+      this.hearts.push(heart);
+      this.add(heart);
+    }
 
     if (config.useTimer) {
       this.timer = this.scene.time.addEvent({
@@ -94,7 +100,6 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
     }
 
     this.add(this.timerText);
-    this.add(this.lostWordsCount);
     this.scene.add.existing(this);
   }
 
@@ -120,7 +125,20 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
 
   lostWord() {
     this.status.lostWords += 1;
-    this.lostWordsCount.setText(`Words left: ${TOTAL_POINTS_TO_LOSE - this.status.lostWords}`);
+    const lostHeart = this.hearts.pop();
+    if (lostHeart) {
+      this.scene.tweens.add({
+        targets: lostHeart,
+        alpha: 0,
+        duration: 100,
+        ease: 'Sine.easeInOut',
+        yoyo: false,
+        repeat: 0,
+        onComplete: () => {
+          lostHeart.destroy();
+        },
+      });
+    }
 
     if (!config.useTimer && this.status.lostWords >= TOTAL_POINTS_TO_LOSE) {
       this.scene.sound.stopAll();
