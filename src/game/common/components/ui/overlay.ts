@@ -3,8 +3,10 @@ export class Overlay extends Phaser.GameObjects.Rectangle {
     const boardWidth = scene.sys.game.canvas.width;
     const boardHeight = scene.sys.game.canvas.height;
     super(scene, 0, 0, boardWidth, boardHeight, 0x000000, 0.8);
-    this.setOrigin(0.5, 0.5);
+    this.setOrigin(0, 0);
     this.setInteractive();
+
+    scene.add.existing(this);
   }
 
   setEventToClose(cb: () => void) {

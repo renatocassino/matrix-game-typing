@@ -3,7 +3,7 @@ import { TextButton } from '../common/components/ui/textButton';
 import { assets } from '../common/constants/assets';
 import { RoundScene } from '../round/roundScene';
 import { Logo } from './components/ui/logo';
-import { SettingsModalComponent } from './components/ui/settingsModalComponent';
+import { SettingsModal } from './components/ui/settingsModal';
 
 export class MenuScene extends Phaser.Scene {
   static key = 'MenuScene';
@@ -63,18 +63,9 @@ export class MenuScene extends Phaser.Scene {
       .setInteractive()
       .setScale(1);
 
-    const settingComponent = new SettingsModalComponent(
-      this,
-      this.sys.game.canvas.width / 2,
-      this.sys.game.canvas.height / 2,
-    );
-
     settings.on('pointerdown', () => {
-      if (settingComponent.visible) {
-        settingComponent.close();
-      } else {
-        settingComponent.open();
-      }
+      this.scene.bringToTop(SettingsModal.key);
+      this.scene.launch(SettingsModal.key);
     });
 
     settings.on('pointerover', () => {
