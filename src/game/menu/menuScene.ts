@@ -1,7 +1,7 @@
 import { BackgroundImage } from '../common/components/ui/backgroundImage';
 import { TextButton } from '../common/components/ui/textButton';
 import { assets } from '../common/constants/assets';
-import { gameEvents } from '../common/events';
+import { gaEvents } from '../common/events';
 import { RoundScene } from '../round/roundScene';
 import { Logo } from './components/ui/logo';
 import { SettingsModal } from './components/ui/settingsModal';
@@ -52,7 +52,7 @@ export class MenuScene extends Phaser.Scene {
     button.on('pointerdown', () => {
       input.setDefaultCursor('default');
       scene.start(RoundScene.key);
-      gameEvents.play();
+      gaEvents.play();
     });
   }
 

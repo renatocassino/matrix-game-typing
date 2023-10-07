@@ -1,4 +1,5 @@
 import { TextButton } from '../../../common/components/ui/textButton';
+import { gaEvents } from '../../../common/events';
 import { SettingsModal } from '../../../menu/components/ui/settingsModal';
 import { RoundScene } from '../../roundScene';
 
@@ -29,6 +30,7 @@ export class RoundModal extends SettingsModal {
       const roundScene = this.scene.get(RoundScene.key) as RoundScene;
       roundScene.scene.restart();
       this.scene.stop();
+      gaEvents.restart();
     });
 
     const backToMainMenu = new TextButton(this, xCenter, 400, 'Back to Main Menu');
@@ -37,6 +39,7 @@ export class RoundModal extends SettingsModal {
       this.scene.stop(RoundScene.key);
       this.scene.start('MenuScene');
       this.scene.stop();
+      gaEvents.backToMainMenu();
     });
 
     this.container.add([

@@ -1,4 +1,5 @@
 import { assets } from '../../constants/assets';
+import { gaEvents } from '../../events';
 import { CardModal } from './cardModal';
 import { IconButton } from './iconButton';
 import { Overlay } from './overlay';
@@ -19,11 +20,13 @@ export class BaseModal extends Phaser.Scene {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  onCloseModal() {}
+  onCloseModal() { }
 
   create() {
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
+
+    gaEvents.openMenu();
 
     const overlay = new Overlay(this);
     const cardModal = new CardModal(this, 0, 0).setOrigin(0, 0);
