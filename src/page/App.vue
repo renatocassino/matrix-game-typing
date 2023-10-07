@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import buyMeACoffee from './assets/buy-me-a-coffee.png';
+import AdModal from './components/AdModal.vue';
 import ChartModal from './components/ChartModal.vue';
 </script>
 
@@ -14,6 +15,7 @@ import ChartModal from './components/ChartModal.vue';
     </div>
 
     <chart-modal />
+    <ad-modal />
   </div>
 </template>
 
