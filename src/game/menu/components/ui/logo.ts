@@ -19,7 +19,7 @@ export class Logo extends Phaser.GameObjects.Text {
     x: number,
     y: number,
   ) {
-    super(scene, x, y, 'Matrix Type.io', style);
+    super(scene, x, y, 'Matrix Typer.com', style);
 
     this.setOrigin(0.5, 0.5).setOrigin(0.5, 0).setAlpha(1);
 
