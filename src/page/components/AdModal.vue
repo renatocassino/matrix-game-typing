@@ -30,7 +30,7 @@ onMounted(() => {
         <ad-view-on-modal />
       </v-card-text>
       <v-card-actions>
-        <v-btn v-if="closeButton" color="primary" block @click="dialog = false">Close Ad</v-btn>
+        <v-btn v-if="closeButton" color="primary" block @click="dialog = false; closeButton = false">Close Ad</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
