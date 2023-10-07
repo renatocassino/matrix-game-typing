@@ -4,6 +4,24 @@
   background-color: #242424;
 }
 
+body {
+  position: relative;
+}
+
+body::before {
+  background-image: url(bg.jpg);
+  background-repeat: repeat;
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.1;
+}
+
 .content {
   justify-content: center;
   text-align: center;

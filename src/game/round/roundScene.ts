@@ -22,6 +22,7 @@ import { WordComponent } from './components/wordComponent';
 // Add ads :)
 // Decide a name to game
 // Buy a domain
+// Credits
 
 function generateWaves(numWaves: number): RoundConfig['waves'] {
   const waves = [];
@@ -150,8 +151,8 @@ export class RoundScene extends Phaser.Scene {
     // });
 
     // this.cursor = this.add.rectangle(
-    // 0, 0, this.worldConfig.letterSize / 2,
-    // this.worldConfig.letterSize, 0xffffff, 1).setAlpha(0.5);
+    //   0, 0, this.worldConfig.letterSize / 2,
+    //   this.worldConfig.letterSize, 0xffffff, 1).setAlpha(0.5);
 
     // emitter.startFollow(this.cursor);
 
@@ -308,6 +309,9 @@ export class RoundScene extends Phaser.Scene {
       return;
     }
 
+    if (this.currentWord) {
+      this.cursor.y = this.currentWord.y;
+    }
     const now = Date.now();
     const delta = now - this.lastUpdate;
 

@@ -32,7 +32,7 @@ export class WaveAnimation extends Phaser.GameObjects.Container {
     this.add(this.wrapBg);
 
     this.waveText = scene.add.text(0 - boardWidth / 4, 0, 'WAVE 1', {
-      font: 'bold 50px Orbitron',
+      font: 'bold 40px Orbitron',
       color: '#00FF00',
       fontStyle: 'underline',
     }).setAlpha(0).setOrigin(0.5, 0.5);
