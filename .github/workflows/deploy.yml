@@ -22,7 +22,7 @@ jobs:
       with:
         node-version: '18.x'
     - run: npm install
-    - run: ASSET_URL=/matrix-game-typing npm run build
+    - run: npm run build
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
