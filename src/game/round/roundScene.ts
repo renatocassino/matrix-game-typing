@@ -309,9 +309,6 @@ export class RoundScene extends Phaser.Scene {
       return;
     }
 
-    if (this.currentWord) {
-      this.cursor.y = this.currentWord.y;
-    }
     const now = Date.now();
     const delta = now - this.lastUpdate;
 
