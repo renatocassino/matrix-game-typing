@@ -2,6 +2,7 @@ import { BackgroundImage } from '../common/components/ui/backgroundImage';
 import { Overlay } from '../common/components/ui/overlay';
 import { TextButton } from '../common/components/ui/textButton';
 import { assets } from '../common/constants/assets';
+import { gaEvents } from '../common/events';
 import { CustomWindow } from '../common/types/commonTypes';
 import { MenuScene } from '../menu/menuScene';
 import { ScoreStatus } from '../round/components/scoreComponent';
@@ -79,6 +80,8 @@ export class ScoreScene extends Phaser.Scene {
     scoreGraph.on('pointerdown', () => {
       (window as CustomWindow).openScoreModal();
 
+      gaEvents.openScoreModal();
+
       setTimeout(() => {
         if (this.scoreStatus) {
           (window as CustomWindow).updateChart(this.scoreStatus.wpmHistory);
@@ -87,6 +90,7 @@ export class ScoreScene extends Phaser.Scene {
     });
 
     backToMenuText.on('pointerdown', () => {
+      gaEvents.backToMainMenu();
       this.scene.start(MenuScene.key);
     });
   }

@@ -15,4 +15,7 @@ export const gaEvents = {
   openMenu() {
     gtag('event', 'game_open_menu');
   },
+  openScoreModal() {
+    gtag('event', 'game_open_score_modal');
+  },
 };
