@@ -3,7 +3,9 @@ import { IconButton } from '../common/components/ui/iconButton';
 import { TextButton } from '../common/components/ui/textButton';
 import { assets } from '../common/constants/assets';
 import { gaEvents } from '../common/events';
+import { isInRollout } from '../common/utils/isInRollout';
 import { RoundScene } from '../round/roundScene';
+import { TrainingMenuScene } from '../training/scenes/trainingMenuScene';
 import { InfoModal } from './components/ui/infoModal';
 import { LogoImage } from './components/ui/logoImage';
 import { LogoText } from './components/ui/logoText';
@@ -21,6 +23,7 @@ export class MenuScene extends Phaser.Scene {
     new BackgroundImage(this, assets.bg.MENU_BACKGROUND);
     this.addFadeAnimation();
     this.addPlayButton();
+    this.addTrainingButton();
     this.addSettings();
     this.addInfo();
     new LogoText(this, this.sys.game.canvas.width / 2, 290);
@@ -58,6 +61,23 @@ export class MenuScene extends Phaser.Scene {
       input.setDefaultCursor('default');
       scene.start(RoundScene.key);
       gaEvents.play();
+    });
+  }
+
+  addTrainingButton() {
+    if (!isInRollout()) {
+      return;
+    }
+    const boardWidth = this.sys.game.canvas.width;
+    const boardHeight = this.sys.game.canvas.height;
+
+    const { scene, input } = this;
+    const button = new TextButton(this, boardWidth / 2, boardHeight - boardHeight / 3 + 40, 'Training');
+
+    button.on('pointerdown', () => {
+      input.setDefaultCursor('default');
+      scene.start(TrainingMenuScene.key);
+      gaEvents.goToTraining();
     });
   }
 

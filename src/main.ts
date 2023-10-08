@@ -13,6 +13,7 @@ import { WaveScene } from './game/round/animations/waveScene';
 import { RoundModal } from './game/round/components/ui/RoundModal';
 import { RoundScene } from './game/round/roundScene';
 import { ScoreScene } from './game/score/scoreScene';
+import { TrainingMenuScene } from './game/training/scenes/trainingMenuScene';
 import App from './page/App.vue';
 import './style.css';
 
@@ -35,6 +36,7 @@ window.addEventListener('load', () => {
       BaseModal,
       InfoModal,
       RoundModal,
+      TrainingMenuScene,
       SettingsModal,
       WaveScene,
       MenuScene,

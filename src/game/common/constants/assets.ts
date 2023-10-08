@@ -3,6 +3,7 @@ export const assets = {
     MENU_BACKGROUND: 'menu-background',
     GAME_BACKGROUND: 'game-background',
     SCORE: 'background-score',
+    TRAINING: 'background-training',
   },
   audio: {
     KEYPRESS: 'game-keypress',

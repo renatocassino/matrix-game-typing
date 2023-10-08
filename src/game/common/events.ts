@@ -6,6 +6,9 @@ export const gaEvents = {
   play() {
     gtag('event', 'game_play');
   },
+  goToTraining() {
+    gtag('event', 'game_training_menu');
+  },
   restart() {
     gtag('event', 'game_restart');
   },
