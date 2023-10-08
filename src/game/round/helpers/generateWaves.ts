@@ -25,15 +25,19 @@ export function wordDropIntervalByWaveNumber(waveNumber: number): { min: number,
   if (waveNumber <= 1) return { min: 1000, max: 4000 };
   if (waveNumber < 3) return { min: 900, max: 1800 };
   if (waveNumber < 5) return { min: 800, max: 1600 };
-  return { min: 700, max: 1200 };
+  if (waveNumber < 7) return { min: 700, max: 1400 };
+  if (waveNumber < 9) return { min: 600, max: 1200 };
+  if (waveNumber < 11) return { min: 500, max: 1000 };
+  return { min: 400, max: 1000 };
 }
 
 export function wordsToTypeByWaveNumber(waveNumber: number): number {
   if (waveNumber <= 1) return 8;
-  if (waveNumber < 3) return 20;
-  if (waveNumber < 5) return 30;
-  if (waveNumber < 6) return 35;
-  return 40;
+  if (waveNumber < 3) return 12;
+  if (waveNumber < 5) return 15;
+  if (waveNumber < 6) return 20;
+  if (waveNumber < 7) return 30;
+  return 35;
 }
 
 export function generateWaves(numWaves: number): RoundConfig['waves'] {
