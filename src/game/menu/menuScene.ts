@@ -60,28 +60,13 @@ export class MenuScene extends Phaser.Scene {
   }
 
   addSettings() {
-    const self = this;
-    const settings = this
-      .add
-      .image(this.sys.game.canvas.width - 20, 20, assets.icon.SETTINGS)
-      .setOrigin(1, 0)
-      .setInteractive()
-      .setScale(1);
+    const settings = new IconButton(this, this.sys.game.canvas.width - 20, 20, assets.icon.SETTINGS);
+    settings.setOrigin(1, 0);
 
     settings.on('pointerdown', () => {
       this.scene.bringToTop(SettingsModal.key);
       this.scene.launch(SettingsModal.key);
     });
-
-    settings.on('pointerover', () => {
-      settings.setAlpha(0.8);
-      self.input.setDefaultCursor('pointer');
-    }, this);
-
-    settings.on('pointerout', () => {
-      settings.setAlpha(1);
-      self.input.setDefaultCursor('default');
-    }, this);
   }
 
   addInfo() {

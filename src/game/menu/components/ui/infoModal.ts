@@ -1,5 +1,4 @@
 import { BaseModal } from '../../../common/components/ui/baseModal';
-import { Settings } from '../../../common/settings';
 
 export class InfoModal extends BaseModal {
   static key = 'InfoModal';
@@ -11,8 +10,6 @@ export class InfoModal extends BaseModal {
 
   create() {
     super.create();
-    const settings = this.game.registry.get('settings') as Settings;
-
     const xCenter = this.cardModal.textureSize.width / 2;
 
     let currentY = 80;
