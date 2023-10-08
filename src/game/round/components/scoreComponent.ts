@@ -157,7 +157,7 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
     this.status.keysPressed += 1;
 
     if ('vibrate' in navigator) {
-      navigator.vibrate(20);
+      navigator.vibrate(15);
     }
   }
 

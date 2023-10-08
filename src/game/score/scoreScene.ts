@@ -56,7 +56,7 @@ export class ScoreScene extends Phaser.Scene {
       .setScale(0.7)
       .setAlpha(0.6);
     const style = { color: '#FFF', font: '16px Orbitron' };
-    const yText = 215;
+    const yText = 180;
 
     this.add.text(boardWidth / 2, boardHeight / 2 - 200, 'Score', { font: '32px Orbitron', color: '#fff' }).setOrigin(0.5, 0.5);
 
@@ -76,8 +76,8 @@ export class ScoreScene extends Phaser.Scene {
       this.add.text(boardWidth / 2, yText + (index * 25), text, style).setOrigin(0.5, 0);
     });
 
-    const backToMenuText = new TextButton(this, boardWidth / 2, 500, 'Back to menu');
-    const scoreGraph = new TextButton(this, boardWidth / 2, 550, 'Score Graph');
+    const backToMenuText = new TextButton(this, boardWidth / 2, 450, 'Back to menu');
+    const scoreGraph = new TextButton(this, boardWidth / 2, 500, 'Score Graph');
 
     scoreGraph.on('pointerdown', () => {
       (window as CustomWindow).openScoreModal();
