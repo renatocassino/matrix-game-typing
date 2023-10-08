@@ -1,8 +1,10 @@
 import { BackgroundImage } from '../common/components/ui/backgroundImage';
+import { IconButton } from '../common/components/ui/iconButton';
 import { TextButton } from '../common/components/ui/textButton';
 import { assets } from '../common/constants/assets';
 import { gaEvents } from '../common/events';
 import { RoundScene } from '../round/roundScene';
+import { InfoModal } from './components/ui/infoModal';
 import { Logo } from './components/ui/logo';
 import { SettingsModal } from './components/ui/settingsModal';
 
@@ -19,6 +21,7 @@ export class MenuScene extends Phaser.Scene {
     this.addFadeAnimation();
     this.addPlayButton();
     this.addSettings();
+    this.addInfo();
     new Logo(this, this.sys.game.canvas.width / 2, 120);
   }
 
@@ -79,5 +82,18 @@ export class MenuScene extends Phaser.Scene {
       settings.setAlpha(1);
       self.input.setDefaultCursor('default');
     }, this);
+  }
+
+  addInfo() {
+    const boardWidth = this.sys.game.canvas.width;
+    const boardHeight = this.sys.game.canvas.height;
+
+    const infoButton = new IconButton(this, boardWidth - 20, boardHeight - 20, assets.icon.INFO);
+    infoButton.setOrigin(1, 1);
+
+    infoButton.on('pointerdown', () => {
+      this.scene.bringToTop(InfoModal.key);
+      this.scene.launch(InfoModal.key);
+    });
   }
 }

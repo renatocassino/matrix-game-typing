@@ -5,6 +5,7 @@ import * as directives from 'vuetify/directives';
 import 'vuetify/styles';
 import { BaseModal } from './game/common/components/ui/baseModal';
 import { GamePlay } from './game/gamePlay';
+import { InfoModal } from './game/menu/components/ui/infoModal';
 import { SettingsModal } from './game/menu/components/ui/settingsModal';
 import { MenuScene } from './game/menu/menuScene';
 import { PreloadScene } from './game/preload/preloadScene';
@@ -32,6 +33,7 @@ window.addEventListener('load', () => {
     scene: [
       PreloadScene,
       BaseModal,
+      InfoModal,
       RoundModal,
       SettingsModal,
       WaveScene,

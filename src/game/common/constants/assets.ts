@@ -20,6 +20,7 @@ export const assets = {
     PLUS: 'plus-icon',
     MINUS: 'minus-icon',
     HEART: 'heart',
+    INFO: 'info',
   },
   ui: {
     CARD: 'card-ui',
