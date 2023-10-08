@@ -2,6 +2,7 @@ import { BackgroundImage } from '../../common/components/ui/backgroundImage';
 import { TextButton } from '../../common/components/ui/textButton';
 import { assets } from '../../common/constants/assets';
 import { gaEvents } from '../../common/events';
+import { levels } from '../levels';
 import { TitleMenuScene } from './components/TitleMenuScene';
 
 export class TrainingMenuScene extends Phaser.Scene {
@@ -31,30 +32,9 @@ export class TrainingMenuScene extends Phaser.Scene {
 
     const { scene, input } = this;
 
-    const levels = [
-      'Level 1 - ASDF',
-      'Level 2 - ASDFG',
-      'Level 3 - LKJH',
-      'Level 4 - LKJHG',
-      'Level 5 - ASDF LKJH',
-      'Level 6 - Middle line',
-      'Level 7 - QWER',
-      'Level 8 - QWERT',
-      'Level 9 - POIU',
-      'Level 10 - POIUY',
-      'Level 11 - Top line',
-      'Level 12 - First and second line',
-      'Level 13 - ZXCV',
-      'Level 14 - ZXCVB',
-      // 'Level 15 - MN',
-      // 'Level 16 - MNB',
-      // 'Level 17 - Bottom line',
-      // 'Level 18 - Common words',
-    ];
-
     // TODO - Make a pagination
     levels.forEach((level, i) => {
-      const button = new TextButton(this, boardWidth / 2, 120 + 30 * i, level, { fontSize: '18px' });
+      const button = new TextButton(this, boardWidth / 2, 120 + 30 * i, level.title, { fontSize: '18px' });
       button.on('pointerdown', () => {
         input.setDefaultCursor('default');
         scene.start('MenuScene');
