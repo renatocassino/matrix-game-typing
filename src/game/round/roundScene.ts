@@ -50,8 +50,6 @@ export class RoundScene extends Phaser.Scene {
 
   timeToNextWord: number = 0;
 
-  background!: BackgroundImage;
-
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: RoundScene.key, ...(config ?? {}) });
 
@@ -84,7 +82,7 @@ export class RoundScene extends Phaser.Scene {
     const boardWidth = this.sys.game.canvas.width;
 
     const settings = this.game.registry.get('_settingsValue') as SettingsType;
-    this.background = new BackgroundImage(this, assets.bg.GAME_BACKGROUND).setAlpha(0.1);
+    const background = new BackgroundImage(this, assets.bg.GAME_BACKGROUND).setAlpha(0.1);
 
     this.words = [];
     this.currentWord = undefined;
@@ -92,7 +90,7 @@ export class RoundScene extends Phaser.Scene {
     this.sound.play(assets.audio.GAME_MUSIC, { volume: settings.musicVolume, loop: true });
 
     this.tweens.add({
-      targets: this.background,
+      targets: background,
       alpha: 0.3,
       duration: 1000,
       ease: 'Sine.easeInOut',
@@ -136,9 +134,15 @@ export class RoundScene extends Phaser.Scene {
 
     this.events.once('shutdown', () => {
       this.input.keyboard?.off('keydown', this.keyPress.bind(this));
-      this.events.removeAllListeners();
+      this.events.off(gameEvents.PRESS_MISS);
+      this.events.off(gameEvents.WORD_COMPLETED);
+      this.events.off(gameEvents.PAUSE);
+
       this.sound.stopAll();
       this.scene.setActive(false);
+      while (this.words.length > 0) {
+        this.words.pop()?.destroy();
+      }
     }, this);
   }
 
@@ -229,6 +233,9 @@ export class RoundScene extends Phaser.Scene {
   nextWave() {
     this.status = 'waveAnimation';
     this.currentWave += 1;
+    this.words.forEach((word) => word.destroy());
+    this.words = [];
+    this.currentWord = undefined;
     this.wordsLeftToFall = this.currentWaveConfig.wordsToType;
     this.score.increaseWave();
 
@@ -251,7 +258,6 @@ export class RoundScene extends Phaser.Scene {
       return;
     }
     this.score.update();
-
     this.currentWordText.setText(this.currentWord?.word.toUpperCase() ?? '');
 
     if (this.wordsLeftToFall === 0 && this.words.length === 0) {

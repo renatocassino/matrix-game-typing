@@ -142,13 +142,5 @@ export class WordComponent extends Phaser.GameObjects.Container {
   destroy() {
     this.letters.forEach((letter) => letter.destroy());
     super.destroy();
-    // const size = this.board.worldConfig.letterSize;
-    // this.board.add.particles(this.x * size, this.y +
-    // (this.letters.length * this.board.worldConfig.letterSize), 'red', {
-    //   speed: 100,
-    //   scale: { start: 1, end: 0 },
-    //   duration: 200,
-    //   blendMode: 'ADD',
-    // });
   }
 }
