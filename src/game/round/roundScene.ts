@@ -21,10 +21,6 @@ import { generateWaves } from './helpers/generateWaves';
 // Add special power
 // Add sequence feedback and multiply score
 // Create modules to round, example: Just letters, just words with ASD, just words with ASDFGLKJH
-// Add ads :)
-// Decide a name to game
-// Buy a domain
-// Credits
 
 export class RoundScene extends Phaser.Scene {
   static readonly key = 'BoardScene';
