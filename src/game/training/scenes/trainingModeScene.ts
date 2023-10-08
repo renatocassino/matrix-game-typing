@@ -1,29 +1,22 @@
 import {
   Config, GameDifficult, GameMode, RoundConfig, WordMode,
-} from '../../types';
-import { isMobile } from '../../utils/isMobile';
-import { generateRandom, generateRandomInteger } from '../../utils/numbers';
-import { getRandomLetter, getRandomWord } from '../../utils/randomWord';
-import { BackgroundImage } from '../common/components/ui/backgroundImage';
-import { assets } from '../common/constants/assets';
-import { gameEvents } from '../common/constants/events';
-import { SettingsType } from '../common/settings';
-import { WaveScene } from './animations/waveScene';
-import { PauseToggleButton } from './components/pauseToggleButton';
-import { ScoreComponent } from './components/scoreComponent';
-import { RoundModal } from './components/ui/RoundModal';
-import { VirtualKeyboard } from './components/virtualKeyboard';
-import { VolumeButton } from './components/volumeButton';
-import { WordComponent } from './components/wordComponent';
-import { generateWaves } from './helpers/generateWaves';
+} from '../../../types';
+import { isMobile } from '../../../utils/isMobile';
+import { BackgroundImage } from '../../common/components/ui/backgroundImage';
+import { assets } from '../../common/constants/assets';
+import { gameEvents } from '../../common/constants/events';
+import { WaveScene } from '../../round/animations/waveScene';
+import { PauseToggleButton } from '../../round/components/pauseToggleButton';
+import { ScoreComponent } from '../../round/components/scoreComponent';
+import { RoundModal } from '../../round/components/ui/RoundModal';
+import { VirtualKeyboard } from '../../round/components/virtualKeyboard';
+import { VolumeButton } from '../../round/components/volumeButton';
+import { WordComponent } from '../../round/components/wordComponent';
+import { generateWaves } from '../../round/helpers/generateWaves';
+import { TrainingLevel } from '../levels';
 
-// TODO
-// Add special power
-// Add sequence feedback and multiply score
-// Create modules to round, example: Just letters, just words with ASD, just words with ASDFGLKJH
-
-export class RoundScene extends Phaser.Scene {
-  static readonly key = 'BoardScene';
+export class TrainingModeScene extends Phaser.Scene {
+  static readonly key = 'TrainingModeScene';
 
   words: WordComponent[] = [];
 
@@ -39,6 +32,8 @@ export class RoundScene extends Phaser.Scene {
 
   cursor!: Phaser.GameObjects.Rectangle;
 
+  emitter: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
+
   roundConfig: RoundConfig;
 
   currentWordText!: Phaser.GameObjects.Text;
@@ -49,8 +44,10 @@ export class RoundScene extends Phaser.Scene {
 
   timeToNextWord: number = 0;
 
+  level!: TrainingLevel;
+
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
-    super({ key: RoundScene.key, ...(config ?? {}) });
+    super({ key: TrainingModeScene.key, ...(config ?? {}) });
 
     this.roundConfig = {
       gameMode: GameMode.Words,
@@ -58,7 +55,7 @@ export class RoundScene extends Phaser.Scene {
       level: GameDifficult.Easy,
       wordMode: WordMode.Duration,
       maxFailures: 5,
-      waves: generateWaves(80),
+      waves: generateWaves(0),
     };
 
     this.worldConfig = {
@@ -66,14 +63,17 @@ export class RoundScene extends Phaser.Scene {
     };
   }
 
+  init(data: { level: TrainingLevel }) {
+    this.level = data.level;
+  }
+
   get currentWaveConfig() {
-    if (!this.roundConfig.waves) {
-      throw new Error('No waves defined');
+    if (!this.level) {
+      throw new Error('Level is not defined');
     }
 
-    return this.roundConfig.waves[
-      Math.min(this.currentWave - 1, this.roundConfig.waves.length - 1)
-    ];
+    const wave = this.currentWave;
+    return this.level.waves[wave];
   }
 
   create() {
@@ -82,13 +82,10 @@ export class RoundScene extends Phaser.Scene {
 
     const boardWidth = this.sys.game.canvas.width;
 
-    const settings = this.game.registry.get('_settingsValue') as SettingsType;
     const background = new BackgroundImage(this, assets.bg.GAME_BACKGROUND).setAlpha(0.1);
 
     this.words = [];
     this.currentWord = undefined;
-
-    this.sound.play(assets.audio.GAME_MUSIC, { volume: settings.musicVolume, loop: true });
 
     this.tweens.add({
       targets: background,
@@ -106,14 +103,14 @@ export class RoundScene extends Phaser.Scene {
 
     this.score = new ScoreComponent(this, 10, 10);
 
-    this.events.on(gameEvents.PRESS_MISS, () => {
+    this.emitter.on(gameEvents.PRESS_MISS, () => {
       this.sound.play(assets.audio.KEYWRONG);
     });
-    this.events.on(gameEvents.WORD_COMPLETED, () => {
+    this.emitter.on(gameEvents.WORD_COMPLETED, () => {
       this.currentWord = undefined;
     });
 
-    this.events.on(gameEvents.PAUSE, () => {
+    this.emitter.on(gameEvents.PAUSE, () => {
       this.scene.launch(RoundModal.key);
       this.scene.bringToTop(RoundModal.key);
 
@@ -135,7 +132,7 @@ export class RoundScene extends Phaser.Scene {
 
     this.events.once('shutdown', () => {
       this.input.keyboard?.off('keydown', this.keyPress.bind(this));
-      this.events.removeAllListeners();
+      this.emitter.removeAllListeners();
       this.sound.stopAll();
       this.scene.setActive(false);
     }, this);
@@ -146,10 +143,7 @@ export class RoundScene extends Phaser.Scene {
       return;
     }
 
-    this.timeToNextWord = generateRandomInteger(
-      this.currentWaveConfig.wordDropInterval.min,
-      this.currentWaveConfig.wordDropInterval.max,
-    );
+    this.timeToNextWord = 1000;
 
     const boardSize = this.sys.game.canvas.width;
     const min = 3;
@@ -162,12 +156,8 @@ export class RoundScene extends Phaser.Scene {
       return;
     }
 
-    const usedLetters = this.words.map((word) => word.word[0]);
-
     const wave = this.currentWaveConfig;
-    const word = this.roundConfig.gameMode === GameMode.Words
-      ? getRandomWord(usedLetters, wave.wordConfig.size.min, wave.wordConfig.size.max)
-      : getRandomLetter(usedLetters);
+    const word = wave.words[Math.floor(Math.random() * wave.words.length)];
 
     if (!word) {
       return;
@@ -175,9 +165,6 @@ export class RoundScene extends Phaser.Scene {
 
     this.wordsLeftToFall -= 1;
     const x = possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
-
-    const waveConfig = this.currentWaveConfig;
-    const velocity = generateRandom(waveConfig.velocity.min, waveConfig.velocity.max);
     this.words.push(
       new WordComponent(
         this,
@@ -185,7 +172,7 @@ export class RoundScene extends Phaser.Scene {
         x * this.worldConfig.letterSize,
         0,
         x,
-        velocity,
+        1,
         this.worldConfig.letterSize,
       ),
     );
@@ -206,23 +193,23 @@ export class RoundScene extends Phaser.Scene {
       if (this.currentWord) {
         this.currentWord.status = 'active';
         this.currentWord.keyNextLetter();
-        this.events.emit(gameEvents.HIT);
+        this.emitter.emit(gameEvents.HIT);
         return;
       }
 
-      this.events.emit(gameEvents.PRESS_MISS);
+      this.emitter.emit(gameEvents.PRESS_MISS);
       return;
     }
 
     const letter = this.currentWord.word[this.currentWord.indexTyped].toUpperCase();
     if (letter === keyCode.toUpperCase()) {
-      this.events.emit(gameEvents.HIT);
+      this.emitter.emit(gameEvents.HIT);
       this.currentWord.keyNextLetter();
 
       return;
     }
 
-    this.events.emit(gameEvents.PRESS_MISS);
+    this.emitter.emit(gameEvents.PRESS_MISS);
   }
 
   nextWave() {
@@ -231,7 +218,7 @@ export class RoundScene extends Phaser.Scene {
     this.words.forEach((word) => word.destroy());
     this.words = [];
     this.currentWord = undefined;
-    this.wordsLeftToFall = this.currentWaveConfig.wordsToType;
+    // this.wordsLeftToFall = this.currentWaveConfig.wordsToType;
     this.score.increaseWave();
 
     this.scene.launch(WaveScene.key, {

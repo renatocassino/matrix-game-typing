@@ -1,5 +1,4 @@
 import { LetterStatus } from '../../../types';
-import { RoundScene } from '../roundScene';
 import { WordComponent } from './wordComponent';
 
 export class LetterComponent extends Phaser.GameObjects.Container {
@@ -8,24 +7,24 @@ export class LetterComponent extends Phaser.GameObjects.Container {
   status: LetterStatus;
 
   constructor(
-    private readonly board: RoundScene,
+    readonly scene: Phaser.Scene,
     private readonly letter: string,
     private readonly index: number,
     private readonly word: WordComponent,
+    letterSize: number,
   ) {
-    super(board, 0, 0);
-    const size = this.board.worldConfig.letterSize;
-    this.text = this.board.add.text(
+    super(scene, 0, 0);
+    this.text = this.scene.add.text(
       0,
-      this.index * size,
+      this.index * letterSize,
       this.letter.toUpperCase(),
-      { color: '#0F0', fontFamily: '\'Roboto Slab\'', fontSize: `${size - 3}px` },
+      { color: '#0F0', fontFamily: '\'Roboto Slab\'', fontSize: `${letterSize - 3}px` },
     ).setOrigin(0.5, 0);
 
     this.status = LetterStatus.Initial;
 
     this.add(this.text);
-    board.add.existing(this);
+    scene.add.existing(this);
   }
 
   update() {

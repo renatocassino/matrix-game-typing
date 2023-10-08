@@ -2,8 +2,9 @@ import { BackgroundImage } from '../../common/components/ui/backgroundImage';
 import { TextButton } from '../../common/components/ui/textButton';
 import { assets } from '../../common/constants/assets';
 import { gaEvents } from '../../common/events';
+import { TitleMenuScene } from '../components/TitleMenuScene';
 import { levels } from '../levels';
-import { TitleMenuScene } from './components/TitleMenuScene';
+import { TrainingModeScene } from './trainingModeScene';
 
 export class TrainingMenuScene extends Phaser.Scene {
   static key = 'TrainingMenuScene';
@@ -37,7 +38,7 @@ export class TrainingMenuScene extends Phaser.Scene {
       const button = new TextButton(this, boardWidth / 2, 120 + 30 * i, level.title, { fontSize: '18px' });
       button.on('pointerdown', () => {
         input.setDefaultCursor('default');
-        scene.start('MenuScene');
+        scene.start(TrainingModeScene.key, { level });
         gaEvents.backToMainMenu();
       });
     });

@@ -48,6 +48,7 @@ module.exports = {
     'no-shadow': 'off',  // desligue a regra base
     '@typescript-eslint/no-shadow': ['error'],  // ligue a regra do @typescript-eslint
     'no-new': 'off',
+    'no-plusplus': 'off',
   },
   globals: {
     Phaser: 'readonly',

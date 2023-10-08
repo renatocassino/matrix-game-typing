@@ -1,10 +1,15 @@
-class Level {
+import { TrainingWave } from './types/types';
+
+export class TrainingLevel {
+  public keys: string[];
+
   constructor(
     public name: string,
-    public keys: string[],
+    keys: string | string[],
     public level: number = 1,
+    public waves: TrainingWave[],
   ) {
-    console.log('Level', this.name, this.keys, this.level);
+    this.keys = Array.isArray(keys) ? keys : keys.split('');
   }
 
   get title() {
@@ -12,19 +17,42 @@ class Level {
   }
 }
 
+let level = 1;
 export const levels = [
-  new Level('ASDFG', ['A', 'S', 'D', 'F', 'G'], 1),
-  new Level('ASDF LKJH', ['A', 'S', 'D', 'F', ' ', 'L', 'K', 'J', 'H'], 2),
-  new Level('Middle line', ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'], 3),
-  new Level('QWERT', ['Q', 'W', 'E', 'R', 'T'], 4),
-  new Level('POIU', ['P', 'O', 'I', 'U'], 5),
-  new Level('POIUY', ['P', 'O', 'I', 'U', 'Y'], 6),
-  new Level('Top line', ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], 7),
-  new Level('First and second line', ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G'], 8),
-  new Level('ZXCV', ['Z', 'X', 'C', 'V'], 9),
-  new Level('ZXCVB', ['Z', 'X', 'C', 'V', 'B'], 10),
-  new Level('MN', ['M', 'N'], 11),
-  new Level('Bottom line', ['Z', 'X', 'C', 'V', 'B', 'N', 'M'], 12),
-  new Level('Common words', ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A',
-    'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'], 13),
+  new TrainingLevel('ASDFG', 'ASDFG', level++, [
+    {
+      words: ['a', 's', 'd', 'f'],
+      wordsToFall: 15,
+    },
+    {
+      words: ['da', 'fa', 'sa'],
+      wordsToFall: 15,
+    },
+    {
+      words: ['fada', 'sasa', 'dada', 'fasa', 'safada'],
+      wordsToFall: 15,
+    },
+    {
+      words: ['a', 's', 'd', 'f', 'g'],
+      wordsToFall: 15,
+    },
+    {
+      words: ['gaga', 'faga', 'saga', 'daga', 'agaga'],
+      wordsToFall: 15,
+    },
+    {
+      words: ['adaga', 'asaga', 'afaga', 'agaga', 'adaga'],
+      wordsToFall: 15,
+    },
+  ]),
+  new TrainingLevel('ASDF LKJH', 'ASDFGLKJH', level++, []),
+  new TrainingLevel('Middle line', 'ASDFGLKJH', level++, []),
+  new TrainingLevel('QWERT', 'QWERT', level++, []),
+  new TrainingLevel('POIU', 'POIUY', level++, []),
+  new TrainingLevel('Top line', 'QWERTPOIUY', level++, []),
+  new TrainingLevel('First and second line', 'QWERTYUIOPASDFGHJKL', level++, []),
+  new TrainingLevel('ZXCV', 'ZXCVB', level++, []),
+  new TrainingLevel('MN', 'MN', level++, []),
+  new TrainingLevel('Bottom line', 'ZXCVBNM', level++, []),
+  new TrainingLevel('Common words', 'QWERTYUIOPASDFGHJKLZXCVBNM', level++, []),
 ];

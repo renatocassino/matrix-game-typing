@@ -52,7 +52,6 @@ export type RoundConfig = {
   wordMode: WordMode;
   timeLimit: number;
   level: GameDifficult;
-  wordDropInterval: number;
   maxFailures?: number;
   waves?: WaveConfig[];
   lettersToTypeLesson?: string[];
