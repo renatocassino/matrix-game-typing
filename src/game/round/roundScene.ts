@@ -2,6 +2,7 @@ import {
   Config, GameDifficult, GameMode, RoundConfig, WordMode,
 } from '../../types';
 import { isMobile } from '../../utils/isMobile';
+import { generateRandomInteger } from '../../utils/numbers';
 import { getRandomLetter, getRandomWord } from '../../utils/randomWord';
 import { BackgroundImage } from '../common/components/ui/backgroundImage';
 import { assets } from '../common/constants/assets';
@@ -14,6 +15,7 @@ import { RoundModal } from './components/ui/RoundModal';
 import { VirtualKeyboard } from './components/virtualKeyboard';
 import { VolumeButton } from './components/volumeButton';
 import { WordComponent } from './components/wordComponent';
+import { generateWaves } from './helpers/generateWaves';
 
 // TODO
 // Add special power
@@ -23,34 +25,6 @@ import { WordComponent } from './components/wordComponent';
 // Decide a name to game
 // Buy a domain
 // Credits
-
-function generateWaves(numWaves: number): RoundConfig['waves'] {
-  const waves = [];
-
-  for (let i = 1; i <= numWaves; i += 1) {
-    const logFactor = Math.log(i + 1);
-
-    const wave = {
-      velocity: {
-        min: Math.max(0.8 * (i * 0.02), 1),
-        max: Math.min(1 + (i * logFactor), 2),
-      },
-      waveNumber: i,
-      // TODO - add min and max and randomize in wordDropInterval
-      wordDropInterval: Math.max(900 - (i * 100 * logFactor), 400),
-      wordsToType: Math.floor(Math.min(5 + (i * logFactor), 40)),
-      wordConfig: {
-        size: {
-          min: Math.floor(Math.min(Math.max(1, (i - 1) * logFactor), 5)),
-          max: (i * 2) + 2,
-        },
-      },
-    };
-    waves.push(wave);
-  }
-
-  return waves;
-}
 
 export class RoundScene extends Phaser.Scene {
   static readonly key = 'BoardScene';
@@ -78,6 +52,8 @@ export class RoundScene extends Phaser.Scene {
   status: 'playing' | 'waveAnimation' | 'start' = 'start';
 
   wordsLeftToFall: number = 0;
+
+  timeToNextWord: number = 0;
 
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: RoundScene.key, ...(config ?? {}) });
@@ -205,6 +181,11 @@ export class RoundScene extends Phaser.Scene {
       return;
     }
 
+    this.timeToNextWord = generateRandomInteger(
+      this.currentWaveConfig.wordDropInterval.min,
+      this.currentWaveConfig.wordDropInterval.max,
+    );
+
     const boardSize = this.sys.game.canvas.width;
     const min = 3;
     const max = Math.floor(boardSize / this.worldConfig.letterSize) - 3;
@@ -312,7 +293,7 @@ export class RoundScene extends Phaser.Scene {
     const now = Date.now();
     const delta = now - this.lastUpdate;
 
-    if (delta > this.roundConfig.wordDropInterval || this.words.length === 0) {
+    if (delta > this.timeToNextWord || this.words.length === 0) {
       this.lastUpdate = now;
       this.createNewWord();
     }

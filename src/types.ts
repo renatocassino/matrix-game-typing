@@ -30,7 +30,10 @@ export enum GameDifficult { // UNDER CONSTRUCTION
 export type WaveConfig = {
   words?: string[]; // Under construction
   waveNumber: number;
-  wordDropInterval: number;
+  wordDropInterval: {
+    min: number;
+    max: number;
+  };
   velocity: {
     min: number;
     max: number;
