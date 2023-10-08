@@ -18,4 +18,11 @@ export const gaEvents = {
   openScoreModal() {
     gtag('event', 'game_open_score_modal');
   },
+  nextWave(waveNumber: number) {
+    gtag('event', 'game_next_wave', {
+      event_category: 'game',
+      event_label: 'next_wave',
+      value: waveNumber,
+    });
+  }
 };

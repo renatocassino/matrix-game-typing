@@ -1,3 +1,4 @@
+import { gaEvents } from '../../common/events';
 import { WaveAnimation } from '../components/waveAnimation';
 
 export class WaveScene extends Phaser.Scene {
@@ -23,5 +24,6 @@ export class WaveScene extends Phaser.Scene {
     const wave = new WaveAnimation(this, boardWidth / 2, boardHeight / 2);
     wave.setWave(this.waveNumber);
     wave.play(this.callback);
+    gaEvents.nextWave(this.waveNumber);
   }
 }
