@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import buyMeACoffee from './assets/buy-me-a-coffee.png';
+import AdBlockChecker from './components/AdBlockChecker.vue';
 import AdModal from './components/AdModal.vue';
 import ChartModal from './components/ChartModal.vue';
 </script>
@@ -13,6 +14,8 @@ import ChartModal from './components/ChartModal.vue';
         <img :src="buyMeACoffee" alt="Buy me a coffee" />
       </a>
     </div>
+
+    <ad-block-checker />
 
     <chart-modal />
     <ad-modal />
