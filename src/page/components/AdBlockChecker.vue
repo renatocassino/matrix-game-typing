@@ -1,10 +1,4 @@
 <template>
-    <div>
-      <div v-if="adblockDetected">
-        Parece que você está usando um Adblocker. Por favor, considere desativá-lo para apoiar nosso site.
-      </div>
-    </div>
-
     <v-dialog
       v-model="dialog"
       width="500"
