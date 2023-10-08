@@ -26,6 +26,9 @@ export const assets = {
     CARD: 'card-ui',
   },
   font: {
-    game: 'orbitron',
+    GAME: 'orbitron',
+  },
+  images: {
+    LOGO: 'logo',
   },
 };

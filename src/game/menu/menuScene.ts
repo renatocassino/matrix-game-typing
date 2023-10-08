@@ -5,7 +5,8 @@ import { assets } from '../common/constants/assets';
 import { gaEvents } from '../common/events';
 import { RoundScene } from '../round/roundScene';
 import { InfoModal } from './components/ui/infoModal';
-import { Logo } from './components/ui/logo';
+import { LogoImage } from './components/ui/logoImage';
+import { LogoText } from './components/ui/logoText';
 import { SettingsModal } from './components/ui/settingsModal';
 
 export class MenuScene extends Phaser.Scene {
@@ -22,7 +23,8 @@ export class MenuScene extends Phaser.Scene {
     this.addPlayButton();
     this.addSettings();
     this.addInfo();
-    new Logo(this, this.sys.game.canvas.width / 2, 120);
+    new LogoText(this, this.sys.game.canvas.width / 2, 290);
+    new LogoImage(this, this.sys.game.canvas.width / 2, 100);
   }
 
   addFadeAnimation() {
@@ -50,7 +52,7 @@ export class MenuScene extends Phaser.Scene {
     const boardHeight = this.sys.game.canvas.height;
 
     const { scene, input } = this;
-    const button = new TextButton(this, boardWidth / 2, boardHeight / 2, 'New Game');
+    const button = new TextButton(this, boardWidth / 2, boardHeight - boardHeight / 3, 'New Game');
 
     button.on('pointerdown', () => {
       input.setDefaultCursor('default');

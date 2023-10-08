@@ -1,6 +1,6 @@
 const style = {
   fontFamily: 'Orbitron',
-  fontSize: '50px',
+  fontSize: '45px',
   color: '#ffffff',
   align: 'center',
   shadow: {
@@ -13,15 +13,15 @@ const style = {
   },
 };
 
-export class Logo extends Phaser.GameObjects.Text {
+export class LogoText extends Phaser.GameObjects.Text {
   constructor(
     scene: Phaser.Scene,
     x: number,
     y: number,
   ) {
-    super(scene, x, y, 'Matrix Typer.com', style);
+    super(scene, x, y, 'Matrix\nTyper.com', style);
 
-    this.setOrigin(0.5, 0.5).setOrigin(0.5, 0).setAlpha(1);
+    this.setOrigin(0.5, 0.5).setAlpha(1);
 
     scene.add.existing(this);
   }

@@ -98,6 +98,7 @@ export class PreloadScene extends Phaser.Scene {
 
     this.load.atlas('flares', 'sprites/flares.png', 'sprites/flares.json');
     this.load.image(assets.ui.CARD, 'card.png');
+    this.load.image(assets.images.LOGO, 'logo.png');
 
     const scoreId = `000${Math.floor((new Date().getDate() + 20) % 31) + 1}`.slice(-3);
 
