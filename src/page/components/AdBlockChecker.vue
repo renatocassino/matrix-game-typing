@@ -30,24 +30,31 @@
   
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { CustomWindow } from '../../game/common/types/commonTypes';
 const adblockDetected = ref(false);
 const dialog = ref(false);
 const closeDialog = ref(false);
 
 onMounted(() => {
-  const testAdScript = document.createElement('script');
-  testAdScript.onload = () => {
-    adblockDetected.value = false;
-  };
-  testAdScript.onerror = () => {
-    dialog.value = true;
-    adblockDetected.value = true;
-    setTimeout(() => {
-      closeDialog.value = true;
-    }, 10000);
-  };
+  function checkGlobalAd(times: number) {
+    if (typeof (window as CustomWindow).adsbygoogle !== 'undefined') {
+      return true;
+    }
 
-  testAdScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-  document.body.appendChild(testAdScript);
+    if (times >= 40){
+      adblockDetected.value = true;
+      dialog.value = true;
+      setTimeout(() => {
+        closeDialog.value = true;
+      }, 10000);
+      return;
+    }
+
+    setTimeout(() => {
+      checkGlobalAd(times + 1);
+    }, 100);
+  }
+
+  checkGlobalAd(0);
 });
 </script>
