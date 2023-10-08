@@ -1,5 +1,8 @@
 import {
-  Config, GameDifficult, GameMode, RoundConfig, WordMode,
+  Config,
+  GameMode,
+  RoundConfig,
+  WordMode,
 } from '../../types';
 import { isMobile } from '../../utils/isMobile';
 import { generateRandom, generateRandomInteger } from '../../utils/numbers';
@@ -37,8 +40,6 @@ export class RoundScene extends Phaser.Scene {
 
   score!: ScoreComponent;
 
-  cursor!: Phaser.GameObjects.Rectangle;
-
   roundConfig: RoundConfig;
 
   currentWordText!: Phaser.GameObjects.Text;
@@ -49,15 +50,15 @@ export class RoundScene extends Phaser.Scene {
 
   timeToNextWord: number = 0;
 
+  background!: BackgroundImage;
+
   constructor(config: Phaser.Types.Scenes.SettingsConfig) {
     super({ key: RoundScene.key, ...(config ?? {}) });
 
     this.roundConfig = {
       gameMode: GameMode.Words,
       timeLimit: 60,
-      level: GameDifficult.Easy,
       wordMode: WordMode.Duration,
-      maxFailures: 5,
       waves: generateWaves(80),
     };
 
@@ -83,7 +84,7 @@ export class RoundScene extends Phaser.Scene {
     const boardWidth = this.sys.game.canvas.width;
 
     const settings = this.game.registry.get('_settingsValue') as SettingsType;
-    const background = new BackgroundImage(this, assets.bg.GAME_BACKGROUND).setAlpha(0.1);
+    this.background = new BackgroundImage(this, assets.bg.GAME_BACKGROUND).setAlpha(0.1);
 
     this.words = [];
     this.currentWord = undefined;
@@ -91,7 +92,7 @@ export class RoundScene extends Phaser.Scene {
     this.sound.play(assets.audio.GAME_MUSIC, { volume: settings.musicVolume, loop: true });
 
     this.tweens.add({
-      targets: background,
+      targets: this.background,
       alpha: 0.3,
       duration: 1000,
       ease: 'Sine.easeInOut',
@@ -228,9 +229,6 @@ export class RoundScene extends Phaser.Scene {
   nextWave() {
     this.status = 'waveAnimation';
     this.currentWave += 1;
-    this.words.forEach((word) => word.destroy());
-    this.words = [];
-    this.currentWord = undefined;
     this.wordsLeftToFall = this.currentWaveConfig.wordsToType;
     this.score.increaseWave();
 
@@ -253,6 +251,7 @@ export class RoundScene extends Phaser.Scene {
       return;
     }
     this.score.update();
+
     this.currentWordText.setText(this.currentWord?.word.toUpperCase() ?? '');
 
     if (this.wordsLeftToFall === 0 && this.words.length === 0) {
