@@ -17,7 +17,7 @@ export class Settings {
 
     this.settings = {
       musicVolume: 0.5,
-      fxVolume: 1.0,
+      fxVolume: 0.5,
       ...localSettings,
     };
     this.update();
