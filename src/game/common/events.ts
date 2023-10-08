@@ -24,5 +24,5 @@ export const gaEvents = {
       event_label: 'next_wave',
       value: waveNumber,
     });
-  }
+  },
 };

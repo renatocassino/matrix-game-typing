@@ -60,7 +60,8 @@ export class MenuScene extends Phaser.Scene {
   }
 
   addSettings() {
-    const settings = new IconButton(this, this.sys.game.canvas.width - 20, 20, assets.icon.SETTINGS);
+    const boardWidth = this.sys.game.canvas.width;
+    const settings = new IconButton(this, boardWidth - 20, 20, assets.icon.SETTINGS);
     settings.setOrigin(1, 0);
 
     settings.on('pointerdown', () => {
