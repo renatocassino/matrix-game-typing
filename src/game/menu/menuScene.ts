@@ -3,7 +3,6 @@ import { IconButton } from '../common/components/ui/iconButton';
 import { TextButton } from '../common/components/ui/textButton';
 import { assets } from '../common/constants/assets';
 import { gaEvents } from '../common/events';
-import { isInRollout } from '../common/utils/isInRollout';
 import { RoundScene } from '../round/roundScene';
 import { TrainingMenuScene } from '../training/scenes/trainingMenuScene';
 import { InfoModal } from './components/ui/infoModal';
@@ -65,9 +64,6 @@ export class MenuScene extends Phaser.Scene {
   }
 
   addTrainingButton() {
-    if (!isInRollout()) {
-      return;
-    }
     const boardWidth = this.sys.game.canvas.width;
     const boardHeight = this.sys.game.canvas.height;
 
