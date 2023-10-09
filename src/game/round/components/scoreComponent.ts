@@ -64,11 +64,10 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
 
     this.currentTime = (scene as RoundScene).roundConfig.timeLimit * 1000;
 
-    const board = this.scene as RoundScene;
-    board.emitter.on(gameEvents.HIT, this.hit, this);
-    board.emitter.on(gameEvents.PRESS_MISS, this.miss, this);
-    board.emitter.on(gameEvents.WORD_COMPLETED, this.increaseWord, this);
-    board.emitter.on(gameEvents.LOST_WORD, this.lostWord, this);
+    this.scene.events.on(gameEvents.HIT, this.hit, this);
+    this.scene.events.on(gameEvents.PRESS_MISS, this.miss, this);
+    this.scene.events.on(gameEvents.WORD_COMPLETED, this.increaseWord, this);
+    this.scene.events.on(gameEvents.LOST_WORD, this.lostWord, this);
 
     this.add(this.scene.add.image(0, 0, assets.ui.CARD).setOrigin(0, 0).setScale(0.37).setAlpha(0));
     this.text = this.scene.add.text(20, 10, '', { color: '#0F0' }).setAlpha(0);
@@ -106,11 +105,10 @@ export class ScoreComponent extends Phaser.GameObjects.Container {
   }
 
   destroy() {
-    const board = this.scene as RoundScene;
-    board.emitter.off(gameEvents.HIT, this.hit, this);
-    board.emitter.off(gameEvents.PRESS_MISS, this.miss, this);
-    board.emitter.off(gameEvents.WORD_COMPLETED, this.increaseWord, this);
-    board.emitter.off(gameEvents.LOST_WORD, this.lostWord, this);
+    this.scene.events.off(gameEvents.HIT, this.hit, this);
+    this.scene.events.off(gameEvents.PRESS_MISS, this.miss, this);
+    this.scene.events.off(gameEvents.WORD_COMPLETED, this.increaseWord, this);
+    this.scene.events.off(gameEvents.LOST_WORD, this.lostWord, this);
     super.destroy();
   }
 

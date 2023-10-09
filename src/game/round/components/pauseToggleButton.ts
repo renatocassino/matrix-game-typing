@@ -1,6 +1,5 @@
 import { assets } from '../../common/constants/assets';
 import { gameEvents } from '../../common/constants/events';
-import { RoundScene } from '../roundScene';
 
 export class PauseToggleButton extends Phaser.GameObjects.Container {
   private pauseToggle: Phaser.GameObjects.Image;
@@ -31,9 +30,9 @@ export class PauseToggleButton extends Phaser.GameObjects.Container {
 
   private togglePause() {
     if (this.scene.game.isPaused) {
-      (this.scene as RoundScene).emitter.emit(gameEvents.RESUME);
+      this.scene.events.emit(gameEvents.RESUME);
     } else {
-      (this.scene as RoundScene).emitter.emit(gameEvents.PAUSE);
+      this.scene.events.emit(gameEvents.PAUSE);
     }
   }
 }

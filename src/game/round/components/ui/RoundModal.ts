@@ -1,6 +1,7 @@
 import { TextButton } from '../../../common/components/ui/textButton';
 import { gaEvents } from '../../../common/events';
 import { SettingsModal } from '../../../menu/components/ui/settingsModal';
+import { MenuScene } from '../../../menu/menuScene';
 import { RoundScene } from '../../roundScene';
 
 export class RoundModal extends SettingsModal {
@@ -37,7 +38,7 @@ export class RoundModal extends SettingsModal {
     backToMainMenu.on('pointerdown', () => {
       this.sound.stopAll();
       this.scene.stop(RoundScene.key);
-      this.scene.start('MenuScene');
+      this.scene.start(MenuScene.key);
       this.scene.stop();
       gaEvents.backToMainMenu();
     });

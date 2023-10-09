@@ -96,7 +96,6 @@ export class PreloadScene extends Phaser.Scene {
     this.load.svg('n0', '0.svg');
     this.load.svg('n1', '1.svg');
 
-    this.load.atlas('flares', 'sprites/flares.png', 'sprites/flares.json');
     this.load.image(assets.ui.CARD, 'card.png');
     this.load.image(assets.images.LOGO, 'logo.png');
     this.load.image(assets.bg.TRAINING, 'bgs/bg-training.jpg');

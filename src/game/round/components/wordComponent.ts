@@ -1,9 +1,8 @@
 import { LetterStatus, WordStatus } from '../../../types';
-import { generateRandom, generateRandomInteger } from '../../../utils/numbers';
+import { generateRandomInteger } from '../../../utils/numbers';
 import { assets } from '../../common/constants/assets';
 import { gameEvents } from '../../common/constants/events';
 import { Settings } from '../../common/settings';
-import { RoundScene } from '../roundScene';
 import { LetterComponent } from './letterComponent';
 
 export class WordComponent extends Phaser.GameObjects.Container {
@@ -19,8 +18,6 @@ export class WordComponent extends Phaser.GameObjects.Container {
 
   lastUpdate = Date.now();
 
-  velocity: number = 0;
-
   velocityConfig: {
     finalY: number;
     duration: number;
@@ -31,22 +28,21 @@ export class WordComponent extends Phaser.GameObjects.Container {
   pressedWord: number = Date.now();
 
   constructor(
-    private readonly board: RoundScene,
+    readonly scene: Phaser.Scene,
     readonly word: string,
     readonly x: number,
     y: number,
-    readonly indexXPosition: number,
+    readonly indexXPosition: number, // TODO - Remove this
+    public readonly velocity: number,
+    readonly letterSize: number,
   ) {
-    super(board, x, y);
+    super(scene, x, y);
     this.status = 'inactive';
 
-    const boardHeight = this.board.sys.game.canvas.height;
+    const boardHeight = this.scene.sys.game.canvas.height;
     const finalY = boardHeight;
 
-    const waveConfig = this.board.currentWaveConfig;
-    this.velocity = generateRandom(waveConfig.velocity.min, waveConfig.velocity.max);
-
-    this.y = board.worldConfig.letterSize * word.length * -1;
+    this.y = letterSize * word.length * -1;
     this.velocityConfig = {
       finalY,
       initialY: this.y,
@@ -55,12 +51,12 @@ export class WordComponent extends Phaser.GameObjects.Container {
     };
 
     this.word.split('').forEach((letter, index) => {
-      const currentLetter = new LetterComponent(this.board, letter, index, this);
+      const currentLetter = new LetterComponent(this.scene, letter, index, this, letterSize);
       this.letters.push(currentLetter);
       this.add(currentLetter);
     });
 
-    board.add.existing(this);
+    this.scene.add.existing(this);
   }
 
   update() {
@@ -74,13 +70,13 @@ export class WordComponent extends Phaser.GameObjects.Container {
   }
 
   keyNextLetter() {
-    const settings = this.board.game.registry.get('settings') as Settings;
+    const settings = this.scene.game.registry.get('settings') as Settings;
 
     if (this.status !== 'active') {
       return;
     }
 
-    this.board.sound.play(assets.audio.KEYPRESS, { volume: settings.getConfig('fxVolume') });
+    this.scene.sound.play(assets.audio.KEYPRESS, { volume: settings.getConfig('fxVolume') });
     if (this.indexTyped === -1) {
       this.indexTyped = 0;
     }
@@ -89,9 +85,9 @@ export class WordComponent extends Phaser.GameObjects.Container {
     this.indexTyped += 1;
 
     ['n0', 'n1'].forEach((n) => {
-      this.add(this.board.add.particles(
+      this.add(this.scene.add.particles(
         0,
-        (this.indexTyped * this.board.worldConfig.letterSize),
+        (this.indexTyped * this.letterSize),
         n,
         {
           speed: 100,
@@ -116,9 +112,9 @@ export class WordComponent extends Phaser.GameObjects.Container {
     // });
 
     if (this.indexTyped === this.word.length) {
-      this.board.sound.play(assets.audio.EXPLOSION_SMALL, { volume: settings.getConfig('fxVolume') });
+      this.scene.sound.play(assets.audio.EXPLOSION_SMALL, { volume: settings.getConfig('fxVolume') });
       this.status = 'completed';
-      this.board.emitter.emit(gameEvents.WORD_COMPLETED, this);
+      this.scene.events.emit(gameEvents.WORD_COMPLETED, this);
 
       return;
     }
@@ -137,7 +133,7 @@ export class WordComponent extends Phaser.GameObjects.Container {
     );
 
     if (disappeared) {
-      this.board.emitter.emit(gameEvents.LOST_WORD, this);
+      this.scene.events.emit(gameEvents.LOST_WORD, this);
     }
 
     return disappeared;
@@ -146,13 +142,5 @@ export class WordComponent extends Phaser.GameObjects.Container {
   destroy() {
     this.letters.forEach((letter) => letter.destroy());
     super.destroy();
-    // const size = this.board.worldConfig.letterSize;
-    // this.board.add.particles(this.x * size, this.y +
-    // (this.letters.length * this.board.worldConfig.letterSize), 'red', {
-    //   speed: 100,
-    //   scale: { start: 1, end: 0 },
-    //   duration: 200,
-    //   blendMode: 'ADD',
-    // });
   }
 }

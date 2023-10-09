@@ -14,6 +14,7 @@ import { RoundModal } from './game/round/components/ui/RoundModal';
 import { RoundScene } from './game/round/roundScene';
 import { ScoreScene } from './game/score/scoreScene';
 import { TrainingMenuScene } from './game/training/scenes/trainingMenuScene';
+import { TrainingModeScene } from './game/training/scenes/trainingModeScene';
 import App from './page/App.vue';
 import './style.css';
 
@@ -41,6 +42,7 @@ window.addEventListener('load', () => {
       WaveScene,
       MenuScene,
       RoundScene,
+      TrainingModeScene,
       ScoreScene,
     ],
   };
