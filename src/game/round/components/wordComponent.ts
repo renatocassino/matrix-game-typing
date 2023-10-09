@@ -32,7 +32,7 @@ export class WordComponent extends Phaser.GameObjects.Container {
     readonly word: string,
     readonly x: number,
     y: number,
-    readonly indexXPosition: number,
+    readonly indexXPosition: number, // TODO - Remove this
     public readonly velocity: number,
     readonly letterSize: number,
   ) {

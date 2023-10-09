@@ -1,12 +1,10 @@
 import {
   Config,
-  GameMode,
   RoundConfig,
-  WordMode,
 } from '../../types';
 import { isMobile } from '../../utils/isMobile';
 import { generateRandom, generateRandomInteger } from '../../utils/numbers';
-import { getRandomLetter, getRandomWord } from '../../utils/randomWord';
+import { getRandomWord } from '../../utils/randomWord';
 import { BackgroundImage } from '../common/components/ui/backgroundImage';
 import { assets } from '../common/constants/assets';
 import { gameEvents } from '../common/constants/events';
@@ -54,9 +52,7 @@ export class RoundScene extends Phaser.Scene {
     super({ key: RoundScene.key, ...(config ?? {}) });
 
     this.roundConfig = {
-      gameMode: GameMode.Words,
       timeLimit: 60,
-      wordMode: WordMode.Duration,
       waves: generateWaves(80),
     };
 
@@ -170,9 +166,7 @@ export class RoundScene extends Phaser.Scene {
     const usedLetters = this.words.map((word) => word.word[0]);
 
     const wave = this.currentWaveConfig;
-    const word = this.roundConfig.gameMode === GameMode.Words
-      ? getRandomWord(usedLetters, wave.wordConfig.size.min, wave.wordConfig.size.max)
-      : getRandomLetter(usedLetters);
+    const word = getRandomWord(usedLetters, wave.wordConfig.size.min, wave.wordConfig.size.max);
 
     if (!word) {
       return;

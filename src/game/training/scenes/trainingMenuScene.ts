@@ -35,7 +35,7 @@ export class TrainingMenuScene extends Phaser.Scene {
 
     // TODO - Make a pagination
     levels.forEach((level, i) => {
-      const button = new TextButton(this, boardWidth / 2, 120 + 30 * i, level.title, { fontSize: '18px' });
+      const button = new TextButton(this, boardWidth / 2, 120 + 25 * i, level.title, { fontSize: '16px' });
       button.on('pointerdown', () => {
         input.setDefaultCursor('default');
         scene.start(TrainingModeScene.key, { level });
