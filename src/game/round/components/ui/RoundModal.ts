@@ -7,9 +7,15 @@ import { RoundScene } from '../../roundScene';
 export class RoundModal extends SettingsModal {
   static key = 'RoundModal';
 
+  parentScene?: Phaser.Scene;
+
   constructor() {
     super(RoundModal.key);
     this.title = 'Round Paused';
+  }
+
+  init(data?: { parentScene: Phaser.Scene}) {
+    this.parentScene = data?.parentScene;
   }
 
   onCloseModal() {
@@ -40,6 +46,7 @@ export class RoundModal extends SettingsModal {
       this.scene.stop(RoundScene.key);
       this.scene.start(MenuScene.key);
       this.scene.stop();
+      this.parentScene?.events.emit('shutdown');
       gaEvents.backToMainMenu();
     });
 

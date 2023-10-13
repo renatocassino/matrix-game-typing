@@ -47,7 +47,7 @@ export class TrainingModeScene extends Phaser.Scene {
 
     this.roundConfig = {
       timeLimit: 60,
-      waves: generateWaves(80),
+      waves: generateWaves(0),
     };
 
     this.worldConfig = {
@@ -101,7 +101,7 @@ export class TrainingModeScene extends Phaser.Scene {
     });
 
     this.events.on(gameEvents.PAUSE, () => {
-      this.scene.launch(RoundModal.key);
+      this.scene.launch(RoundModal.key, { parentScene: this });
       this.scene.bringToTop(RoundModal.key);
 
       const modalScene = this.scene.get(RoundModal.key);
