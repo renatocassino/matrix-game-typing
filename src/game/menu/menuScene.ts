@@ -6,7 +6,6 @@ import { gaEvents } from '../common/events';
 import { RoundScene } from '../round/roundScene';
 import { TrainingMenuScene } from '../training/scenes/trainingMenuScene';
 import { InfoModal } from './components/ui/infoModal';
-import { LogoImage } from './components/ui/logoImage';
 import { LogoText } from './components/ui/logoText';
 import { SettingsModal } from './components/ui/settingsModal';
 
@@ -26,7 +25,7 @@ export class MenuScene extends Phaser.Scene {
     this.addSettings();
     this.addInfo();
     new LogoText(this, this.sys.game.canvas.width / 2, 290);
-    new LogoImage(this, this.sys.game.canvas.width / 2, 100);
+    // new LogoImage(this, this.sys.game.canvas.width / 2, 100);
   }
 
   addFadeAnimation() {
