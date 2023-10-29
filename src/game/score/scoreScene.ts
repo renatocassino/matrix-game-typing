@@ -41,7 +41,7 @@ export class ScoreScene extends Phaser.Scene {
     new BackgroundImage(this, assets.bg.SCORE);
     this.addScoreStatus();
 
-    (window as CustomWindow).openAdModal();
+    // (window as CustomWindow).openAdModal();
   }
 
   addScoreStatus() {
