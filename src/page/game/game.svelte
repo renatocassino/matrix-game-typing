@@ -45,7 +45,7 @@
 
 <style scoped>
   .game-container::before {
-    background-image: url(bg.jpg);
+    background-image: url($lib/images/bg.jpg);
     background-repeat: repeat;
     content: '';
     display: block;

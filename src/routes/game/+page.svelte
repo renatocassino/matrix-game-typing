@@ -12,6 +12,9 @@
   });
 </script>
 
-<div class="text-white text-center w-screen flex justify-center items-center h-screen" style="min-height: 200px;">
+<div
+  class="text-white text-center w-screen flex justify-center items-center h-screen"
+  style="min-height: 200px;"
+>
   <svelte:component this={MyComponent} />
 </div>
