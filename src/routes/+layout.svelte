@@ -48,14 +48,6 @@
     href="https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto+Slab&display=swap"
     rel="stylesheet"
   />
-  <!-- Google tag (gtag.js) -->
-  <!-- Google tag (gtag.js) -->
-  <!-- Google tag (gtag.js) -->
-  <!-- Google tag (gtag.js) -->
-  <!-- Google tag (gtag.js) -->
-  <!-- Google tag (gtag.js) -->
-  <!-- Google tag (gtag.js) -->
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-HDC35FH828"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -66,14 +58,6 @@
 
     gtag('config', 'G-HDC35FH828');
   </script>
-  <!-- Google Adsense -->
-  <!-- Google Adsense -->
-  <!-- Google Adsense -->
-  <!-- Google Adsense -->
-  <!-- Google Adsense -->
-  <!-- Google Adsense -->
-  <!-- Google Adsense -->
-  <!-- Google Adsense -->
   <script
     async
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5565264719549091"

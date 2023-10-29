@@ -14,7 +14,7 @@
   import { TrainingModeScene } from '../../game/training/scenes/trainingModeScene';
 
   onMount(() => {
-    const config: Phaser.Types.Core.GameConfig = {
+    const config = {
       width: Math.min(1200, window.innerWidth),
       height: Math.min(720, window.innerHeight),
       type: Phaser.AUTO,
