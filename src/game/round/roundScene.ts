@@ -8,7 +8,7 @@ import { getRandomWord } from '../../utils/randomWord';
 import { BackgroundImage } from '../common/components/ui/backgroundImage';
 import { assets } from '../common/constants/assets';
 import { gameEvents } from '../common/constants/events';
-import { SettingsType } from '../common/settings';
+import { SettingsType } from '../common/settings.type';
 import { WaveScene } from './animations/waveScene';
 import { PauseToggleButton } from './components/pauseToggleButton';
 import { ScoreComponent } from './components/scoreComponent';
