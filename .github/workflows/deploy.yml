@@ -22,7 +22,7 @@ jobs:
           node-version: '18.x'
       - run: npm install
       - run: npm run build
-      - run: echo matrixtyper.com > ./build/CNAME
+      - run: echo matrixtyper.cassino.dev > ./build/CNAME
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
