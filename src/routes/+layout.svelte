@@ -83,10 +83,10 @@
     data-position="Right"
     data-x_margin="18"
     data-y_margin="18"
-  ></script>
+  ></script>-->
   <script
     src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"
-  ></script>-->
+  ></script>
 
   <Footer />
 </div>
